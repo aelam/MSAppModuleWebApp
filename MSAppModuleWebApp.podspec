@@ -12,7 +12,14 @@ Pod::Spec.new do |s|
   s.summary          = "MSAppModuleWebApp"
 
   s.description      = <<-DESC
-    MSAppModuleWebApp 
+    MSAppModuleWebApp
+* [x]JS
+* [ ]MenuConfig
+** [x]Share
+** [x]Search
+* [x]ZXG
+* [x]Theme
+* []Routes
                        DESC
 
   s.homepage         = "https://github.com/<GITHUB_USERNAME>/MSAppModuleWebApp"

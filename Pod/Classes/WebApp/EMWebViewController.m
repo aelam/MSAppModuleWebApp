@@ -63,7 +63,10 @@ static const BOOL kNavigationBarHidden = YES;
     
     NSString *urlString = params[@"url"];
 
-    NSDictionary *authInfo = [MSWebAppInfo getWebAppInfoWithSettings:[MSAppSettings appSettings]];
+    MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
+    id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
+
+    NSDictionary *authInfo = [MSWebAppInfo getWebAppInfoWithSettings:settings];
     urlString = [urlString stringByAppendingParameters:authInfo];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];

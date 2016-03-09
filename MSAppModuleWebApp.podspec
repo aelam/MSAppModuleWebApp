@@ -9,14 +9,10 @@
 Pod::Spec.new do |s|
   s.name             = "MSAppModuleWebApp"
   s.version          = "0.1.0"
-  s.summary          = "A short description of MSAppModuleWebApp."
+  s.summary          = "MSAppModuleWebApp"
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!  
   s.description      = <<-DESC
+    MSAppModuleWebApp 
                        DESC
 
   s.homepage         = "https://github.com/<GITHUB_USERNAME>/MSAppModuleWebApp"
@@ -24,17 +20,24 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { "Ryan Wang" => "wanglun02@gmail.com" }
   s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/MSAppModuleWebApp.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'MSAppModuleWebApp' => ['Pod/Assets/*.png']
-  }
+  s.resource     = 'Pod/Assets/**/*.js'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore'
+  s.dependency 'WebViewJavascriptBridge', '~> 4.1.4'
+  s.dependency 'UIColor-HexString', '~> 1.1.0'
+  s.dependency 'MSAppModuleShare'
+  s.dependency 'MSRoutes'
+  s.dependency 'MSThemeKit'
+  s.dependency 'MSAppModuleKit'
+  s.dependency 'EMSpeed/UIKit/Core'
+  s.dependency 'EMSpeed/UIKit/UIKitCollections'
+  s.dependency 'RDVTabBarController'
+  s.dependency 'EMClick'
+
+
 end

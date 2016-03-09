@@ -6,13 +6,13 @@
 //  Copyright (c) 2016 Ryan Wang. All rights reserved.
 //
 
-#import "MSViewController.h"
+#import "MSViewController2.h"
 
-@interface MSViewController ()
+@interface MSViewController2 ()
 
 @end
 
-@implementation MSViewController
+@implementation MSViewController2
 
 - (void)viewDidLoad
 {

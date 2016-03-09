@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-use_frameworks!
+source 'http://ph.benemind.com/diffusion/SPEC/emspecs.git'
 
 target 'MSAppModuleWebApp_Example', :exclusive => true do
   pod 'MSAppModuleWebApp', :path => '../'
@@ -10,6 +10,4 @@ target 'MSAppModuleWebApp_Tests', :exclusive => true do
 
   pod 'Specta'
   pod 'Expecta'
-  pod 'FBSnapshotTestCase'
-  pod 'Expecta+Snapshots'
 end

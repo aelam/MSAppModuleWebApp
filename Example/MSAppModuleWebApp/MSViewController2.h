@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface MSViewController : UIViewController
+@interface MSViewController2 : UIViewController
 
 @end

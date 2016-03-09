@@ -9,6 +9,29 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+## 
+```lan=objc
+EMAppSettings *appSettings = [EMAppSettings appSettings];
+
+appSettings.webAppAuthInfo = ^NSDictionary *(void){
+NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+parameters[@"loginType"] = @([EMAccount sharedAccount].loginType);
+NSString *userId = [EMAccount sharedAccount].userID;
+if (userId) {
+parameters[@"userId"] = userId;
+}
+NSString *webAuthToken = [EMAccount sharedAccount].webAuthToken;
+if (webAuthToken) {
+parameters[@"webAuthToken"] = webAuthToken;
+}
+
+return parameters;
+};
+
+```
+
+
+
 ## Requirements
 
 ## Installation
@@ -27,3 +50,4 @@ Ryan Wang, wanglun02@gmail.com
 ## License
 
 MSAppModuleWebApp is available under the MIT license. See the LICENSE file for more info.
+

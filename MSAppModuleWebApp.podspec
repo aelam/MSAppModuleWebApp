@@ -36,8 +36,8 @@ Pod::Spec.new do |s|
   s.dependency 'MSAppModuleKit'
   s.dependency 'EMSpeed/UIKit/Core'
   s.dependency 'EMSpeed/UIKit/UIKitCollections'
+  s.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
   s.dependency 'RDVTabBarController'
   s.dependency 'EMClick'
-
 
 end

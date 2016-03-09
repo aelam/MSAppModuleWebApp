@@ -8,11 +8,17 @@
 
 #import "UIWebView+JSExtend.h"
 #import <JavaScriptCore/JavaScriptCore.h>
-#import "EMWebAppInfo.h"
+#import "MSAppSettingsWebApp.h"
+#import "MSWebAppInfo.h"
+#import <EMSpeed/MSCore.h>
+
+//TODO
+extern int User_hasStockAtZXG(NSInteger);
 
 @implementation UIWebView (JSExtend)
 
 - (void)loadExtendActions {
+
     __weak __typeof (self)weakSelf = self;
     JSContext *context = [self valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
     JSValue *goods = [context objectForKeyedSubscript:@"goods"];
@@ -26,7 +32,10 @@
     };
     
     [goods setObject:CanOpenURL forKeyedSubscript:@"canOpenURL"];
-    
+
+    id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
+
+#if 1
     //
     BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
         NSInteger goodsId = [stockId integerValue];
@@ -38,11 +47,12 @@
     [goods setObject:IsZxg forKeyedSubscript:@"isZxg"];
 
     //
-    NSString *(^getAppInfo)() = ^NSString * () {
-        return [[[EMWebAppInfo shareWebAppInfo] appExtraInfo] jsonString];;
+    NSString *(^getAppInfo)() = ^NSString * () {        
+        return [[MSWebAppInfo getWebAppInfoWithSettings:settings] jsonString];
     };
     [goods setObject:getAppInfo forKeyedSubscript:@"getAppInfo"];
-
+#endif
+    
 }
 
 @end

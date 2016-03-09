@@ -7,20 +7,28 @@
 //
 
 #import "EMWebViewController.h"
+#import "MSAppModuleWebApp.h"
+#import "MSAppSettingsWebApp.h"
+
+#import <JLRoutes/JLRoutes.h>
+#import <EMSpeed/MSUIKitCore.h>
+#import <MSThemeKit/MSThemeKit.h>
+#import <EMClick/EMClick.h>
+#import <RDVTabBarController/RDVTabBarController.h>
+
+#import "EMWebBackView.h"
 #import "UIWebView+jsToObject.h"
 #import "UIWebView+JSExtend.h"
-#import <RDVTabBarController/RDVTabBarController.h>
-#import "JLRoutes.h"
-#import "MSMessage.h"
-#import <EMSpeed/MSUIKitCore.h>
-#import <EMClick/EMClick.h>
+#import "MSWebAppInfo.h"
+#import "MSAppSettingsWebApp.h"
+#import <EMSpeed/MSCore.h>
 
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
 static const BOOL kNavigationBarHidden = YES;
 
 @interface EMWebViewController () <UIViewControllerRouter>
 {
-    int navigationBarStatus;// 储存navigationBar显示状态
+    NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;
 }
 
@@ -54,7 +62,9 @@ static const BOOL kNavigationBarHidden = YES;
 - (instancetype)initWithRouterParams:(NSDictionary *)params {
     
     NSString *urlString = params[@"url"];
-    // TODO
+
+    NSDictionary *authInfo = [MSWebAppInfo getWebAppInfoWithSettings:[MSAppSettings appSettings]];
+    urlString = [urlString stringByAppendingParameters:authInfo];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     self = [self initWithRequest:request];
@@ -111,7 +121,6 @@ static const BOOL kNavigationBarHidden = YES;
  */
 - (void)loadBackView
 {
-//    self.navigationItem.hidesBackButton = YES;
     //生成导航条返回按键
     self.backView = [[EMWebBackView alloc] initWithParamSupportClose:YES];
     [self.backView addTarget:self backAction:@selector(doBack) closeAction:@selector(doClose) forControlEvents:UIControlEventTouchUpInside];
@@ -212,9 +221,7 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)changeNavigaiotnBarColor {
-//    if (self.navigationBarColor) {
-//        self.navigationController.navigationBar.barTintColor = self.navigationBarColor;
-//    }
+
 }
 
 // 显示高度为20的view盖住webview
@@ -268,27 +275,28 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
+    id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
     
     NSURL *url = request.URL;
 
     if (navigationType == UIWebViewNavigationTypeLinkClicked)
     {
-        if ([url.scheme isEqualToString:URLSchemeTEL])
+        if ([url.scheme isEqualToString:@"tel"]||
+            [url.scheme isEqualToString:@"telprompt"])
         {
             NSString *phoneNum = url.resourceSpecifier;
             MSMakePhoneCall(phoneNum);
             
             return NO;
         }
-        else if ([url.scheme isEqualToString:URLSchemeSMS])
+        else if ([url.scheme isEqualToString:@"sms"])
         {
-            NSString *phoneNum = url.resourceSpecifier;
-            MSMakeSMS(phoneNum, @"", self, nil);
-            
+            // TODO
             return NO;
         }
     }
-    else if ([url.scheme isEqualToString:APP_URL_SCHEME]) {
+    else if([[settings supportsURLSchemes] containsObject:url.scheme]){
         [[JLRoutes globalRoutes] routeURL:url];
         return NO;
     }
@@ -303,8 +311,7 @@ static const BOOL kNavigationBarHidden = YES;
     NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     if (title && title.length)
     {
-        int len = MIN(title.length, 8);
-        self.title = [title substringToIndex:len];
+        self.title = title;
     }
 }
 

@@ -16,10 +16,8 @@ typedef NSDictionary *(^MSWebAppAuthInfo)(void);
 @property (nonatomic, assign) NSInteger productID;
 @property (nonatomic, assign) NSInteger platformID;
 @property (nonatomic, assign) NSInteger vendorID;
-@property (nonatomic, assign) NSInteger loginType;
-@property (nonatomic, copy) NSString *userID;
-@property (nonatomic, copy) NSString *webAuthToken;
 
+@property (nonatomic, copy) NSString *theme;
 @property (nonatomic, strong) NSArray *supportsURLSchemes;
 
 @property (nonatomic,  copy) MSWebAppAuthInfo webAppAuthInfo;

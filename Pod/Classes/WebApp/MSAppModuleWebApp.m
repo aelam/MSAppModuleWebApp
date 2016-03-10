@@ -8,6 +8,7 @@
 
 #import "MSAppModuleWebApp.h"
 #import "MSAppSettingsWebApp.h"
+#import <JLRoutes/JLRoutes.h>
 
 @implementation MSAppModuleWebApp
 

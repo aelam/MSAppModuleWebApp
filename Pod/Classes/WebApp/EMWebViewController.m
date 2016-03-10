@@ -22,6 +22,7 @@
 #import "MSWebAppInfo.h"
 #import "MSAppSettingsWebApp.h"
 #import <EMSpeed/MSCore.h>
+#import "NSURL+AuthedURL.h"
 
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
 static const BOOL kNavigationBarHidden = YES;
@@ -81,13 +82,7 @@ static const BOOL kNavigationBarHidden = YES;
 
 
 - (instancetype)initWithURL:(NSURL *)URL {
-    MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
-    id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
-    NSDictionary *authInfo = [MSWebAppInfo getWebAppInfoWithSettings:settings];
-    NSString *urlString = [[URL absoluteString] stringByAppendingParameters:authInfo];
-
-    NSURL *url = [NSURL URLWithString:urlString];
-
+    NSURL *url = [NSURL authedURLWithURL:URL];
     return [self initWithRequest:[NSURLRequest requestWithURL:url]];
 }
 

@@ -13,8 +13,6 @@
 
 + (NSDictionary *)getWebAppInfoWithSettings:(id<MSAppSettingsWebApp>)appSettings {
     
-    NSDictionary *extraInfo = appSettings.webAppAuthInfo();
-    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
     parameters[@"pd"] = @(appSettings.productID);
@@ -25,7 +23,10 @@
     parameters[@"guid"] = [UIDevice currentDevice].uniqueGlobalDeviceIdentifier;
     parameters[@"systemVersion"] = [UIDevice currentDevice].systemVersion;
 
-    [parameters addEntriesFromDictionary:extraInfo];
+    if(appSettings.webAppAuthInfo) {
+        NSDictionary *extraInfo = appSettings.webAppAuthInfo();
+        [parameters addEntriesFromDictionary:extraInfo];
+    }
 
     return parameters;
 

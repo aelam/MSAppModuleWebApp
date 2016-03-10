@@ -38,11 +38,15 @@ extern int User_hasStockAtZXG(NSInteger);
 #if 1
     //
     BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
-        NSInteger goodsId = [stockId integerValue];
-        BOOL isZXG = User_hasStockAtZXG(goodsId);
-        NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
-        [weakSelf stringByEvaluatingJavaScriptFromString:string];
-        return isZXG;
+        if (&User_hasStockAtZXG) {
+            NSInteger goodsId = [stockId integerValue];
+            BOOL isZXG = User_hasStockAtZXG(goodsId);
+            NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
+            [weakSelf stringByEvaluatingJavaScriptFromString:string];
+            return isZXG;
+        } else {
+            return NO;
+        }
     };
     [goods setObject:IsZxg forKeyedSubscript:@"isZxg"];
 

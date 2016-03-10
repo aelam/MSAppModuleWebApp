@@ -63,14 +63,8 @@ static const BOOL kNavigationBarHidden = YES;
     
     NSString *urlString = params[@"url"];
 
-    MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
-    id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
-
-    NSDictionary *authInfo = [MSWebAppInfo getWebAppInfoWithSettings:settings];
-    urlString = [urlString stringByAppendingParameters:authInfo];
     NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    self = [self initWithRequest:request];
+    self = [self initWithURL:url];
 
     if (self)
     {
@@ -85,10 +79,30 @@ static const BOOL kNavigationBarHidden = YES;
     return self;
 }
 
+
+- (instancetype)initWithURL:(NSURL *)URL {
+    MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
+    id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
+    NSDictionary *authInfo = [MSWebAppInfo getWebAppInfoWithSettings:settings];
+    NSString *urlString = [[URL absoluteString] stringByAppendingParameters:authInfo];
+
+    NSURL *url = [NSURL URLWithString:urlString];
+
+    return [self initWithRequest:[NSURLRequest requestWithURL:url]];
+}
+
+- (instancetype)init
+{
+    self = [self initWithRequest:nil];
+    if (self) {
+    }
+    return self;
+}
+
 #pragma mark -
 #pragma mark life cycle
 
-- (id)initWithRequest:(NSURLRequest *)request {
+- (instancetype)initWithRequest:(NSURLRequest *)request {
     self = [super init];
     if (self) {
         self.hidesBottomBarWhenPushed = YES;
@@ -133,18 +147,6 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)unloadBackView {
     self.navigationItem.leftBarButtonItem = nil;
-}
- 
-- (id)initWithURL:(NSURL *)URL {
-    return [self initWithRequest:[NSURLRequest requestWithURL:URL]];
-}
-
-- (id)init
-{
-    self = [self initWithRequest:nil];
-    if (self) {
-    }
-    return self;
 }
 
 #pragma mark - Life Cycle

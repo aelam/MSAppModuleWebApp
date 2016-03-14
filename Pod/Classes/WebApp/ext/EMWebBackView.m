@@ -14,7 +14,7 @@
 
 - (id)initWithParamSupportClose:(BOOL)supportClose
 {
-    self = [super initWithFrame:CGRectMake(0, 0, 80, 44)];
+    self = [super initWithFrame:CGRectMake(0, 0, 45, 44)];
     if (self) {
 
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

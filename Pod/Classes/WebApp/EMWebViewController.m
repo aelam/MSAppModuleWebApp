@@ -594,7 +594,7 @@ static const BOOL kNavigationBarHidden = YES;
         }
         
         if (callback.length > 0) {
-            NSString *script = [NSString stringWithFormat:@"%@(%d,%d)", callback, socialType, statusCode];
+            NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
             [self.webView stringByEvaluatingJavaScriptFromString:script];
         } else {
             if (message.length > 0) {

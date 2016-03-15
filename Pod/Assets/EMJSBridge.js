@@ -89,7 +89,7 @@ var goods = {
         openPath("home", null);
     },
 
-    share: function (title, url, id, imageurl, iconUrl, content, type) {
+    share: function (title, url, id, imageurl, iconUrl, content, type, callback) {
         var params = {
             "title": title,
             "url": url,
@@ -97,7 +97,8 @@ var goods = {
             "imageurl":imageurl,
             "iconUrl":iconUrl,
             "content":content,
-            "type":type
+            "type":type,
+            "callback":callback
         };
         openPath("share", params);
     },

@@ -14,7 +14,7 @@
 
 - (id)initWithParamSupportClose:(BOOL)supportClose
 {
-    self = [super initWithFrame:CGRectMake(0, 0, 45, 44)];
+    self = [super initWithFrame:CGRectMake(0, 0, 60, 44)];
     if (self) {
 
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -56,8 +56,8 @@
 - (void)layoutSubviews 
 {
     [super layoutSubviews];
-    CGFloat btnWidth   = 0.5 * self.frame.size.width;
-    _closeButton.frame = CGRectMake(btnWidth, 0, btnWidth, self.frame.size.height);
+    CGFloat btnWidth = 40;
+    _closeButton.frame = CGRectMake(CGRectGetWidth(self.bounds) - btnWidth, 0, btnWidth, self.frame.size.height);
 }
 
 /**增加点击事件处理

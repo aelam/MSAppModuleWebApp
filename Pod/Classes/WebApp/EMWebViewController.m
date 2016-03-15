@@ -15,6 +15,10 @@
 #import <MSThemeKit/MSThemeKit.h>
 #import <EMClick/EMClick.h>
 #import <RDVTabBarController/RDVTabBarController.h>
+#import <EMSocialKit/EMSocialSDK.h>
+#import <BDKNotifyHUD.h>
+
+#import "EMSocialSDK+URLBind.h"
 
 #import "EMWebBackView.h"
 #import "UIWebView+jsToObject.h"
@@ -23,6 +27,7 @@
 #import "MSAppSettingsWebApp.h"
 #import <EMSpeed/MSCore.h>
 #import "NSURL+AuthedURL.h"
+
 
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
 static const BOOL kNavigationBarHidden = YES;
@@ -440,6 +445,7 @@ static const BOOL kNavigationBarHidden = YES;
     self.navigationItem.rightBarButtonItems = items;
 }
 
+
 #pragma mark -
 #pragma mark actions
 
@@ -527,6 +533,75 @@ static const BOOL kNavigationBarHidden = YES;
             [self.webView loadRequest:self.loadRequest];
         }
     }
+}
+
+
+#pragma mark - Share
+- (void)share:(EMShareEntity *)shareEntity {
+    EMSocialType socialType = shareEntity.socialType;
+    NSString *callback = shareEntity.callback;
+    
+    [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
+        EMSocialType socialType = 0;
+        NSInteger statusCode = 0;
+
+        NSString *message = nil;
+        if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
+            message = returnedInfo[EMActivityWeiboStatusMessageKey];
+            socialType = EMSocialTypeSinaWeibo;
+            NSNumber *errorCode = returnedInfo[EMActivityWeiboStatusCodeKey];
+            if (errorCode) {
+                if([errorCode integerValue] == EMActivityWeiboStatusCodeSuccess) {
+                    statusCode = 0;
+                } else if([errorCode integerValue] == EMActivityWeiboStatusCodeUserCancel) {
+                    statusCode = -1;
+                }
+            }
+        } else if([activityType isEqualToString:UIActivityTypePostToWeChatSession]) {
+            message = returnedInfo[EMActivityWeChatStatusMessageKey];
+            socialType = EMSocialTypeWeChat;
+            NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
+            if (errorCode) {
+                if([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
+                    statusCode = 0;
+                } else if([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
+                    statusCode = -1;
+                }
+            }
+            
+        } else if([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
+            message = returnedInfo[EMActivityWeChatStatusMessageKey];
+            socialType = EMSocialTypeMoments;
+            NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
+            if (errorCode) {
+                if([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
+                    statusCode = 0;
+                } else if([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
+                    statusCode = -1;
+                }
+            }
+        } else if ([activityType isEqualToString:UIActivityTypePostToQQ]) {
+            message = returnedInfo[EMActivityQQStatusMessageKey];
+            socialType = EMSocialTypeQQ;
+            NSNumber *errorCode = returnedInfo[EMActivityQQStatusCodeKey];
+            if (errorCode) {
+                if([errorCode integerValue] == EMActivityQQStatusCodeSuccess) {
+                    statusCode = 0;
+                } else if([errorCode integerValue] == EMActivityQQStatusCodeUserCancel) {
+                    statusCode = -1;
+                }
+            }
+        }
+        
+        if (callback.length > 0) {
+            NSString *script = [NSString stringWithFormat:@"%@(%d,%d)", callback, socialType, statusCode];
+            [self.webView stringByEvaluatingJavaScriptFromString:script];
+        } else {
+            if (message.length > 0) {
+                [BDKNotifyHUD showNotifHUDWithText:message];
+            }
+        }
+    }];
 }
 
 @end

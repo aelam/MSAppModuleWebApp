@@ -17,6 +17,7 @@
 #import <RDVTabBarController/RDVTabBarController.h>
 #import <EMSocialKit/EMSocialSDK.h>
 #import <BDKNotifyHUD.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 
 #import "EMSocialSDK+URLBind.h"
 
@@ -119,7 +120,6 @@ static const BOOL kNavigationBarHidden = YES;
         {
             [self openRequest:request];
         }
-        navigationBarStatus = 0;
     }
     return self;
 }
@@ -329,7 +329,8 @@ static const BOOL kNavigationBarHidden = YES;
     //执行脚本
     [_webView loadActionJavaScript];
     [_webView loadExtendActions];
-
+    [self updateURLSchemeInJS];
+    
     [self showNetworkActivityIndicator:NO];
     
     if (self.synchronizeDocumentTitle)
@@ -348,6 +349,12 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
+    
+}
+
+- (void)updateURLSchemeInJS {
+    JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    JSValue *value = [context objectForKeyedSubscript:@"AppURLScheme"];
     
 }
 

@@ -19,6 +19,7 @@ typedef NSDictionary *(^MSWebAppAuthInfo)(void);
 
 @property (nonatomic, strong) NSString *theme;
 @property (nonatomic, strong) NSArray *supportsURLSchemes;
+@property (nonatomic, strong, readonly) NSString *mainURLScheme;
 
 @property (nonatomic,  copy) MSWebAppAuthInfo webAppAuthInfo;
 

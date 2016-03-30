@@ -8,11 +8,14 @@
 
 #import "MSAppDelegate.h"
 
+BOOL User_hasStockAtZXG(int a) {
+    return 1;
+}
+
 @implementation MSAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     return YES;
 }
 

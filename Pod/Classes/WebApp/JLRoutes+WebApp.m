@@ -35,7 +35,6 @@
 
 - (void)registerCanOpenURL
 {
-    __weak __typeof(self)weakSelf = self;
     // search
     [self addRoute:@"canOpenURL" handler:^BOOL(NSDictionary *parameters) {
         NSString *url = parameters[@"appurl"];
@@ -61,7 +60,6 @@
 }
 
 - (void)registerWeb {
-    __weak __typeof(self)weakSelf = self;
     [self addRoute:@"web" handler:^BOOL(NSDictionary *parameters) {
         UINavigationController *navController = [MSActiveControllerFinder finder].activeNavigationController();
         [MSActiveControllerFinder finder].resetStatus();
@@ -77,7 +75,6 @@
 - (void)registerGoBack {
     // 网页返回
     // 保证WebViewController 有webview属性
-    __weak __typeof(self)weakSelf = self;
     BOOL (^completion)(NSDictionary *) = ^BOOL(NSDictionary *parameters) {
         EMWebViewController *webViewController = (EMWebViewController *)[MSActiveControllerFinder finder].activeTopController();
         if ([webViewController respondsToSelector:@selector(webView)]) {
@@ -95,8 +92,6 @@
  */
 - (void)registerPop {
     // 页面pop
-    __weak __typeof(self)weakSelf = self;
-    
     BOOL (^completion)(NSDictionary *) = ^BOOL(NSDictionary *parameters) {
         UINavigationController *navController = [MSActiveControllerFinder finder].activeNavigationController();
         BOOL animated = YES;

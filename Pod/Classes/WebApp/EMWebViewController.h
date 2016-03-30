@@ -42,6 +42,8 @@
 // Search Supports
 @property (nonatomic, assign) BOOL isSearchItemEnabled;
 
+@property (nonatomic, strong) NSDictionary *eventAttributes;
+
 
 - (id)initWithRequest:(NSURLRequest *)request;
 - (id)initWithURL:(NSURL *)URL;

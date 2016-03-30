@@ -37,6 +37,8 @@ static const BOOL kNavigationBarHidden = YES;
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;
+    
+    NSString *_lastURLString;
 }
 
 @property (nonatomic, strong) UIView *statusBarBackView;
@@ -67,14 +69,15 @@ static const BOOL kNavigationBarHidden = YES;
 
 
 - (instancetype)initWithRouterParams:(NSDictionary *)params {
-    
+
     NSString *urlString = params[@"url"];
 
     NSURL *url = [NSURL URLWithString:urlString];
     self = [self initWithURL:url];
 
-    if (self)
-    {
+    if (self) {
+        self.eventAttributes = [self eventAttributesFromJLRoutesParams:params];
+        
         NSString *navigaionBarHidden = params[@"navigaionBarHidden"];
         if (navigaionBarHidden.length > 0) {
             navigationBarStatus = [navigaionBarHidden integerValue];
@@ -191,15 +194,11 @@ static const BOOL kNavigationBarHidden = YES;
     
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
-
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    NSString *urlString = [NSString stringWithFormat:@"%@",self.URL];
-    if (urlString) {
-        [EMClick endLogPageView:@"news_detail" attributes:@{@"url":urlString}];
-    }
+    [self endTrackingEvents];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -302,7 +301,7 @@ static const BOOL kNavigationBarHidden = YES;
         }
     }
     else if([[settings supportsURLSchemes] containsObject:url.scheme]){
-        [[JLRoutes globalRoutes] routeURL:url];
+        [JLRoutes routeURL:url];
         return NO;
     }
     
@@ -321,6 +320,7 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
+    [self beginTrackingEvents];
 }
 
 
@@ -348,14 +348,34 @@ static const BOOL kNavigationBarHidden = YES;
     }
 }
 
+- (void)beginTrackingEvents {
+    NSString *currentURLString = _webView.request.URL.absoluteString;
+    [self endTrackingEvents];
+    
+    [EMClick beginLogPageView:@"web"];
+    _lastURLString = currentURLString;
+}
+
+- (void)endTrackingEvents {
+    
+    if (_lastURLString) {
+        NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
+        if (self.eventAttributes) {
+            [atrributes addEntriesFromDictionary:self.eventAttributes];
+        }
+        atrributes[@"url"] = _lastURLString;
+        
+        [EMClick endLogPageView:@"web" attributes:atrributes];
+        _lastURLString = nil;
+    }
+}
+
+
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
     
 }
 
 - (void)updateURLSchemeInJS {
-    JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    JSValue *value = [context objectForKeyedSubscript:@"AppURLScheme"];
-    
 }
 
 #pragma mark -
@@ -542,10 +562,21 @@ static const BOOL kNavigationBarHidden = YES;
     }
 }
 
+- (NSDictionary *)eventAttributesFromJLRoutesParams:(NSDictionary *)params {
+    NSMutableDictionary *eventsAtrributes = [params mutableCopy];
+    
+    [eventsAtrributes removeObjectForKey:kJLRoutePatternKey];
+    [eventsAtrributes removeObjectForKey:kJLRouteURLKey];
+    [eventsAtrributes removeObjectForKey:kJLRouteNamespaceKey];
+    [eventsAtrributes removeObjectForKey:kJLRouteWildcardComponentsKey];
+    [eventsAtrributes removeObjectForKey:kJLRoutesGlobalNamespaceKey];
+
+    return eventsAtrributes;
+}
+
 
 #pragma mark - Share
 - (void)share:(EMShareEntity *)shareEntity {
-    EMSocialType socialType = shareEntity.socialType;
     NSString *callback = shareEntity.callback;
     
     [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {

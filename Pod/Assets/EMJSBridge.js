@@ -275,7 +275,15 @@ var goods = {
             "searchToggle": searchToggle,
         };
         openPath("searchConfig", params);
+    },
+    
+    heightChange: function(webViewheight) {
+        var params = {
+            "webViewheight": webViewheight
+        };
+        openPath("heightChange", params);
     }
+    
 };
 
 (function () {

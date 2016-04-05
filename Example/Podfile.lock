@@ -54,7 +54,7 @@ PODS:
     - EMSpeed/Core
     - MSAppModuleKit
     - SDWebImage
-  - MSAppModuleWebApp (0.1.13):
+  - MSAppModuleWebApp (0.1.14):
     - EMClick
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -106,7 +106,7 @@ SPEC CHECKSUMS:
   JLRoutes: d191a496b820f60d70225202d04289582da962df
   MSAppModuleKit: 53c2a95f2aaa303bae938751d1127b9a9866ebed
   MSAppModuleShare: cccc9886d980db792e24111544ae1af3ba5782a8
-  MSAppModuleWebApp: d34169c81dcb69f3b339e98a8497641a2aae5793
+  MSAppModuleWebApp: ae5e9ab669f794fff11f24997fe044e36e1006e5
   MSRoutes: ba9718e5c14c2f7ecdf0cfe60c8c709e77b0d04d
   MSThemeKit: 23f319260a5874dd9ba39770b4778b0dd7708fad
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a

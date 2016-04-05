@@ -137,6 +137,18 @@ var goods = {
         openPath("writePost", params);
     },
 
+    sendPost: function (barId, barType, topicType, title, content, wordslimit, callback) {
+        var params = {
+            "barId": barId,
+            "barType": barType,
+            "topicType":topicType,
+            "title":title,
+            "content":content,
+            "wordslimit": wordslimit,
+            "callback":callback
+        };
+        openPath("sendPost", params);
+    },
 
     reply: function (topidid, quotoid, wordslimit, replyTo, callback) {
         var params = {

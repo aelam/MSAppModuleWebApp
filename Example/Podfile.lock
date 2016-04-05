@@ -30,17 +30,17 @@ PODS:
     - TencentOpenApiSDK (~> 2.9.5)
     - UIImage-ResizeMagick (~> 0.0.1)
     - WeiboSDK (~> 3.0)
-  - EMSpeed/Core (0.2.13)
-  - EMSpeed/MSContext (0.2.13)
-  - EMSpeed/Network (0.2.13):
+  - EMSpeed/Core (0.2.16)
+  - EMSpeed/MSContext (0.2.16)
+  - EMSpeed/Network (0.2.16):
     - AFNetworking
     - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/Core (0.2.13):
+  - EMSpeed/UIKit/Core (0.2.16):
     - EMSpeed/Core
-  - EMSpeed/UIKit/FontAwesome+iOS (0.2.13)
-  - EMSpeed/UIKit/UIColors (0.2.13):
+  - EMSpeed/UIKit/FontAwesome+iOS (0.2.16)
+  - EMSpeed/UIKit/UIColors (0.2.16):
     - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/UIKitCollections (0.2.13):
+  - EMSpeed/UIKit/UIKitCollections (0.2.16):
     - EMSpeed/MSContext
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/UIColors
@@ -54,7 +54,7 @@ PODS:
     - EMSpeed/Core
     - MSAppModuleKit
     - SDWebImage
-  - MSAppModuleWebApp (0.1.10):
+  - MSAppModuleWebApp (0.1.13):
     - EMClick
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -101,12 +101,12 @@ SPEC CHECKSUMS:
   DXYWeChatSDK: 6a23dbf67a4545bfc80e3e18f9b5cf0c98699576
   EMClick: 1768c69fcef117528e0a36f6fac6dbd85cb1c4bf
   EMSocialKit: 52db49d687c99ecfa92736228417eb5d18a5e1e5
-  EMSpeed: 8620dbea906761dcd8c6592d9d45bdd340ebd393
+  EMSpeed: d3c76de16a53ebc4b5dffa9fddee4dfe9d3e8d12
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   JLRoutes: d191a496b820f60d70225202d04289582da962df
   MSAppModuleKit: 53c2a95f2aaa303bae938751d1127b9a9866ebed
   MSAppModuleShare: cccc9886d980db792e24111544ae1af3ba5782a8
-  MSAppModuleWebApp: 635e5833adb053af0802f877a31649f97c2ea736
+  MSAppModuleWebApp: d34169c81dcb69f3b339e98a8497641a2aae5793
   MSRoutes: ba9718e5c14c2f7ecdf0cfe60c8c709e77b0d04d
   MSThemeKit: 23f319260a5874dd9ba39770b4778b0dd7708fad
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a

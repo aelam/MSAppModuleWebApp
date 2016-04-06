@@ -1,26 +1,24 @@
 PODS:
-  - AFNetworking (3.0.4):
-    - AFNetworking/NSURLSession (= 3.0.4)
-    - AFNetworking/Reachability (= 3.0.4)
-    - AFNetworking/Security (= 3.0.4)
-    - AFNetworking/Serialization (= 3.0.4)
-    - AFNetworking/UIKit (= 3.0.4)
-  - AFNetworking/NSURLSession (3.0.4):
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.0.4)
-  - AFNetworking/Security (3.0.4)
-  - AFNetworking/Serialization (3.0.4)
-  - AFNetworking/UIKit (3.0.4):
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Aspects (1.4.1)
-  - CRToast (0.0.9)
   - DXYWeChatSDK (1.5.1)
-  - EMClick (0.1.10):
+  - EMClick (0.1.11):
     - AFNetworking
     - Aspects (~> 1.4.1)
-    - CRToast (~> 0.0.7)
     - EMSpeed/Network
     - EMSpeed/UIKit/Core
     - UMengAnalytics-NO-IDFA
@@ -54,7 +52,7 @@ PODS:
     - EMSpeed/Core
     - MSAppModuleKit
     - SDWebImage
-  - MSAppModuleWebApp (0.1.14):
+  - MSAppModuleWebApp (0.1.15):
     - EMClick
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -95,18 +93,17 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
   DXYWeChatSDK: 6a23dbf67a4545bfc80e3e18f9b5cf0c98699576
-  EMClick: 1768c69fcef117528e0a36f6fac6dbd85cb1c4bf
+  EMClick: 3dfa653f44134de613421c1b3564cc778c7d7142
   EMSocialKit: 52db49d687c99ecfa92736228417eb5d18a5e1e5
   EMSpeed: d3c76de16a53ebc4b5dffa9fddee4dfe9d3e8d12
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   JLRoutes: d191a496b820f60d70225202d04289582da962df
   MSAppModuleKit: 53c2a95f2aaa303bae938751d1127b9a9866ebed
   MSAppModuleShare: cccc9886d980db792e24111544ae1af3ba5782a8
-  MSAppModuleWebApp: ae5e9ab669f794fff11f24997fe044e36e1006e5
+  MSAppModuleWebApp: b8c80253c7f3101bfd3140b51dfbd7604291d6ea
   MSRoutes: ba9718e5c14c2f7ecdf0cfe60c8c709e77b0d04d
   MSThemeKit: 23f319260a5874dd9ba39770b4778b0dd7708fad
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a

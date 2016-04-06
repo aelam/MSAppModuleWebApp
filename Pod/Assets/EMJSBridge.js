@@ -277,9 +277,10 @@ var goods = {
         openPath("searchConfig", params);
     },
     
-    heightChange: function(webViewheight) {
+    heightChange: function(webViewheight, type) {
         var params = {
-            "webViewheight": webViewheight
+            "webViewheight": webViewheight,
+            "type": type,
         };
         openPath("heightChange", params);
     }

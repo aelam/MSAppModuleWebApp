@@ -188,6 +188,12 @@ static const BOOL kNavigationBarHidden = YES;
     [self changeNavigaiotnBarColor];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self trackBackFromViewDidAppear];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -306,21 +312,25 @@ static const BOOL kNavigationBarHidden = YES;
     }
     
     [self showNetworkActivityIndicator:YES];
-    
+    [self beginTrackingEventsWithURL:url];
+
     return YES;
 }
 
 - (void)reloadTitle
 {        //提取页面的标题作为当前controller的标题
-    NSString *title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    NSString *title = [self remoteTitle];
     if (title && title.length)
     {
         self.title = title;
     }
 }
 
+- (NSString *)remoteTitle {
+    return [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    [self beginTrackingEvents];
 }
 
 
@@ -348,8 +358,17 @@ static const BOOL kNavigationBarHidden = YES;
     }
 }
 
-- (void)beginTrackingEvents {
-    NSString *currentURLString = _webView.request.URL.absoluteString;
+// 页面开始的时候统计从`-webViewDidStartLoad`开始
+// 当pop回webviewcontroller的时候`-webViewDidStartLoad`不会调用
+// 这个时候在`-viewDidAppear`里面统计这个page
+- (void)trackBackFromViewDidAppear {
+    if(_lastURLString) {
+        [EMClick beginLogPageView:@"web"];
+    }
+}
+
+- (void)beginTrackingEventsWithURL:(NSURL *)url {
+    NSString *currentURLString = url.absoluteString;
     [self endTrackingEvents];
     
     [EMClick beginLogPageView:@"web"];
@@ -358,12 +377,16 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)endTrackingEvents {
     
-    if (_lastURLString) {
+    if (_lastURLString.length > 0) {
         NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
         if (self.eventAttributes) {
             [atrributes addEntriesFromDictionary:self.eventAttributes];
         }
         atrributes[@"url"] = _lastURLString;
+        NSString *title = [self remoteTitle];
+        if (title.length > 0) {
+            atrributes[@"title"] = [self remoteTitle];
+        }
         
         [EMClick endLogPageView:@"web" attributes:atrributes];
         _lastURLString = nil;

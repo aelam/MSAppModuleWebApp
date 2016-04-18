@@ -598,8 +598,17 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 
+- (void)doSearch
+{
+    [EMClick event:@"web:search"];
+    if ([super respondsToSelector:_cmd]) {
+        [super doSearch];
+    }
+}
+
 #pragma mark - Share
 - (void)share:(EMShareEntity *)shareEntity {
+    [EMClick event:@"web:share"];
     NSString *callback = shareEntity.callback;
     
     [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {

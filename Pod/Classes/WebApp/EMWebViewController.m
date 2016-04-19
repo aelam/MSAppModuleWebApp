@@ -79,10 +79,13 @@ static const BOOL kNavigationBarHidden = YES;
     if (self) {
         self.eventAttributes = [self eventAttributesFromJLRoutesParams:params];
         
-        NSString *navigaionBarHidden = params[@"navigaionBarHidden"];
-        if (navigaionBarHidden.length > 0) {
+        NSString *navigationBarHidden = params[@"navigationBarHidden"];
+        NSString *navigaionBarHidden = params[@"navigaionBarHidden"]; // 之前的拼写错误
+        if (navigationBarHidden.length > 0) {
+            navigationBarStatus = [navigationBarHidden integerValue];
+        } else if(navigaionBarHidden.length > 0){
             navigationBarStatus = [navigaionBarHidden integerValue];
-        } else {
+        }else {
             navigationBarStatus = 0;
         }
     }

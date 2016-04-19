@@ -38,9 +38,8 @@ static const BOOL kNavigationBarHidden = YES;
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;
     
-    NSString *_lastURLString;
     NSString *_currentURLString;
-    BOOL  _isPushBack;
+    BOOL     _isPushBack;
 }
 
 @property (nonatomic, strong) UIView *statusBarBackView;
@@ -212,7 +211,7 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self endTrackViewDidDisappear];
+    [self endTrackingLastPage];
     
     _isPushBack = YES;
 }
@@ -323,7 +322,9 @@ static const BOOL kNavigationBarHidden = YES;
     
     [self showNetworkActivityIndicator:YES];
     
-    [self beginTrackingEventsWithURL:url];
+    if([[[url scheme] lowercaseString] hasPrefix:@"http"]) {
+        [self beginTrackingEventsWithURL:url];
+    }
     
     return YES;
 }
@@ -650,61 +651,29 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)beginTrackingEventsWithURL:(NSURL *)url {
-    _currentURLString = [url absoluteString];
     [self endTrackingLastPage];
     
+    _currentURLString = [url absoluteString];
+    
     [EMClick beginLogPageView:@"web"];
-    _lastURLString = _currentURLString;
 }
 
 - (void)endTrackingLastPage {
     
-    if (_lastURLString.length > 0) {
+    if (_currentURLString.length > 0) {
         NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
         if (self.eventAttributes) {
             [atrributes addEntriesFromDictionary:self.eventAttributes];
         }
-        atrributes[@"url"] = _lastURLString;
+        atrributes[@"url"] = _currentURLString;
         NSString *title = [self remoteTitle];
         if (title.length > 0) {
-            atrributes[@"title"] = [self remoteTitle];
-        }
-        
-        [EMClick endLogPageView:@"web" attributes:atrributes];
-        _lastURLString = nil;
-    }
-}
-
-- (void)endTrackViewDidDisappear {
-    if (_lastURLString.length > 0) {
-        
-        NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
-        if (self.eventAttributes) {
-            [atrributes addEntriesFromDictionary:self.eventAttributes];
-        }
-        atrributes[@"url"] = _lastURLString;
-        NSString *title = [self remoteTitle];
-        if (title.length > 0) {
-            atrributes[@"title"] = [self remoteTitle];
-        }
-        
-        [EMClick endLogPageView:@"web" attributes:atrributes];
-        _lastURLString = nil;
-    } else if (_currentURLString.length > 0) {
-        NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
-        if (self.eventAttributes) {
-            [atrributes addEntriesFromDictionary:self.eventAttributes];
-        }
-        atrributes[@"url"] = _lastURLString;
-        NSString *title = [self remoteTitle];
-        if (title.length > 0) {
-            atrributes[@"title"] = [self remoteTitle];
+            atrributes[@"title"] = title;
         }
         
         [EMClick endLogPageView:@"web" attributes:atrributes];
     }
 }
-
 
 - (NSDictionary *)eventAttributesFromJLRoutesParams:(NSDictionary *)params {
     NSMutableDictionary *eventsAtrributes = [params mutableCopy];

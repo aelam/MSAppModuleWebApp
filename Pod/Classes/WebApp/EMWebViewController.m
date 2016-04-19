@@ -39,6 +39,8 @@ static const BOOL kNavigationBarHidden = YES;
     UILongPressGestureRecognizer *_longPress;
     
     NSString *_lastURLString;
+    NSString *_currentURLString;
+    BOOL  _isPushBack;
 }
 
 @property (nonatomic, strong) UIView *statusBarBackView;
@@ -69,12 +71,12 @@ static const BOOL kNavigationBarHidden = YES;
 
 
 - (instancetype)initWithRouterParams:(NSDictionary *)params {
-
+    
     NSString *urlString = params[@"url"];
-
+    
     NSURL *url = [NSURL URLWithString:urlString];
     self = [self initWithURL:url];
-
+    
     if (self) {
         self.eventAttributes = [self eventAttributesFromJLRoutesParams:params];
         
@@ -124,6 +126,8 @@ static const BOOL kNavigationBarHidden = YES;
             [self openRequest:request];
         }
     }
+    
+    
     return self;
 }
 
@@ -152,7 +156,6 @@ static const BOOL kNavigationBarHidden = YES;
     self.navigationItem.leftBarButtonItem = nil;
 }
 
-#pragma mark - Life Cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -160,7 +163,7 @@ static const BOOL kNavigationBarHidden = YES;
     _webView = [[[[self class] webViewClass] alloc] initWithFrame:self.view.bounds];
     _webView.backgroundColor = [UIColor colorForKey:@"common_bgColor"];
     _webView.scrollView.backgroundColor = [UIColor colorForKey:@"common_bgColor"];
-
+    
     _webView.opaque = NO;
     _webView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _webView.scrollView.clipsToBounds = YES;
@@ -168,7 +171,8 @@ static const BOOL kNavigationBarHidden = YES;
     _webView.scalesPageToFit = YES;
     [self.view addSubview:self.webView];
     
-
+    _isPushBack = NO;
+    
     if (nil != self.loadRequest) {
         [self.webView loadRequest:self.loadRequest];
     }
@@ -191,7 +195,10 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self trackBackFromViewDidAppear];
+    if (_isPushBack) {
+        [self trackBackFromViewDidAppear];
+        _isPushBack = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -200,11 +207,14 @@ static const BOOL kNavigationBarHidden = YES;
     
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self endTrackingEvents];
+    [self endTrackViewDidDisappear];
+    
+    _isPushBack = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -231,7 +241,7 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)changeNavigaiotnBarColor {
-
+    
 }
 
 // 显示高度为20的view盖住webview
@@ -245,7 +255,7 @@ static const BOOL kNavigationBarHidden = YES;
         } else {
             self.statusBarBackView.frame = topBarRect;
         }
-
+        
         self.statusBarBackView.backgroundColor = [UIColor colorForKey:@"common_webStatusBarColor"];
         [self.view addSubview:self.statusBarBackView];
     } else {
@@ -289,7 +299,7 @@ static const BOOL kNavigationBarHidden = YES;
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
     
     NSURL *url = request.URL;
-
+    
     if (navigationType == UIWebViewNavigationTypeLinkClicked)
     {
         if ([url.scheme isEqualToString:@"tel"]||
@@ -312,8 +322,9 @@ static const BOOL kNavigationBarHidden = YES;
     }
     
     [self showNetworkActivityIndicator:YES];
+    
     [self beginTrackingEventsWithURL:url];
-
+    
     return YES;
 }
 
@@ -358,41 +369,6 @@ static const BOOL kNavigationBarHidden = YES;
     }
 }
 
-// 页面开始的时候统计从`-webViewDidStartLoad`开始
-// 当pop回webviewcontroller的时候`-webViewDidStartLoad`不会调用
-// 这个时候在`-viewDidAppear`里面统计这个page
-- (void)trackBackFromViewDidAppear {
-    if(_lastURLString) {
-        [EMClick beginLogPageView:@"web"];
-    }
-}
-
-- (void)beginTrackingEventsWithURL:(NSURL *)url {
-    NSString *currentURLString = url.absoluteString;
-    [self endTrackingEvents];
-    
-    [EMClick beginLogPageView:@"web"];
-    _lastURLString = currentURLString;
-}
-
-- (void)endTrackingEvents {
-    
-    if (_lastURLString.length > 0) {
-        NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
-        if (self.eventAttributes) {
-            [atrributes addEntriesFromDictionary:self.eventAttributes];
-        }
-        atrributes[@"url"] = _lastURLString;
-        NSString *title = [self remoteTitle];
-        if (title.length > 0) {
-            atrributes[@"title"] = [self remoteTitle];
-        }
-        
-        [EMClick endLogPageView:@"web" attributes:atrributes];
-        _lastURLString = nil;
-    }
-}
-
 
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
     
@@ -409,7 +385,7 @@ static const BOOL kNavigationBarHidden = YES;
     if ([[rs lowercaseString] isEqualToString:@"yes"]) {
         if (!self.navigationController.navigationBarHidden) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController setNavigationBarHidden:YES animated:YES];                
+                [self.navigationController setNavigationBarHidden:YES animated:YES];
             });
             changed = YES;
         }
@@ -462,7 +438,7 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)openHTMLString:(NSString*)htmlString baseURL:(NSURL*)baseUrl
 {
-	[_webView loadHTMLString:htmlString baseURL:baseUrl];
+    [_webView loadHTMLString:htmlString baseURL:baseUrl];
 }
 
 #pragma mark - Share
@@ -525,12 +501,12 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 /**回退到上一页，pop或dismiss
-*/
+ */
 - (void)doClose
 {
     if (self.navigationController && [self.navigationController.viewControllers count] > 1)
     {
-         [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else
     {
@@ -575,7 +551,7 @@ static const BOOL kNavigationBarHidden = YES;
 {
     if ([_webView canGoBack])
     {
-         [_webView reload];
+        [_webView reload];
     }
     else
     {
@@ -584,19 +560,6 @@ static const BOOL kNavigationBarHidden = YES;
         }
     }
 }
-
-- (NSDictionary *)eventAttributesFromJLRoutesParams:(NSDictionary *)params {
-    NSMutableDictionary *eventsAtrributes = [params mutableCopy];
-    
-    [eventsAtrributes removeObjectForKey:kJLRoutePatternKey];
-    [eventsAtrributes removeObjectForKey:kJLRouteURLKey];
-    [eventsAtrributes removeObjectForKey:kJLRouteNamespaceKey];
-    [eventsAtrributes removeObjectForKey:kJLRouteWildcardComponentsKey];
-    [eventsAtrributes removeObjectForKey:kJLRoutesGlobalNamespaceKey];
-
-    return eventsAtrributes;
-}
-
 
 - (void)doSearch
 {
@@ -614,7 +577,7 @@ static const BOOL kNavigationBarHidden = YES;
     [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
         EMSocialType socialType = 0;
         NSInteger statusCode = 0;
-
+        
         NSString *message = nil;
         if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
             message = returnedInfo[EMActivityWeiboStatusMessageKey];
@@ -672,6 +635,87 @@ static const BOOL kNavigationBarHidden = YES;
             }
         }
     }];
+}
+
+
+
+#pragma mark - EMClick
+// 页面开始的时候统计从`-webViewDidStartLoad`开始
+// 当pop回webviewcontroller的时候`-webViewDidStartLoad`不会调用
+// 这个时候在`-viewDidAppear`里面统计这个page
+- (void)trackBackFromViewDidAppear {
+    if(_currentURLString) {
+        [EMClick beginLogPageView:@"web"];
+    }
+}
+
+- (void)beginTrackingEventsWithURL:(NSURL *)url {
+    _currentURLString = [url absoluteString];
+    [self endTrackingLastPage];
+    
+    [EMClick beginLogPageView:@"web"];
+    _lastURLString = _currentURLString;
+}
+
+- (void)endTrackingLastPage {
+    
+    if (_lastURLString.length > 0) {
+        NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
+        if (self.eventAttributes) {
+            [atrributes addEntriesFromDictionary:self.eventAttributes];
+        }
+        atrributes[@"url"] = _lastURLString;
+        NSString *title = [self remoteTitle];
+        if (title.length > 0) {
+            atrributes[@"title"] = [self remoteTitle];
+        }
+        
+        [EMClick endLogPageView:@"web" attributes:atrributes];
+        _lastURLString = nil;
+    }
+}
+
+- (void)endTrackViewDidDisappear {
+    if (_lastURLString.length > 0) {
+        
+        NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
+        if (self.eventAttributes) {
+            [atrributes addEntriesFromDictionary:self.eventAttributes];
+        }
+        atrributes[@"url"] = _lastURLString;
+        NSString *title = [self remoteTitle];
+        if (title.length > 0) {
+            atrributes[@"title"] = [self remoteTitle];
+        }
+        
+        [EMClick endLogPageView:@"web" attributes:atrributes];
+        _lastURLString = nil;
+    } else if (_currentURLString.length > 0) {
+        NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
+        if (self.eventAttributes) {
+            [atrributes addEntriesFromDictionary:self.eventAttributes];
+        }
+        atrributes[@"url"] = _lastURLString;
+        NSString *title = [self remoteTitle];
+        if (title.length > 0) {
+            atrributes[@"title"] = [self remoteTitle];
+        }
+        
+        [EMClick endLogPageView:@"web" attributes:atrributes];
+    }
+}
+
+
+- (NSDictionary *)eventAttributesFromJLRoutesParams:(NSDictionary *)params {
+    NSMutableDictionary *eventsAtrributes = [params mutableCopy];
+    
+    [eventsAtrributes removeObjectForKey:kJLRoutePatternKey];
+    [eventsAtrributes removeObjectForKey:kJLRouteURLKey];
+    [eventsAtrributes removeObjectForKey:kJLRouteNamespaceKey];
+    [eventsAtrributes removeObjectForKey:kJLRouteWildcardComponentsKey];
+    [eventsAtrributes removeObjectForKey:kJLRoutesGlobalNamespaceKey];
+    
+    return eventsAtrributes;
 }
 
 @end

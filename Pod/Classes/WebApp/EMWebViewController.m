@@ -28,7 +28,14 @@
 #import "MSAppSettingsWebApp.h"
 #import <EMSpeed/MSCore.h>
 #import "NSURL+AuthedURL.h"
+#import "JSBridge.h"
+#import "UIWebView+Context.h"
+#import "UIWebView+TS_JavaScriptContext.h"
+#import "JSBridgeModule.h"
 
+#define kJSBridgeFileName @"EMJSBridge.js"
+
+typedef void (^JSBridgeBlock)(NSDictionary *info);
 
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
 static const BOOL kNavigationBarHidden = YES;
@@ -48,6 +55,7 @@ static const BOOL kNavigationBarHidden = YES;
 @property (nonatomic, strong, readwrite) UIWebView *webView;
 @property (nonatomic, strong, readwrite) UIColor *navigationBarColor;
 @property (nonatomic, strong) NSURL* loadingURL;
+@property (nonatomic, strong) JSContext *context;
 
 @end
 
@@ -172,7 +180,7 @@ static const BOOL kNavigationBarHidden = YES;
     _webView.delegate = self;
     _webView.scalesPageToFit = YES;
     [self.view addSubview:self.webView];
-    
+
     _isPushBack = NO;
     
     if (nil != self.loadRequest) {
@@ -328,7 +336,7 @@ static const BOOL kNavigationBarHidden = YES;
     if([[[url scheme] lowercaseString] hasPrefix:@"http"]) {
         [self beginTrackingEventsWithURL:url];
     }
-    
+
     return YES;
 }
 
@@ -348,14 +356,43 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)webViewDidStartLoad:(UIWebView *)webView {
 }
 
+- (void)loadJSBridge:(NSString *)source {
+
+    JSContext *context = [_webView ts_javaScriptContext];
+    
+    [JSBridge sharedBridge].webView = _webView;
+    [JSBridge sharedBridge].viewController = self;
+
+    [[JSBridge sharedBridge] loadModules];
+
+    NSString *jsPath = [[NSBundle bundleForClass:self] pathForResource:kJSBridgeFileName ofType:nil];
+    NSString *jsSourceCode = [[NSString alloc] initWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
+    [context evaluateScript:jsSourceCode];
+    
+    JSValue *goods = [context objectForKeyedSubscript:@"goods"];
+
+    NSObject<JSBridgeModule> *module = [[JSBridge sharedBridge]modules];
+    if ([module respondsToSelector:@selector(subscriptKey)] &&
+        [module respondsToSelector:@selector(subscriptObject)]) {
+        [goods setObject:[module subscriptObject] forKeyedSubscript:[module subscriptKey]];
+    }
+
+}
+
+- (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx
+{
+    [self loadJSBridge:@"didCreateJavaScriptContext"];
+
+}
+
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView
 {
     //执行脚本
-    [_webView loadActionJavaScript];
-    [_webView loadExtendActions];
-    [self updateURLSchemeInJS];
-    
+//    [_webView loadActionJavaScript];
+//    [_webView loadExtendActions];
+    [self loadJSBridge:@"webViewDidFinishLoad"];
+
     [self showNetworkActivityIndicator:NO];
     
     if (self.synchronizeDocumentTitle)
@@ -376,9 +413,6 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
     
-}
-
-- (void)updateURLSchemeInJS {
 }
 
 #pragma mark -

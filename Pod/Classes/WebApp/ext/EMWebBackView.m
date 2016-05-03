@@ -36,8 +36,12 @@
     {
         if (nil == _closeButton)
         {
+            UIColor *titleColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
+            if (!titleColor) {
+                titleColor = [UIColor lightGrayColor];
+            }
             _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [_closeButton setTitleColor:[UIColor colorForKey:@"common_navbarItemTextColor"] forState:UIControlStateNormal];
+            [_closeButton setTitleColor:titleColor forState:UIControlStateNormal];
             [_closeButton setTitle:@"关闭" forState:UIControlStateNormal];
             _closeButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0f];
             _closeButton.hidden = YES;
@@ -91,9 +95,14 @@
 }
 
 - (UIImage *)backImage {
+    UIColor *titleColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
+    if (!titleColor) {
+        titleColor = [UIColor lightGrayColor];
+    }
+
     UIImage *image = [UIImage imageWithIcon:@"em-icon-back"
                             backgroundColor:[UIColor clearColor]
-                                  iconColor:[UIColor colorForKey:@"common_navbarItemTextColor"]
+                                  iconColor:titleColor
                                   iconScale:1//NIScreenScale()
                                     andSize:CGSizeMake(23, 23)];
     return image;

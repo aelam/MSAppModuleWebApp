@@ -7,6 +7,9 @@
 //
 
 #import "MSAppDelegate.h"
+#import <MSAppModuleKit.h>
+#import "EMAppSettings.h"
+#import <MSAppModuleWebApp.h>
 
 BOOL User_hasStockAtZXG(int a) {
     return 1;
@@ -16,6 +19,13 @@ BOOL User_hasStockAtZXG(int a) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+    EMAppSettings *appSettings = [EMAppSettings appSettings];
+    
+    [MSAppModuleController appModuleControllerWithSettings:appSettings];
+    [appModuleManager addModule:[MSAppModuleWebApp new]];
+    
+    
     return YES;
 }
 

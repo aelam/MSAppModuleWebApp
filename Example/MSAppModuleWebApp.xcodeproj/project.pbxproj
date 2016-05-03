@@ -22,6 +22,9 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		94BE18DC1CD1EAC10067E818 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 94BE18DB1CD1EAC10067E818 /* index.html */; };
+		94BE18DE1CD1EBB60067E818 /* 2.html in Resources */ = {isa = PBXBuildFile; fileRef = 94BE18DD1CD1EBB60067E818 /* 2.html */; };
+		94BE18FD1CD2F99D0067E818 /* EMAppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE18FB1CD2F99D0067E818 /* EMAppSettings.m */; };
 		BD3619EC6612F9C06215D8E8 /* libPods-MSAppModuleWebApp_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 342CA8555E77A5BE567920F5 /* libPods-MSAppModuleWebApp_Tests.a */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +63,12 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		67EF9F7A356123E2FF34EDE9 /* Pods-MSAppModuleWebApp_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Example/Pods-MSAppModuleWebApp_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		94BE18DB1CD1EAC10067E818 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		94BE18DD1CD1EBB60067E818 /* 2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = 2.html; sourceTree = "<group>"; };
+		94BE18F91CD2F99D0067E818 /* EMAppBaseInfoSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAppBaseInfoSettings.h; sourceTree = "<group>"; };
+		94BE18FA1CD2F99D0067E818 /* EMAppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAppSettings.h; sourceTree = "<group>"; };
+		94BE18FB1CD2F99D0067E818 /* EMAppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMAppSettings.m; sourceTree = "<group>"; };
+		94BE18FC1CD2F99D0067E818 /* EMSettingsCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMSettingsCondition.h; sourceTree = "<group>"; };
 		AD5D084605EC21D5382A7024 /* Pods-MSAppModuleWebApp_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		CFA4BBFEEFE39E8833E841D1 /* Pods-MSAppModuleWebApp_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		EB68F5E4D4745F55AB203DB9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -141,6 +150,9 @@
 		6003F593195388D20070C39A /* Example for MSAppModuleWebApp */ = {
 			isa = PBXGroup;
 			children = (
+				94BE18F81CD2F99D0067E818 /* AppSettings */,
+				94BE18DD1CD1EBB60067E818 /* 2.html */,
+				94BE18DB1CD1EAC10067E818 /* index.html */,
 				6003F59C195388D20070C39A /* MSAppDelegate.h */,
 				6003F59D195388D20070C39A /* MSAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -191,6 +203,17 @@
 				EB68F5E4D4745F55AB203DB9 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		94BE18F81CD2F99D0067E818 /* AppSettings */ = {
+			isa = PBXGroup;
+			children = (
+				94BE18F91CD2F99D0067E818 /* EMAppBaseInfoSettings.h */,
+				94BE18FA1CD2F99D0067E818 /* EMAppSettings.h */,
+				94BE18FB1CD2F99D0067E818 /* EMAppSettings.m */,
+				94BE18FC1CD2F99D0067E818 /* EMSettingsCondition.h */,
+			);
+			path = AppSettings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,7 +299,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94BE18DE1CD1EBB60067E818 /* 2.html in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				94BE18DC1CD1EAC10067E818 /* index.html in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -392,6 +417,7 @@
 			files = (
 				6003F59E195388D20070C39A /* MSAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* MSViewController2.m in Sources */,
+				94BE18FD1CD2F99D0067E818 /* EMAppSettings.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

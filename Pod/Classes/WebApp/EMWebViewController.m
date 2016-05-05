@@ -18,6 +18,7 @@
 #import <EMSocialKit/EMSocialSDK.h>
 #import <BDKNotifyHUD.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
 
 #import "EMSocialSDK+URLBind.h"
 
@@ -28,12 +29,9 @@
 #import "MSAppSettingsWebApp.h"
 #import <EMSpeed/MSCore.h>
 #import "NSURL+AuthedURL.h"
-#import "JSBridge.h"
-#import "UIWebView+Context.h"
 #import "UIWebView+TS_JavaScriptContext.h"
 #import "JSBridgeModule.h"
-
-#define kJSBridgeFileName @"EMJSBridge.js"
+#import "JSBridge.h"
 
 typedef void (^JSBridgeBlock)(NSDictionary *info);
 
@@ -55,7 +53,8 @@ static const BOOL kNavigationBarHidden = YES;
 @property (nonatomic, strong, readwrite) UIWebView *webView;
 @property (nonatomic, strong, readwrite) UIColor *navigationBarColor;
 @property (nonatomic, strong) NSURL* loadingURL;
-@property (nonatomic, strong) JSContext *context;
+@property (nonatomic, strong) WebViewJavascriptBridge *bridge;
+@property (nonatomic, strong) JSBridge *jsBridge;
 
 @end
 
@@ -181,6 +180,9 @@ static const BOOL kNavigationBarHidden = YES;
     _webView.scalesPageToFit = YES;
     [self.view addSubview:self.webView];
 
+    [WebViewJavascriptBridge enableLogging];
+
+    
     _isPushBack = NO;
     
     if (nil != self.loadRequest) {
@@ -200,6 +202,24 @@ static const BOOL kNavigationBarHidden = YES;
     [self changeTabbarStatus];
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
+
+    if (!self.bridge) {
+        
+        self.bridge = [WebViewJavascriptBridge bridgeForWebView:_webView];
+        [self.bridge setWebViewDelegate:self];
+        
+
+        [JSBridge sharedBridge].javaScriptBridge = self.bridge;
+        [JSBridge sharedBridge].viewController = self;
+        [JSBridge sharedBridge].webView = _webView;
+        
+        [[JSBridge sharedBridge] attachToBridge:self.bridge];
+        
+        [_webView attachExtendActionsWithContext:_webView.ts_javaScriptContext];
+
+//        [self registerBridge:_bridge];
+    }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -230,6 +250,9 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+
+
 
 #pragma mark - Override
 /**是否需要退出当前页面
@@ -290,7 +313,7 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self showNetworkActivityIndicator:NO];
-    NSLog(@"%@ %ld", error.domain, (long)error.code);
+    NSLog(@"%@ %zd", error.domain,error.code);
     
     if (-1202 == error.code)
     {
@@ -354,44 +377,17 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-}
-
-- (void)loadJSBridge:(NSString *)source {
-
-    JSContext *context = [_webView ts_javaScriptContext];
-    
-    [JSBridge sharedBridge].webView = _webView;
-    [JSBridge sharedBridge].viewController = self;
-
-    [[JSBridge sharedBridge] loadModules];
-
-    NSString *jsPath = [[NSBundle bundleForClass:self] pathForResource:kJSBridgeFileName ofType:nil];
-    NSString *jsSourceCode = [[NSString alloc] initWithContentsOfFile:jsPath encoding:NSUTF8StringEncoding error:NULL];
-    [context evaluateScript:jsSourceCode];
-    
-    JSValue *goods = [context objectForKeyedSubscript:@"goods"];
-
-    NSObject<JSBridgeModule> *module = [[JSBridge sharedBridge]modules];
-    if ([module respondsToSelector:@selector(subscriptKey)] &&
-        [module respondsToSelector:@selector(subscriptObject)]) {
-        [goods setObject:[module subscriptObject] forKeyedSubscript:[module subscriptKey]];
-    }
 
 }
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx
 {
-    [self loadJSBridge:@"didCreateJavaScriptContext"];
-
 }
 
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView
 {
     //执行脚本
-//    [_webView loadActionJavaScript];
-//    [_webView loadExtendActions];
-    [self loadJSBridge:@"webViewDidFinishLoad"];
 
     [self showNetworkActivityIndicator:NO];
     

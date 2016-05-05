@@ -8,7 +8,6 @@
 
 #import "JSBridge.h"
 #import "JSBridgeModule.h"
-#import "JSSourceCode.h"
 
 static NSMutableArray<Class> *JSModuleClasses;
 NSArray<Class> *JSGetModuleClasses(void);
@@ -42,7 +41,6 @@ void JSRegisterModule(Class moduleClass)
 @interface JSBridge ()
 
 @property (nonatomic, strong) NSMutableArray *modules;
-@property (nonatomic, strong) JSSourceCode *sourceCode;
 
 @end
 
@@ -94,6 +92,23 @@ static JSBridge *JSCurrentBridgeInstance = nil;
     }
 }
 
+- (void)attachToBridge:(WebViewJavascriptBridge *)javascriptBridge {
+    [_modules removeAllObjects];
+    
+    NSMutableSet *moduleClasses = [NSMutableSet new];
+    [moduleClasses addObjectsFromArray:JSGetModuleClasses()];
+    
+    for (Class c in moduleClasses) {
+        id <JSBridgeModule> module = [c new];
+        [_modules addObject:module];
+        //TODO 更好的方式?
+        [self setBridgeForInstance:module];
+        [module attachToJSBridge:self];
+        [self registerHandlersWithModule:module];
+    }
+}
+
+
 - (void)setBridgeForInstance:(NSObject<JSBridgeModule> *)module
 {
     if ([module respondsToSelector:@selector(bridge)] && module.bridge != self) {
@@ -106,26 +121,12 @@ static JSBridge *JSCurrentBridgeInstance = nil;
     }
 }
 
-
-#if 0
-- (JSValue *)call:(NSString *)method parameters:(NSDictionary *)parameters callback:(JSValue *)callback {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-    
-    SEL selector = NSSelectorFromString([NSString stringWithFormat:@"%@:callback", method]);
-    NSObject<JSBridgeModule> *activeModule = nil;
-    
-    for(NSObject<JSBridgeModule> *m in _modules) {
-        if ([m respondsToSelector:selector]) {
-            activeModule = m;
-        }
-    }
-
-    [activeModule performSelector:selector withObject:parameters withObject:callback];
-
-    if (![callback isUndefined] && ![callback isNull]) {
-        [callback callWithArguments:@[parameters]];
+- (void)registerHandlersWithModule:(id<JSBridgeModule>)module {
+    NSDictionary *handlers = [module messageHandlers];
+    for(NSString *key in [module messageHandlers]) {
+        WVJBHandler handler = [handlers[key] copy];
+        [self.javaScriptBridge registerHandler:key handler:handler];
     }
 }
-#endif
 
 @end

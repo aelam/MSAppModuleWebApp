@@ -1,299 +1,366 @@
+(function() {
+  window.AppURLScheme = "emstock";
 
-var AppURLScheme = "emstock";
-
-function openPath(path, params) {
+  function openPath(path, params) {
     openPath2(AppURLScheme, path, params);
-}
+  }
 
-function ParseParam(obj) {
+  function ParseParam(obj) {
     var params = [];
     for (var p in obj) {
-        if (typeof (obj[p]) == "undefined" || obj[p] == "undefined") {
-            obj[p] = "";
-        }
-        params.push(p + "=" + encodeURIComponent(obj[p]));
+      if (typeof(obj[p]) == "undefined" || obj[p] == "undefined") {
+        obj[p] = "";
+      }
+      params.push(p + "=" + encodeURIComponent(obj[p]));
     }
     params = params.join('&');
     return params;
-}
+  }
 
-function openPath2(URLScheme, path, params) {
+  function openPath2(URLScheme, path, params) {
     var doc = document;
     var fullPath = URLScheme + "://" + path + "?" + ParseParam(params);
     _createQueueReadyIframe(doc, fullPath);
-}
+  }
 
-function _createQueueReadyIframe(doc, src) {
-  messagingIframe = doc.createElement('iframe')
-  messagingIframe.style.display = 'none'
-  messagingIframe.src = src;//CUSTOM_PROTOCOL_SCHEME + '://' + QUEUE_HAS_MESSAGE
-  doc.documentElement.appendChild(messagingIframe)
-}
+  function _createQueueReadyIframe(doc, src) {
+    messagingIframe = doc.createElement('iframe')
+    messagingIframe.style.display = 'none'
+    messagingIframe.src = src; //CUSTOM_PROTOCOL_SCHEME + '://' + QUEUE_HAS_MESSAGE
+    doc.documentElement.appendChild(messagingIframe);
+    doc.documentElement.removeChild(messagingIframe);
+  }
 
-var goods = {
-    showgoods: function (stockId, fk, goodsName, subType) {
-        var params = {
-            "stockId": stockId,
-            "subType": subType,
-            "goodsName": goodsName,
-            "fk": fk
-        };
-        openPath("stock", params);
+
+  if (window.goods) {
+    return;
+  };
+
+  // 如果不支持WebViewJavascriptBridge 则使用老的方式
+  var GoodsBridge = {
+    callHandler: function(handlerName, data, responseCallback) {
+      if (window.WebViewJavascriptBridge) {
+        window.WebViewJavascriptBridge.callHandler(handlerName, data,
+          responseCallback);
+      } else {
+        openPath(handlerName, data);
+      }
+    }
+  };
+
+  window.goods = {
+    ready: function(callback) {
+      if (window.WebViewJavascriptBridge) {
+        return callback(WebViewJavascriptBridge);
+      }
+      if (window.WVJBCallbacks) {
+        return window.WVJBCallbacks.push(callback);
+      }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function() {
+        document.documentElement.removeChild(WVJBIframe)
+      }, 0)
     },
 
-    goback: function () {
-        window.location.href = "emstock://back";
+    // Actions
+    // 2.9.0+ 改成回调方式
+    getAppInfo2: function(params2, response) {
+      WebViewJavascriptBridge.callHandler('getAppInfo2', null, response);
     },
 
-    addZxg: function (stockId, callback) {
-        var params = {
-            "stockId": stockId,
-            "callback": callback
-        };
-        openPath("addZXG", params);
+    // 页面跳转类型
+    showgoods: function(stockId, fk, goodsName, subType) {
+      var params = {
+        "stockId": stockId,
+        "subType": subType,
+        "goodsName": goodsName,
+        "fk": fk
+      };
+      openPath('showgoods', params);
     },
 
-    login: function (gowhere, callback) {
-        var params = {
-            "next": gowhere,
-            "callback": callback
-        };
-        openPath("login", params);
+    goback: function() {
+      GoodsBridge.callHandler("back");
+    },
+
+    addZxg: function(stockId, callback) {
+      var params = {
+        "stockId": stockId,
+        "callback": callback
+      };
+      GoodsBridge.callHandler('addZXG', params, function(
+        response) {})
+    },
+
+    login: function(gowhere, callback) {
+      var params = {
+        "next": gowhere,
+        "callback": callback
+      };
+      openPath('login', params);
     },
 
     // Not implement
-    purchase: function () {
+    purchase: function() {},
+
+    search: function(searchStr, type, callback) {
+      var params = {
+        "content": searchStr,
+        "type": type,
+        "callback": callback
+      };
+      GoodsBridge.callHandler('search', params, function(response) {})
     },
 
-    search: function (searchStr, type, callback) {
-        var params = {
-            "content": searchStr,
-            "type": type,
-            "callback": callback
-        };
-        openPath("search", params);
+    close: function() {
+      GoodsBridge.callHandler('close', null, function(response) {})
+
     },
 
-    close: function () {
-        openPath("close", null);
+    openurl: function(url) {
+      var params = {
+        "url": url
+      };
+      GoodsBridge.callHandler('web', params, function(response) {})
+
     },
 
-    openurl: function (url) {
-        var params = {
-            "url": url
-        };
-        openPath("web", params);
+    homepage: function() {
+      openPage("home", null);
     },
 
-    homepage: function () {
-        openPath("home", null);
+    share: function(title, url, id, imageurl, iconUrl, content, type,
+      callback) {
+      var params = {
+        "title": title,
+        "url": url,
+        "id": id,
+        "imageurl": imageurl,
+        "iconUrl": iconUrl,
+        "content": content,
+        "type": type,
+        "callback": callback
+      };
+      GoodsBridge.callHandler('share', params, function(response) {})
     },
 
-    share: function (title, url, id, imageurl, iconUrl, content, type, callback) {
-        var params = {
-            "title": title,
-            "url": url,
-            "id": id,
-            "imageurl":imageurl,
-            "iconUrl":iconUrl,
-            "content":content,
-            "type":type,
-            "callback":callback
-        };
-        openPath("share", params);
+    completeTask: function(taskId, callback) {
+      var params = {
+        "taskId": taskId,
+        "callback": callback
+      };
+      GoodsBridge.callHandler('completeTask', params, function(
+        response) {})
+
     },
 
-    completeTask: function (taskId, callback) {
-        var params = {
-            "taskId": taskId,
-            "callback": callback
-        };
-        openPath("completeTask", params);
+    checkTaskStatus: function(operationId, callback) {
+      var params = {
+        "operationId": operationId,
+        "callback": callback
+      };
+
+      GoodsBridge.callHandler('checkTaskStatus', params, function(
+        response) {})
+
     },
 
-    checkTaskStatus: function (operationId, callback) {
-        var params = {
-            "operationId": operationId,
-            "callback": callback
-        };
-        openPath("checkTaskStatus", params);
+    openPage: function(pageId) {
+      var params = {
+        "pageId": pageId
+      };
+      openPath("page", params);
     },
 
-    openPage: function (pageId) {
-        var params = {
-            "pageId": pageId
-        };
-        openPath("page", params);
+    writePost: function(barId, barType, topicType, wordslimit, callback) {
+      var params = {
+        "barId": barId,
+        "barType": barType,
+        "topicType": topicType,
+        "wordslimit": wordslimit,
+        "callback": callback
+      };
+      openPath("writePost", params);
     },
 
-    writePost: function (barId, barType, topicType, wordslimit, callback) {
-        var params = {
-            "barId": barId,
-            "barType": barType,
-            "topicType":topicType,
-            "wordslimit": wordslimit,
-            "callback":callback
-        };
-        openPath("writePost", params);
+    sendPost: function(barId, barType, topicType, title, content,
+      wordslimit,
+      callback) {
+      var params = {
+        "barId": barId,
+        "barType": barType,
+        "topicType": topicType,
+        "title": title,
+        "content": content,
+        "wordslimit": wordslimit,
+        "callback": callback
+      };
+      openPath("sendPost", params);
     },
 
-    sendPost: function (barId, barType, topicType, title, content, wordslimit, callback) {
-        var params = {
-            "barId": barId,
-            "barType": barType,
-            "topicType":topicType,
-            "title":title,
-            "content":content,
-            "wordslimit": wordslimit,
-            "callback":callback
-        };
-        openPath("sendPost", params);
+    reply: function(topidid, quotoid, wordslimit, replyTo, callback) {
+      var params = {
+        "topicId": topidid,
+        "quotoId": quotoid,
+        "wordslimit": wordslimit,
+        "replyTo": replyTo,
+        "callback": callback
+      };
+      openPath("reply", params);
     },
 
-    reply: function (topidid, quotoid, wordslimit, replyTo, callback) {
-        var params = {
-            "topicId": topidid,
-            "quotoId": quotoid,
-            "wordslimit": wordslimit,
-            "replyTo":replyTo,
-            "callback":callback
-        };
-        openPath("reply", params);
+    replyHalfScreen: function(topicId, postId, wordLimit, replyTo, callback) {
+      var params = {
+        "topicId": topicId,
+        "postId": postId,
+        "wordLimit": wordLimit,
+        "replyTo": replyTo,
+        "callback": callback
+      };
+      openPath("replyHalfScreen", params);
     },
 
-    replyHalfScreen: function (topicId, postId, wordLimit, replyTo, callback) {
-        var params = {
-            "topicId": topicId,
-            "postId": postId,
-            "wordLimit": wordLimit,
-            "replyTo": replyTo,
-            "callback": callback
-        };
-        openPath("replyHalfScreen", params);
+    myFunsTopics: function(userId) {
+      var params = {
+        "userId": userId
+      };
+      openPath("friendList", params);
     },
 
-    myFunsTopics: function (userId) {
-        var params = {
-            "userId": userId
-        };
-        openPath("friendList", params);
+    pointChange: function(point, pointChange, integral, showNotify) {
+      var params = {
+        "point": point,
+        "pointChange": pointChange,
+        "integral": integral,
+        "showNotify": showNotify
+      };
+
+      GoodsBridge.callHandler('pointsChange', params, function(
+        response) {})
+
     },
 
-    pointChange: function (point, pointChange,integral,showNotify) {
-        var params = {
-            "point": point,
-            "pointChange": pointChange,
-            "integral": integral,
-            "showNotify":showNotify
-        };
-        openPath("pointsChange", params);
+    updateUserInfo: function(exp, point, level, nextlvexp, bitmapNewapp) {
+      var params = {
+        "exp": exp,
+        "point": point,
+        "level": level,
+        "nextlvexp": nextlvexp,
+        "bitmapNewapp": bitmapNewapp
+      };
+      GoodsBridge.callHandler('updateUserInfo', params, function(
+        response) {})
     },
 
-    updateUserInfo: function (exp,point,level,nextlvexp,bitmapNewapp) {
-        var params = {
-            "exp": exp,
-            "point": point,
-            "level": level,
-            "nextlvexp": nextlvexp,
-            "bitmapNewapp":bitmapNewapp
-        };
-        openPath("updateUserInfo", params);
-    },
-
-    playVideo: function (id, sourceType, url, domain, meetingId, title, videoStatus) {
-        var params = {
-            "id": id,
-            "sourceType": sourceType,
-            "url": url,
-            "domain": domain,
-            "meetingId": meetingId,
-            "title": title,
-            "videoStatus": videoStatus
-        };
-        openPath("playVideo", params);
+    playVideo: function(id, sourceType, url, domain, meetingId, title,
+      videoStatus) {
+      var params = {
+        "id": id,
+        "sourceType": sourceType,
+        "url": url,
+        "domain": domain,
+        "meetingId": meetingId,
+        "title": title,
+        "videoStatus": videoStatus
+      };
+      openPath("playVideo", params);
     },
 
     openAccount: function() {
-        openPath("openAccount", null);
+      openPath("openAccount", params);
     },
 
     openCommentList: function(url, topicId) {
-        var params = {
-            "url": url,
-            "topicId": topicId
-        };
-        openPath("commentList", params);
+      var params = {
+        "url": url,
+        "topicId": topicId
+      };
+      openPath("commentList", params);
     },
 
     copy: function(text) {
-        var params = {
-            "text": text
-        };
-        openPath("copy", params);
+      var params = {
+        "text": text
+      };
+      GoodsBridge.callHandler('copy', params, function(response) {})
     },
 
+    // 理财
+    // 页面跳转类型的使用openPath
+    // 获取数据的使用GoodsBridge
     getFundAccount: function(vendorId) {
-        var params = {
-            "vendorId": vendorId
-        };
-        openPath("getFundAccount", params);
+      var params = {
+        "vendorId": vendorId
+      };
+      GoodsBridge.callHandler('getFundAccount', params, null);
     },
 
     goFundMyAsset: function() {
-      openPath("goFundMyAsset", null);
+      GoodsBridge.callHandler('goFundMyAsset', null, null);
     },
 
-    canOpenURL: function(appurl,callback) {
-        var params = {
-            "appurl": appurl,
-            "callback":callback
-        };
-
-        openPath("canOpenURL", params);
-   },
-
-   showNotify: function(message) {
-        var params = {
-            "message": message
-        };
-        openPath("showNotify", params);
+    // @params: {appurl:"emstock://"}
+    canOpenURL2: function(params, responseCallback) {
+      GoodsBridge.callHandler('canOpenURL2', params, responseCallback)
     },
 
-   shareConfig: function(shareToggle ,title, url, imageurl, content) {
-     var params = {
-         "shareToggle": shareToggle,
-         "title": title,
-         "url": url,
-         "imageurl":imageurl,
-         "content":content,
-     };
-     openPath("shareConfig", params);
-   },
-
-    searchConfig: function (searchToggle) {
-        var params = {
-            "searchToggle": searchToggle,
-        };
-        openPath("searchConfig", params);
+    showNotify: function(message) {
+      var params = {
+        "message": message
+      };
+      GoodsBridge.callHandler('showNotify', params, null);
     },
-    
+
+    shareConfig: function(shareToggle, title, url, imageurl, content) {
+      var params = {
+        "shareToggle": shareToggle,
+        "title": title,
+        "url": url,
+        "imageurl": imageurl,
+        "content": content
+      };
+      GoodsBridge.callHandler('shareConfig', params, function(
+        response) {})
+    },
+
+    searchConfig: function(searchToggle) {
+      var params = {
+        "searchToggle": searchToggle,
+      };
+      GoodsBridge.callHandler('searchConfig', params, function(
+        response) {})
+    },
+
     heightChange: function(webViewheight, type) {
-        var params = {
-            "webViewheight": webViewheight,
-            "type": type,
-        };
-        openPath("heightChange", params);
-    }
-    
-};
+      var params = {
+        "webViewheight": webViewheight,
+        "type": type,
+      };
+      GoodsBridge.callHandler('heightChange', params, function(
+        response) {})
+    },
 
-(function () {
-    var ev = document.createEvent("Event");
-    ev.initEvent("goodsReady", true, true);
-    document.dispatchEvent(ev);
- }());
+    installPlugin: function(plugin) {
+      for (var item in plugin) {
+        goods[item] = plugin[item];
+      }
+    }
+  };
+
+}());
+
+(function() {
+  var ev = document.createEvent("Event");
+  ev.initEvent("goodsReady", true, true);
+  document.dispatchEvent(ev);
+}());
 
 //炒盘技巧--区分是否有此任务
-if (typeof (clientGoods) != "undefined" && clientGoods != null && typeof (clientGoods.initTasks) != "undefined" && clientGoods.initTasks != null) {
-    clientGoods.initTasks();
+if (typeof(clientGoods) != "undefined" && clientGoods != null && typeof(
+    clientGoods.initTasks) != "undefined" && clientGoods.initTasks != null) {
+  clientGoods.initTasks();
 }

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class JSContext;
+
 @interface UIWebView (JSExtend)
 
-- (void)loadExtendActions;
+- (void)attachExtendActionsWithContext:(JSContext *)context;
 
 @end

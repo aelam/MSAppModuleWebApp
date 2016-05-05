@@ -16,48 +16,39 @@
 @implementation JLRoutes (WebApp)
 
 - (void)registerRoutesForWebApp {
-    [self registerCopy];
-    [self registerCanOpenURL];
-    [self registerShowNotify];
+//    [self registerCopy];
+//    [self registerCanOpenURL];
     [self registerWeb];
     [self registerGoBack];
-    [self registerPop];
 }
 
-- (void)registerCopy {
-    [self addRoute:@"copy" handler:^BOOL(NSDictionary *parameters) {
-        NSString *text = parameters[@"text"];
-        UIPasteboard *p = [UIPasteboard generalPasteboard];
-        [p setString:text];
-        return YES;
-    }];
-}
+//- (void)registerCopy {
+//    [self addRoute:@"copy" handler:^BOOL(NSDictionary *parameters) {
+//        NSString *text = parameters[@"text"];
+//        UIPasteboard *p = [UIPasteboard generalPasteboard];
+//        [p setString:text];
+//        return YES;
+//    }];
+//}
+//
+//- (void)registerCanOpenURL
+//{
+//    // search
+//    [self addRoute:@"canOpenURL" handler:^BOOL(NSDictionary *parameters) {
+//        NSString *url = parameters[@"appurl"];
+//        NSString *callback = parameters[@"callback"];
+//        
+//        BOOL canopen = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
+//        
+//        EMWebViewController *webViewController = (EMWebViewController *)[MSActiveControllerFinder finder].activeTopController();
+//        if ([webViewController respondsToSelector:@selector(webView)]) {
+//            NSString *callbackStr = [NSString stringWithFormat:@"%@(\"%d\")",callback,canopen];
+//            [webViewController.webView stringByEvaluatingJavaScriptFromString:callbackStr];
+//        }
+//        return YES;
+//    }];
+//}
 
-- (void)registerCanOpenURL
-{
-    // search
-    [self addRoute:@"canOpenURL" handler:^BOOL(NSDictionary *parameters) {
-        NSString *url = parameters[@"appurl"];
-        NSString *callback = parameters[@"callback"];
-        
-        BOOL canopen = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
-        
-        EMWebViewController *webViewController = (EMWebViewController *)[MSActiveControllerFinder finder].activeTopController();
-        if ([webViewController respondsToSelector:@selector(webView)]) {
-            NSString *callbackStr = [NSString stringWithFormat:@"%@(\"%d\")",callback,canopen];
-            [webViewController.webView stringByEvaluatingJavaScriptFromString:callbackStr];
-        }
-        return YES;
-    }];
-}
-
-- (void)registerShowNotify {
-    [self addRoute:@"showNotify" handler:^BOOL(NSDictionary *parameters) {
-        NSString *message = parameters[@"message"];
-        [BDKNotifyHUD showNotifHUDWithText:message];
-        return YES;
-    }];
-}
 
 - (void)registerWeb {
     [self addRoute:@"web" handler:^BOOL(NSDictionary *parameters) {
@@ -86,26 +77,6 @@
     [self addRoutes:@[@"goBack", @"goback"] handler:completion];
 }
 
-/**
- *  注册页面pop `pop`
- *  注册页面close `close` // 关闭网页
- */
-- (void)registerPop {
-    // 页面pop
-    BOOL (^completion)(NSDictionary *) = ^BOOL(NSDictionary *parameters) {
-        UINavigationController *navController = [MSActiveControllerFinder finder].activeNavigationController();
-        BOOL animated = YES;
-        if (parameters[@"animated"]) {
-            animated = [parameters[@"animated"] boolValue];
-        }
-        
-        [navController popViewControllerAnimated:animated];
-        return YES;
-    };
-    
-    [self addRoutes:@[@"close", @"back"] handler:completion];
-
-}
 
 - (void)unregisterRoutesForWebApp {
     

@@ -30,20 +30,35 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes/**/*'
-  s.resource     = 'Pod/Assets/**/*.js'
 
-  s.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore'
-  s.dependency 'WebViewJavascriptBridge', '~> 4.1.4'
-  s.dependency 'UIColor-HexString', '~> 1.1.0'
-  s.dependency 'MSAppModuleShare'
-  s.dependency 'MSRoutes'
-  s.dependency 'MSThemeKit'
-  s.dependency 'MSAppModuleKit'
-  s.dependency 'EMSpeed/UIKit/Core'
-  s.dependency 'EMSpeed/UIKit/UIKitCollections'
-  s.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
-  s.dependency 'RDVTabBarController'
-  s.dependency 'EMClick'
+  s.subspec  'WebViewController' do |ss|
+    ss.source_files = 'Pod/Classes/**/*'
+    ss.resource     = 'Pod/Assets/**/*.js'
+
+    ss.dependency 'UIColor-HexString', '~> 1.1.0'
+    ss.dependency 'MSAppModuleShare'
+    ss.dependency 'MSRoutes'
+    ss.dependency 'MSThemeKit'
+    ss.dependency 'MSAppModuleKit'
+    ss.dependency 'EMSpeed/UIKit/Core'
+    ss.dependency 'EMSpeed/UIKit/UIKitCollections'
+    ss.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
+    ss.dependency 'RDVTabBarController'
+    ss.dependency 'EMClick'
+
+    ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
+
+  end
+
+
+  s.subspec 'WebBridgeCore' do |ss|
+
+    ss.source_files = 'Pod/Classes/WebBridgeCore/**/*'
+
+    ss.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore'
+    s.dependency 'WebViewJavascriptBridge'
+
+  end
+
 
 end

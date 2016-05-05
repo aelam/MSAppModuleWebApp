@@ -17,10 +17,10 @@ extern int User_hasStockAtZXG(NSInteger);
 
 @implementation UIWebView (JSExtend)
 
-- (void)loadExtendActions {
+
+- (void)attachExtendActionsWithContext:(JSContext *)context {
 
     __weak __typeof (self)weakSelf = self;
-    JSContext *context = [self valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
     JSValue *goods = [context objectForKeyedSubscript:@"goods"];
     
     BOOL (^CanOpenURL)(NSString *, NSString *) = ^BOOL(NSString *urlString, NSString *callback) {

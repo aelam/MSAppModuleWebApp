@@ -59,6 +59,8 @@
 
 - (void)doRefresh;
 
+- (void)share:(EMShareEntity *)shareEntity;
+
 @end
 
 

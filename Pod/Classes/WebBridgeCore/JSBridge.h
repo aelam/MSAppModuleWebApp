@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <WebViewJavaScriptBridge/WebViewJavaScriptBridge.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <WebKit/WebKit.h>
 #import "JSDefines.h"
 
 @protocol WebView <NSObject>
@@ -21,18 +23,14 @@ JS_EXTERN NSArray<Class> *JSGetModuleClasses(void);
 
 @protocol JSBridgeModule;
 
-@protocol JSBridge <JSExport>
 
-//JSExportAs(call,
-//- (JSValue *)call:(NSString *)method parameters:(NSDictionary *)parameters callback:(JSValue *)callback);
-
-@end
-
-@interface JSBridge : NSObject <JSBridge>
+@interface JSBridge : NSObject
 
 @property (nonatomic, weak) UIViewController *viewController;
 @property (nonatomic, weak) UIWebView *webView;
-@property (nonatomic, weak) JSContext *context;
+@property (nonatomic, weak) WKWebView *wkWebView;
+@property (nonatomic, weak) WebViewJavascriptBridge *javaScriptBridge;
+@property (nonatomic, weak) JSContext *javascriptContext;
 
 - (NSArray *)modules;
 - (id<JSBridgeModule>)moduleForName:(NSString *)moduleName;
@@ -42,8 +40,7 @@ JS_EXTERN NSArray<Class> *JSGetModuleClasses(void);
 + (void)setCurrentBridge:(JSBridge *)bridge;
 + (instancetype)sharedBridge;
 
-- (void)loadModules;
+- (void)attachToBridge:(WebViewJavascriptBridge *)bridge;
 
-//- (JSValue *)call:(NSString *)method parameters:(NSDictionary *)parameters success:(JSBridgeSuccess)success error:(JSBridgeError)error;
 
 @end

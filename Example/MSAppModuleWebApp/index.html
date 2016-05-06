@@ -8,18 +8,25 @@
             .logLine { border-bottom:1px solid #ccc; padding:4px 2px; font-family:courier; font-size:11px; }
             </style>
         
-        <script type="text/javascript" src="EMJSBridge.js"></script>
         <script>
             window.onerror = function(err) {
                 log('window.onerror: ' + err)
             }
         
+            document.addEventListener("DOMContentLoaded",function() {
+                                      goods.ready(function(bridge) {
+                                            alert("DOMContentLoaded");
+                                    });
+                                      
+                                      alert(goods.getAppInfo());
+                                  });
+
             goods.ready(function(bridge) {
-                    alert("hello");
+                alert("hello");
             });
-            
+
             goods.getAppInfo2(null, function(a){
-                              alert(a);
+                alert(a);
             });
                     
             </script>
@@ -27,4 +34,7 @@
 </head><body>
     <h1>WebViewJavascriptBridge Demo</h1>
     <div id='buttons'></div> <div id='log'></div>
+    INDEX 22222
+    <a href="index.html">index.html</a>
+
 </body></html>

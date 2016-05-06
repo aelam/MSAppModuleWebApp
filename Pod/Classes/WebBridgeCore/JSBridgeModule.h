@@ -33,8 +33,8 @@ JS_EXTERN void JSRegisterModule(Class); \
 + (void)load { JSRegisterModule(self); }
 
 + (NSString *)moduleName;
-+ (NSString *)moduleSourceFile;
-+ (NSUInteger)priority;
+- (NSString *)moduleSourceFile;
+- (NSUInteger)priority;
 
 - (void)attachToJSBridge:(JSBridge *)bridge;
 

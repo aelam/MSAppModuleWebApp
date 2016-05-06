@@ -28,33 +28,34 @@ JS_EXPORT_MODULE();
     return self;
 }
 
-+ (NSString *)moduleSourceFile {
+- (NSString *)moduleSourceFile {
     return [[NSBundle bundleForClass:self] pathForResource:@"EMJSBridge" ofType:@"js"];
 }
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
     
     [self registerGetAppInfoWithBridge:bridge];
-    [self registerShareConfigWithBridge:bridge];
-    [self registerShareWithBridge:bridge];
     [self registerCopyWithBridge:bridge];
-    [self registerCanOpenURLWithBridge:bridge];
+    [self registerCanOpenURL2WithBridge:bridge];
     [self registerShowNotifyWithBridge:bridge];
     [self registerPopWithBridge:bridge];
     [self registerGoBackWithBridge:bridge];
+
+    [self registerShareConfigWithBridge:bridge];
+    [self registerShareWithBridge:bridge];
     [self registerSearchToggleWithBridge:bridge];
     
-    [self registerShowGoodsWithBridge:bridge];
+//    [self registerShowGoodsWithBridge:bridge];
     [self registerOpenPageWithBridge:bridge];
     
-    [self registerOpenAccountWithBridge:bridge];
-    [self registerOpenCommentListWithBridge:bridge];
-
     [self registerHeightChangeWithBridge:bridge];
     [self registerLoginWithBridge:bridge];
     
     [self registerSearchWithBridge:bridge];
     [self registerUpdateUserInfoWithBridge:bridge];
+    
+    [self registerUpdateTitleWithBridge:bridge];
+
 }
 
 
@@ -67,7 +68,7 @@ JS_EXPORT_MODULE();
     }];
 }
 
-- (void)registerCanOpenURLWithBridge:(JSBridge *)bridge {
+- (void)registerCanOpenURL2WithBridge:(JSBridge *)bridge {
     [self registerHandler:@"canOpenURL2" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary *parameters = (NSDictionary *)data;
         NSString *url = parameters[@"appurl"];
@@ -223,14 +224,14 @@ JS_EXPORT_MODULE();
     
 }
 
-// showgoods
-- (void)registerShowGoodsWithBridge:(JSBridge *)bridge {
-    [self registerHandler:@"showgoods" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"showgoods"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    }];
-}
+//// showgoods
+//- (void)registerShowGoodsWithBridge:(JSBridge *)bridge {
+//    [self registerHandler:@"showgoods" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        NSDictionary *parameters = (NSDictionary *)data;
+//        [JLRoutes routeURL:[NSURL URLWithString:@"showgoods"] withParameters:parameters];
+//        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+//    }];
+//}
 
 - (void)registerCheckTaskStatusWithBridge:(JSBridge *)bridge {
     [self registerHandler:@"checkTaskStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -241,30 +242,31 @@ JS_EXPORT_MODULE();
 }
 
 // openAccount
-- (void)registerOpenAccountWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"openAccount"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"openAccount" handler:handler];
-    
-}
+//- (void)registerOpenAccountWithBridge:(JSBridge *)bridge {
+//    __typeof(self)weakSelf = self;
+//    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+//        NSDictionary *parameters = (NSDictionary *)data;
+//        [JLRoutes routeURL:[NSURL URLWithString:@"openAccount"] withParameters:parameters];
+//        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+//    };
+//    
+//    [self registerHandler:@"openAccount" handler:handler];
+//    
+//}
 
-// commentList
-- (void)registerOpenCommentListWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"commentList"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"commentList" handler:handler];
-    
-}
+//// 移到社区
+//// commentList
+//- (void)registerOpenCommentListWithBridge:(JSBridge *)bridge {
+//    __typeof(self)weakSelf = self;
+//    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+//        NSDictionary *parameters = (NSDictionary *)data;
+//        [JLRoutes routeURL:[NSURL URLWithString:@"commentList"] withParameters:parameters];
+//        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+//    };
+//    
+//    [self registerHandler:@"commentList" handler:handler];
+//    
+//}
 
 
 - (void)registerHeightChangeWithBridge:(JSBridge *)bridge {
@@ -300,6 +302,7 @@ JS_EXPORT_MODULE();
     [self registerHandler:@"updateUserInfo" handler:handler];
 }
 
+// 移到search
 - (void)registerSearchWithBridge:(JSBridge *)bridge {
     __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
@@ -309,6 +312,19 @@ JS_EXPORT_MODULE();
     };
     
     [self registerHandler:@"search" handler:handler];
+}
+
+// Base
+- (void)registerUpdateTitleWithBridge:(JSBridge *)bridge {
+    __typeof(self)weakSelf = self;
+    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+        NSDictionary *parameters = (NSDictionary *)data;
+        NSString *title = parameters[@"title"];
+        weakSelf.bridge.viewController.title = title;
+        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+    };
+    
+    [self registerHandler:@"updateTitle" handler:handler];
 }
 
 

@@ -15,14 +15,27 @@
 //TODO
 extern int User_hasStockAtZXG(NSInteger);
 
-@implementation UIWebView (JSExtend)
 
+@implementation UIWebView (JSExtend)
 
 - (void)attachExtendActionsWithContext:(JSContext *)context {
 
     __weak __typeof (self)weakSelf = self;
-    JSValue *goods = [context objectForKeyedSubscript:@"goods"];
     
+//    JSValue *JSCBridge = [context objectForKeyedSubscript:@"JSCBridge"];
+//    if ([JSCBridge isUndefined] || ![JSCBridge isArray]){
+//        [self stringByEvaluatingJavaScriptFromString:@"window.JSCBridge = {}"];
+//        
+//    }
+//
+//    JSCBridge = [context objectForKeyedSubscript:@"JSCBridge"];
+//    
+    
+    JSValue *goods = [context objectForKeyedSubscript:@"goods"];
+    if ([goods isUndefined] || ![goods toDictionary]){
+        return;
+    }
+
     BOOL (^CanOpenURL)(NSString *, NSString *) = ^BOOL(NSString *urlString, NSString *callback) {
         BOOL rs = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]];
         NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,rs];
@@ -32,11 +45,12 @@ extern int User_hasStockAtZXG(NSInteger);
     };
     
     [goods setObject:CanOpenURL forKeyedSubscript:@"canOpenURL"];
-
+    NSLog(@"[goods toDictionary]= %@", [goods toDictionary]);
+    
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
 
 #if 1
-    //
+    // TODO isZXG
     BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
         if (&User_hasStockAtZXG) {
             NSInteger goodsId = [stockId integerValue];

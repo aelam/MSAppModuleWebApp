@@ -104,6 +104,7 @@ static JSBridge *JSCurrentBridgeInstance = nil;
         //TODO 更好的方式?
         [self setBridgeForInstance:module];
         [module attachToJSBridge:self];
+        
         [self registerHandlersWithModule:module];
     }
 }
@@ -122,6 +123,13 @@ static JSBridge *JSCurrentBridgeInstance = nil;
 }
 
 - (void)registerHandlersWithModule:(id<JSBridgeModule>)module {
+    if(self.webView) {
+        if ([module respondsToSelector:@selector(moduleSourceFile)]) {
+            NSString *source = [[NSString alloc] initWithContentsOfFile:[module moduleSourceFile] encoding:NSUTF8StringEncoding error:NULL];
+            [self.webView stringByEvaluatingJavaScriptFromString:source];
+        }
+    }
+    
     NSDictionary *handlers = [module messageHandlers];
     for(NSString *key in [module messageHandlers]) {
         WVJBHandler handler = [handlers[key] copy];

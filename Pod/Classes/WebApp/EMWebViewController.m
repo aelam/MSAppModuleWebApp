@@ -33,6 +33,8 @@
 #import "JSBridgeModule.h"
 #import "JSBridge.h"
 
+#import "UIWebView+Context.h"
+
 typedef void (^JSBridgeBlock)(NSDictionary *info);
 
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
@@ -213,9 +215,7 @@ static const BOOL kNavigationBarHidden = YES;
         [JSBridge sharedBridge].viewController = self;
         [JSBridge sharedBridge].webView = _webView;
         
-        [[JSBridge sharedBridge] attachToBridge:self.bridge];
         
-        [_webView attachExtendActionsWithContext:_webView.ts_javaScriptContext];
 
 //        [self registerBridge:_bridge];
     }
@@ -356,7 +356,10 @@ static const BOOL kNavigationBarHidden = YES;
     
     [self showNetworkActivityIndicator:YES];
     
-    if([[[url scheme] lowercaseString] hasPrefix:@"http"]) {
+    if([[[url scheme] lowercaseString] hasPrefix:@"http"] ||
+       [[[url scheme] lowercaseString] hasPrefix:@"file"]
+       ) {
+        [[JSBridge sharedBridge] attachToBridge:self.bridge];
         [self beginTrackingEventsWithURL:url];
     }
 
@@ -382,12 +385,15 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx
 {
+    [[JSBridge sharedBridge] attachToBridge:self.bridge];
+    [_webView attachExtendActionsWithContext:_webView.ts_javaScriptContext];
 }
 
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView
 {
     //执行脚本
+    [_webView attachExtendActionsWithContext:[webView javaScriptContext]];
 
     [self showNetworkActivityIndicator:NO];
     
@@ -395,6 +401,7 @@ static const BOOL kNavigationBarHidden = YES;
     {
         [self reloadTitle];
     }
+    
     [self.backView updateWithCurrentWebView:webView];
     [self updateNavigationBarByMeta];
     

@@ -1,9 +1,6 @@
 (function() {
   window.AppURLScheme = "emstock";
 
-  function openPath(path, params) {
-    openPath2(AppURLScheme, path, params);
-  }
 
   function ParseParam(obj) {
     var params = [];
@@ -15,12 +12,6 @@
     }
     params = params.join('&');
     return params;
-  }
-
-  function openPath2(URLScheme, path, params) {
-    var doc = document;
-    var fullPath = URLScheme + "://" + path + "?" + ParseParam(params);
-    _createQueueReadyIframe(doc, fullPath);
   }
 
   function _createQueueReadyIframe(doc, src) {
@@ -37,7 +28,7 @@
   };
 
   // 如果不支持WebViewJavascriptBridge 则使用老的方式
-  var GoodsBridge = {
+  window.GoodsBridge = {
     callHandler: function(handlerName, data, responseCallback) {
       if (window.WebViewJavascriptBridge) {
         window.WebViewJavascriptBridge.callHandler(handlerName, data,
@@ -66,11 +57,45 @@
       }, 0)
     },
 
-    // Actions
-    // 2.9.0+ 改成回调方式
-    getAppInfo2: function(params2, response) {
-      WebViewJavascriptBridge.callHandler('getAppInfo2', null, response);
+    openPath: function(path, params) {
+      openPath2(AppURLScheme, path, params);
     },
+
+    openPath2: function(URLScheme, path, params) {
+      var doc = document;
+      var fullPath = URLScheme + "://" + path + "?" + ParseParam(params);
+      _createQueueReadyIframe(doc, fullPath);
+    },
+
+    goback: function() {
+      GoodsBridge.callHandler("back");
+    },
+
+    openurl: function(url) {
+      var params = {
+        "url": url
+      };
+      GoodsBridge.callHandler('web', params, function(response) {})
+    },
+
+    close: function() {
+      GoodsBridge.callHandler('close', null, function(response) {})
+    },
+
+    copy: function(text) {
+      var params = {
+        "text": text
+      };
+      GoodsBridge.callHandler('copy', params, function(response) {})
+    },
+
+    openPage: function(pageId) {
+      var params = {
+        "pageId": pageId
+      };
+      openPath("page", params);
+    },
+
 
     // 页面跳转类型
     showgoods: function(stockId, fk, goodsName, subType) {
@@ -83,10 +108,7 @@
       openPath('showgoods', params);
     },
 
-    goback: function() {
-      GoodsBridge.callHandler("back");
-    },
-
+    // 自选股模块
     addZxg: function(stockId, callback) {
       var params = {
         "stockId": stockId,
@@ -96,6 +118,7 @@
         response) {})
     },
 
+    // 授权模块
     login: function(gowhere, callback) {
       var params = {
         "next": gowhere,
@@ -107,6 +130,7 @@
     // Not implement
     purchase: function() {},
 
+    // 搜索模块
     search: function(searchStr, type, callback) {
       var params = {
         "content": searchStr,
@@ -116,23 +140,11 @@
       GoodsBridge.callHandler('search', params, function(response) {})
     },
 
-    close: function() {
-      GoodsBridge.callHandler('close', null, function(response) {})
-
-    },
-
-    openurl: function(url) {
-      var params = {
-        "url": url
-      };
-      GoodsBridge.callHandler('web', params, function(response) {})
-
-    },
-
     homepage: function() {
       openPage("home", null);
     },
 
+    // 分享模块
     share: function(title, url, id, imageurl, iconUrl, content, type,
       callback) {
       var params = {
@@ -148,6 +160,7 @@
       GoodsBridge.callHandler('share', params, function(response) {})
     },
 
+    // 任务模块
     completeTask: function(taskId, callback) {
       var params = {
         "taskId": taskId,
@@ -166,16 +179,9 @@
 
       GoodsBridge.callHandler('checkTaskStatus', params, function(
         response) {})
-
     },
 
-    openPage: function(pageId) {
-      var params = {
-        "pageId": pageId
-      };
-      openPath("page", params);
-    },
-
+    // 社区发帖
     writePost: function(barId, barType, topicType, wordslimit, callback) {
       var params = {
         "barId": barId,
@@ -231,6 +237,15 @@
       openPath("friendList", params);
     },
 
+    openCommentList: function(url, topicId) {
+      var params = {
+        "url": url,
+        "topicId": topicId
+      };
+      openPath("commentList", params);
+    },
+
+    // 用户信息模块
     pointChange: function(point, pointChange, integral, showNotify) {
       var params = {
         "point": point,
@@ -256,6 +271,7 @@
         response) {})
     },
 
+    // 视频播放
     playVideo: function(id, sourceType, url, domain, meetingId, title,
       videoStatus) {
       var params = {
@@ -270,24 +286,11 @@
       openPath("playVideo", params);
     },
 
+
     openAccount: function() {
       openPath("openAccount", params);
     },
 
-    openCommentList: function(url, topicId) {
-      var params = {
-        "url": url,
-        "topicId": topicId
-      };
-      openPath("commentList", params);
-    },
-
-    copy: function(text) {
-      var params = {
-        "text": text
-      };
-      GoodsBridge.callHandler('copy', params, function(response) {})
-    },
 
     // 理财
     // 页面跳转类型的使用openPath
@@ -301,11 +304,6 @@
 
     goFundMyAsset: function() {
       GoodsBridge.callHandler('goFundMyAsset', null, null);
-    },
-
-    // @params: {appurl:"emstock://"}
-    canOpenURL2: function(params, responseCallback) {
-      GoodsBridge.callHandler('canOpenURL2', params, responseCallback)
     },
 
     showNotify: function(message) {
@@ -335,6 +333,7 @@
         response) {})
     },
 
+    // 2.8.4
     heightChange: function(webViewheight, type) {
       var params = {
         "webViewheight": webViewheight,
@@ -343,6 +342,30 @@
       GoodsBridge.callHandler('heightChange', params, function(
         response) {})
     },
+
+    // 2.9.0
+    // @params: {appurl:"emstock://"}
+    canOpenURL2: function(params, responseCallback) {
+      GoodsBridge.callHandler('canOpenURL2', params, responseCallback)
+    },
+
+    // 2.9.0+ 改成回调方式
+    getAppInfo2: function(params, responseCallback) {
+      WebViewJavascriptBridge.callHandler('getAppInfo2', params,
+        responseCallback);
+    },
+
+    // 2.9.0+
+    updateTitle: function(params, responseCallback) {
+      WebViewJavascriptBridge.callHandler('updateTitle', params,
+        responseCallback);
+    },
+
+    // 2.9.0+
+    post: function(params, responseCallback) {
+      WebViewJavascriptBridge.callHandler('updateTitle', params,
+        responseCallback);
+    }
 
     installPlugin: function(plugin) {
       for (var item in plugin) {

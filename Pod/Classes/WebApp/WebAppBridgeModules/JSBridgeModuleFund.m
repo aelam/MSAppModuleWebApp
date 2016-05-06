@@ -17,7 +17,6 @@ JS_EXPORT_MODULE();
 }
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
-    
 }
 
 

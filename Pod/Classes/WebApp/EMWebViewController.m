@@ -386,7 +386,7 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx
 {
     [[JSBridge sharedBridge] attachToBridge:self.bridge];
-    [_webView attachExtendActionsWithContext:_webView.ts_javaScriptContext];
+    [_webView attachExtendActionsWithContext:ctx];
 }
 
 

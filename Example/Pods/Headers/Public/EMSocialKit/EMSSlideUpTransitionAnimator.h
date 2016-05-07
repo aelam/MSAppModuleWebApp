@@ -1,0 +1,1 @@
+../../../EMSocialKit/EMSocialKit/Private/EMTransition/EMSSlideUpTransitionAnimator.h

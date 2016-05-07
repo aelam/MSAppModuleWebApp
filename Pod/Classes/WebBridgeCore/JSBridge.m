@@ -125,8 +125,11 @@ static JSBridge *JSCurrentBridgeInstance = nil;
 - (void)registerHandlersWithModule:(id<JSBridgeModule>)module {
     if(self.webView) {
         if ([module respondsToSelector:@selector(moduleSourceFile)]) {
-            NSString *source = [[NSString alloc] initWithContentsOfFile:[module moduleSourceFile] encoding:NSUTF8StringEncoding error:NULL];
-            [self.webView stringByEvaluatingJavaScriptFromString:source];
+            NSString *moduleSourceFile = [module moduleSourceFile];
+            if (moduleSourceFile) {
+                NSString *source = [[NSString alloc] initWithContentsOfFile:moduleSourceFile encoding:NSUTF8StringEncoding error:NULL];
+                [self.webView stringByEvaluatingJavaScriptFromString:source];
+            }
         }
     }
     

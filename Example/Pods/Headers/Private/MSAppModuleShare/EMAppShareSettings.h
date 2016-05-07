@@ -1,0 +1,1 @@
+../../../MSAppModuleShare/Pod/Classes/EMAppShareSettings.h

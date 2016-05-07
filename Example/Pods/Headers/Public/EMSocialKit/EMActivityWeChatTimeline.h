@@ -1,0 +1,1 @@
+../../../EMSocialKit/EMSocialKit/Share/WeChat/EMActivityWeChatTimeline.h

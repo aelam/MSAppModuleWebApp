@@ -1,0 +1,1 @@
+../../../../../Pod/Classes/WebApp/WebAppBridgeModules/JSBridgeModuleBase.h

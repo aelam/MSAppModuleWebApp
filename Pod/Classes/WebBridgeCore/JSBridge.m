@@ -80,19 +80,20 @@ static JSBridge *JSCurrentBridgeInstance = nil;
     [_modules removeObject:module];
 }
 
-- (void)loadModules {
-    [_modules removeAllObjects];
-    
-    NSMutableSet *moduleClasses = [NSMutableSet new];
-    [moduleClasses addObjectsFromArray:JSGetModuleClasses()];
-    
-    for (Class c in moduleClasses) {
-        id <JSBridgeModule> module = [c new];
-        [self addJSModule:module];
-    }
+- (id<JSBridgeModule>)moduleForName:(NSString *)moduleName {
+    return [self moduleForClass:NSClassFromString(moduleName)];
 }
 
-- (void)attachToBridge:(WebViewJavascriptBridge *)javascriptBridge {
+- (id<JSBridgeModule>)moduleForClass:(Class)moduleClass {
+    for(NSObject <JSBridgeModule>*module in self.modules) {
+        if([module isMemberOfClass:moduleClass]) {
+            return module;
+        }
+    }
+    return nil;
+}
+
+- (void)attachToBridge:(id <WebViewJavascriptBridgeProtocol>)javascriptBridge {
     [_modules removeAllObjects];
     
     NSMutableSet *moduleClasses = [NSMutableSet new];
@@ -128,7 +129,14 @@ static JSBridge *JSCurrentBridgeInstance = nil;
             NSString *moduleSourceFile = [module moduleSourceFile];
             if (moduleSourceFile) {
                 NSString *source = [[NSString alloc] initWithContentsOfFile:moduleSourceFile encoding:NSUTF8StringEncoding error:NULL];
-                [self.webView stringByEvaluatingJavaScriptFromString:source];
+                if ([self.webView isKindOfClass:[WKWebView class]]) {
+                    WKWebView *wkWebView = (WKWebView *)self.webView;
+                    WKUserContentController *userContentController = wkWebView.configuration.userContentController;
+                    WKUserScript *script = [[WKUserScript alloc] initWithSource:source injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+                    [userContentController addUserScript:script];
+                } else {
+                    [self.webView x_evaluateJavaScript:source];
+                }
             }
         }
     }

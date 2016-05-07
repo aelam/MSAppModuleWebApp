@@ -18,8 +18,8 @@
 JS_EXPORT_MODULE();
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
-    JSContext *context = nil;
-    __weak __typeof (self)weakSelf = self;
+    JSContext *context = bridge.javascriptContext;
+//    __weak __typeof (self)weakSelf = self;
     __weak JSBridge *weakBridge = bridge;
     
     JSValue *goods = [context objectForKeyedSubscript:@"goods"];
@@ -27,17 +27,19 @@ JS_EXPORT_MODULE();
     BOOL (^CanOpenURL)(NSString *, NSString *) = ^BOOL(NSString *urlString, NSString *callback) {
         BOOL rs = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]];
         NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,rs];
-        [weakBridge.webView stringByEvaluatingJavaScriptFromString:string];
-        
+        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"2.9.0使用canOpenURL2({appurl:xxx},function(info){})\")"];
+        [weakBridge.webView evaluateJavaScript:string completionHandler:NULL];
+
         return rs;
     };
     
     [goods setObject:CanOpenURL forKeyedSubscript:@"canOpenURL"];
     
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
-    
+
+#warning 实现自选股JS
 #if 1
-//    //
+    //
 //    BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
 //        if (&User_hasStockAtZXG) {
 //            NSInteger goodsId = [stockId integerValue];
@@ -53,6 +55,8 @@ JS_EXPORT_MODULE();
     
     //
     NSString *(^getAppInfo)() = ^NSString * () {
+        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"2.9.0使用getAppInfo2(null,function(info){})\")"];
+
         return [[MSWebAppInfo getWebAppInfoWithSettings:settings] jsonString];
     };
     [goods setObject:getAppInfo forKeyedSubscript:@"getAppInfo"];

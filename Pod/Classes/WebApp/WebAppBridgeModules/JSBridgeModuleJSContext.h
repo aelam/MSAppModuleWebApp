@@ -6,6 +6,9 @@
 //
 //
 
+// @canOpenURL JSC方式 最终会去掉
+// @getAppInfo JSC方式 最终会去掉
+
 #import "JSBridgeModule.h"
 
 @interface JSBridgeModuleJSContext : JSBridgeModule

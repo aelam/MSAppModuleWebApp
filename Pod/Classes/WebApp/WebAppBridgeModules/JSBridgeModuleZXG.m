@@ -8,6 +8,9 @@
 
 #import "JSBridgeModuleZXG.h"
 #import <JLRoutes/JLRoutes.h>
+#import "JSBridge.h"
+
+extern BOOL User_hasStockAtZXG(NSInteger);
 
 @implementation JSBridgeModuleZXG
 
@@ -15,11 +18,11 @@ JS_EXPORT_MODULE();
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
     [self registerAddZXGWithBridge:bridge];
+    [self registerIsZXGWithBridge:bridge];
 }
 
-// addZXG
+// addZXG ~2.8.5
 - (void)registerAddZXGWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"addZXG"] withParameters:parameters];
@@ -29,6 +32,26 @@ JS_EXPORT_MODULE();
     [self registerHandler:@"addZXG" handler:handler];
 }
 
+// IsZXG
+- (void)registerIsZXGWithBridge:(JSBridge *)bridge {
+    JSContext *context = bridge.javascriptContext;
+    JSValue *goods = [context objectForKeyedSubscript:@"goods"];
 
+    __weak JSBridge *weakBridge = bridge;
+
+    BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
+        if (&User_hasStockAtZXG) {
+            NSInteger goodsId = [stockId integerValue];
+            BOOL isZXG = User_hasStockAtZXG(goodsId);
+            NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
+            [weakBridge.webView evaluateJavaScript:string completionHandler:NULL];
+            return isZXG;
+        } else {
+            return NO;
+        }
+    };
+    [goods setObject:IsZxg forKeyedSubscript:@"isZxg"];
+
+}
 
 @end

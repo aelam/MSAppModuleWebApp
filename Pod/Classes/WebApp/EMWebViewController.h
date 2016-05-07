@@ -22,17 +22,17 @@
 @class EMWebBackView;
 @class EMShareEntity;
 @protocol UIViewControllerRouter;
+@protocol XWebView;
 
 
 @interface EMWebViewController : UIViewController<UIWebViewDelegate, UIViewControllerRouter, UIViewControllerShareSupport, UIViewControllerSearchSupport>
 {
-@protected
-    UIWebView *_webView;
+
 }
 
 @property (nonatomic, assign) BOOL synchronizeDocumentTitle;//navbar同步页面document的title，default is yes
 
-@property (nonatomic, strong, readonly) UIWebView *webView;
+@property (nonatomic, strong, readonly) UIView<XWebView> *webView;
 @property (nonatomic, assign,getter=isCloseButtonShown) BOOL showsCloseButton; // Default YES
 
 // Share Supports

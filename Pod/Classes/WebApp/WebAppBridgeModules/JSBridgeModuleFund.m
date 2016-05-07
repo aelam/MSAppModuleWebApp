@@ -13,8 +13,7 @@
 JS_EXPORT_MODULE();
 
 - (NSString *)moduleSourceFile {
-    return nil;
-    return [[NSBundle bundleForClass:self] pathForResource:@"EMJSBridgeFund" ofType:@"js"];
+    return [[NSBundle bundleForClass:[self class]] pathForResource:@"EMJSBridgeFund" ofType:@"js"];
 }
 
 - (void)attachToJSBridge:(JSBridge *)bridge {

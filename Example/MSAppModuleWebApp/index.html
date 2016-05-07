@@ -1,5 +1,6 @@
 <!doctype html>
 <html><head>
+    <title>Test</title>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
         <style type='text/css'>
             html { font-family:Helvetica; color:#222; }
@@ -9,23 +10,27 @@
             </style>
         
         <script>
+            alert(1);
             window.onerror = function(err) {
-                log('window.onerror: ' + err)
+                console.log('window.onerror: ' + err)
             }
         
             document.addEventListener("DOMContentLoaded",function() {
                                       goods.ready(function(bridge) {
-                                            alert("DOMContentLoaded");
+                                            alert("goods.ready in DOMContentLoaded");
                                     });
                                       
                                       alert(goods.getAppInfo());
                                   });
 
             goods.ready(function(bridge) {
-                alert("hello");
+                alert("goods.ready");
             });
+            
+            console.log(goods.getAppInfo());
 
             goods.getAppInfo2(null, function(a){
+                console.log(a);
                 alert(a);
             });
                     

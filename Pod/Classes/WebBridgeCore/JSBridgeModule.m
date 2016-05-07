@@ -22,12 +22,20 @@ NSString * const JSResponseErrorDataKey    = @"data";
 
 @implementation JSBridgeModule
 
++ (NSString *)moduleName {
+    return NSStringFromClass(self);
+}
+
 + (NSString *)moduleSourceFile {
     return nil;
 }
 
-+ (NSUInteger)priority {
+- (NSUInteger)priority {
     return 100;
+}
+
+- (NSString *)moduleSourceFile {
+    return nil;
 }
 
 - (instancetype)init {
@@ -55,7 +63,7 @@ NSString * const JSResponseErrorDataKey    = @"data";
 
 }
 
-- (NSArray *)JSContextMessageHandlers {
+- (NSDictionary *)JSContextMessageHandlers {
     return _JSContextMessageHandlers;
 }
 

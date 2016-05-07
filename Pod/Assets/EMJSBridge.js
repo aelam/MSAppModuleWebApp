@@ -1,7 +1,6 @@
 (function() {
   window.AppURLScheme = "emstock";
 
-
   function ParseParam(obj) {
     var params = [];
     for (var p in obj) {
@@ -365,7 +364,7 @@
     post: function(params, responseCallback) {
       WebViewJavascriptBridge.callHandler('updateTitle', params,
         responseCallback);
-    }
+    },
 
     installPlugin: function(plugin) {
       for (var item in plugin) {

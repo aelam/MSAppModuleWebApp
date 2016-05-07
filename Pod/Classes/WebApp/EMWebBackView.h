@@ -22,6 +22,7 @@
  *不支持关闭功能：仅当webview有需求时才显示返回按键
  */
 @property (nonatomic, assign) BOOL supportClose;
+@property (nonatomic, assign) BOOL showGoBack;
 
 - (id)initWithParamSupportClose:(BOOL)supportClose;
 
@@ -37,7 +38,9 @@
 
 /**根据当前webview的加载状况，更新按键状态
  */
-- (void)updateWithCurrentWebView:(UIWebView *)webView;
+//- (void)updateWithCurrentWebView:(UIWebView *)webView;
 - (void)goBack;
+
+//- (void)updateWithCanGoBack:(BOOL)canGoBack;
 
 @end

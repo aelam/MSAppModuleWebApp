@@ -50,11 +50,11 @@ JS_EXTERN void JSRegisterModule(Class); \
 
 // 通过注册WebViewJavaScriptBridge注册方法
 - (void)registerHandler:(NSString *)handlerName handler:(WVJBHandler)handler;
-- (NSArray *)messageHandlers;
+- (NSDictionary *)messageHandlers;
 
 // 通过注册JSContext注册方法
 - (void)registerHandler:(NSString *)handlerName JSContextHandler:(JSValue *)handler;
-- (NSArray *)JSContextMessageHandlers;
+- (NSDictionary *)JSContextMessageHandlers;
 
 
 @end

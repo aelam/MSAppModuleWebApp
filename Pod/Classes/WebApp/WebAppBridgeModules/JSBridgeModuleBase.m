@@ -29,7 +29,7 @@ JS_EXPORT_MODULE();
 }
 
 - (NSString *)moduleSourceFile {
-    return [[NSBundle bundleForClass:self] pathForResource:@"EMJSBridge" ofType:@"js"];
+    return [[NSBundle bundleForClass:[self class]] pathForResource:@"EMJSBridge" ofType:@"js"];
 }
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
@@ -90,7 +90,7 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerShareWithBridge:(JSBridge *)bridge {
-    EMWebViewController *webViewController = bridge.viewController;
+    EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     
     [self registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"share called: %@", data);
@@ -106,7 +106,10 @@ JS_EXPORT_MODULE();
         NSString *callback = parameters[@"callback"];
         
         EMShareEntity *shareEntity = [[EMShareEntity alloc] initShareEntityTitle:title Description:content Image:nil Url:postUrl ImageUrl:imageUrl];
-        
+        shareEntity.iconUrl = iconUrl;
+        shareEntity.socialType = socialType;
+        shareEntity.callback = callback;
+
         if ([webViewController respondsToSelector:@selector(share:)]) {
             [webViewController share:shareEntity];
         }
@@ -116,7 +119,7 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerShareConfigWithBridge:(JSBridge *)bridge {
-    __weak EMWebViewController *webViewController = bridge.viewController;
+    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     [self registerHandler:@"shareConfig" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"shareConfig called: %@", data);
         NSDictionary *parameters = (NSDictionary *)data;
@@ -159,7 +162,7 @@ JS_EXPORT_MODULE();
 
 
 - (void)registerPopWithBridge:(JSBridge *)bridge {
-    __weak EMWebViewController *webViewController = bridge.viewController;
+    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
 
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
@@ -179,12 +182,11 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerGoBackWithBridge:(JSBridge *)bridge {
-    __weak EMWebViewController *webViewController = bridge.viewController;
+    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
         
         if ([webViewController respondsToSelector:@selector(webView)]) {
-            [[webViewController webView] goBack];
+            [[webViewController webView] x_goBack];
         }
         
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
@@ -196,7 +198,7 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerSearchToggleWithBridge:(JSBridge *)bridge {
-    __weak EMWebViewController *webViewController = bridge.viewController;
+    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         BOOL showsSearch = [parameters[@"searchToggle"] boolValue];
@@ -213,7 +215,6 @@ JS_EXPORT_MODULE();
 #pragma mark - JLRoutes跳转
 // page
 - (void)registerOpenPageWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"page"] withParameters:parameters];
@@ -270,7 +271,6 @@ JS_EXPORT_MODULE();
 
 
 - (void)registerHeightChangeWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"heightChange"] withParameters:parameters];
@@ -281,7 +281,6 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerLoginWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"login"] withParameters:parameters];
@@ -292,7 +291,7 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerUpdateUserInfoWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
+//    __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"updateUserInfo"] withParameters:parameters];
@@ -304,7 +303,7 @@ JS_EXPORT_MODULE();
 
 // 移到search
 - (void)registerSearchWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
+//    __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"search"] withParameters:parameters];

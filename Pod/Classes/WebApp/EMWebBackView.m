@@ -80,9 +80,19 @@
 
 /**根据当前webview的加载状况，更新按键状态
  */
-- (void)updateWithCurrentWebView:(UIWebView *)webView
-{
-    if (_supportClose || [webView canGoBack])
+//- (void)updateWithCurrentWebView:(UIWebView *)webView
+//{
+//}
+
+- (void)setShowGoBack:(BOOL)showGoBack {
+    if (_showGoBack != showGoBack) {
+        _showGoBack = showGoBack;
+        [self updateGoBackButton];
+    }
+}
+
+- (void)updateGoBackButton {
+    if (_supportClose || _showGoBack)
     {
         [self setImage:[self backImage] forState:UIControlStateNormal];
         self.enabled = YES;

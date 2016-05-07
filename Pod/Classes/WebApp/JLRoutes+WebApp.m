@@ -12,6 +12,7 @@
 
 #import "MSActiveControllerFinder.h"
 #import "EMWebViewController.h"
+#import "XWebView.h"
 
 @implementation JLRoutes (WebApp)
 
@@ -69,7 +70,7 @@
     BOOL (^completion)(NSDictionary *) = ^BOOL(NSDictionary *parameters) {
         EMWebViewController *webViewController = (EMWebViewController *)[MSActiveControllerFinder finder].activeTopController();
         if ([webViewController respondsToSelector:@selector(webView)]) {
-            [[webViewController webView] goBack];
+            [[webViewController webView] x_goBack];
         }
         return YES;
     };

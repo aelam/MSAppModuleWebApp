@@ -11,6 +11,8 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 #import "JSDefines.h"
+#import "WebViewJavascriptBridgeProtocol.h"
+#import "XWebView.h"
 
 @protocol WebView <NSObject>
 
@@ -27,9 +29,9 @@ JS_EXTERN NSArray<Class> *JSGetModuleClasses(void);
 @interface JSBridge : NSObject
 
 @property (nonatomic, weak) UIViewController *viewController;
-@property (nonatomic, weak) UIWebView *webView;
-@property (nonatomic, weak) WKWebView *wkWebView;
-@property (nonatomic, weak) WebViewJavascriptBridge *javaScriptBridge;
+@property (nonatomic, weak) UIView <XWebView>*webView;
+//@property (nonatomic, weak) WKUserContentController *userContentController;
+@property (nonatomic, weak) id<WebViewJavascriptBridgeProtocol> javaScriptBridge;
 @property (nonatomic, weak) JSContext *javascriptContext;
 
 - (NSArray *)modules;
@@ -40,7 +42,6 @@ JS_EXTERN NSArray<Class> *JSGetModuleClasses(void);
 + (void)setCurrentBridge:(JSBridge *)bridge;
 + (instancetype)sharedBridge;
 
-- (void)attachToBridge:(WebViewJavascriptBridge *)bridge;
-
+- (void)attachToBridge:(id <WebViewJavascriptBridgeProtocol>)bridge;
 
 @end

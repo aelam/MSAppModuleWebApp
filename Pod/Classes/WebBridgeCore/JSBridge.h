@@ -30,7 +30,6 @@ JS_EXTERN NSArray<Class> *JSGetModuleClasses(void);
 
 @property (nonatomic, weak) UIViewController *viewController;
 @property (nonatomic, weak) UIView <XWebView>*webView;
-//@property (nonatomic, weak) WKUserContentController *userContentController;
 @property (nonatomic, weak) id<WebViewJavascriptBridgeProtocol> javaScriptBridge;
 @property (nonatomic, weak) JSContext *javascriptContext;
 

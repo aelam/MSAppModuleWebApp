@@ -12,14 +12,19 @@
 #import "NSDictionary+JSONString.h"
 #import "MSWebAppInfo.h"
 #import "JSBridge.h"
+#import "UIWebView+TS_JavaScriptContext.h"
 
 @implementation JSBridgeModuleJSContext
 
 JS_EXPORT_MODULE();
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
-    JSContext *context = bridge.javascriptContext;
-//    __weak __typeof (self)weakSelf = self;
+    UIWebView *webView = bridge.webView;
+    if (![webView isKindOfClass:[UIWebView class]]) {
+        return;
+    }
+    
+    JSContext *context = webView.ts_javaScriptContext;
     __weak JSBridge *weakBridge = bridge;
     
     JSValue *goods = [context objectForKeyedSubscript:@"goods"];
@@ -27,13 +32,16 @@ JS_EXPORT_MODULE();
     BOOL (^CanOpenURL)(NSString *, NSString *) = ^BOOL(NSString *urlString, NSString *callback) {
         BOOL rs = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]];
         NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,rs];
-        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"2.9.0使用canOpenURL2({appurl:xxx},function(info){})\")"];
+        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用canOpenURL2({appurl:xxx},function(info){})\")"];
         [weakBridge.webView evaluateJavaScript:string completionHandler:NULL];
 
         return rs;
     };
     
     [goods setObject:CanOpenURL forKeyedSubscript:@"canOpenURL"];
+    
+    
+    [self registerHandler:@"canOpenURL" JSContextHandler:(id)CanOpenURL];
     
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
 
@@ -55,11 +63,14 @@ JS_EXPORT_MODULE();
     
     //
     NSString *(^getAppInfo)() = ^NSString * () {
-        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"2.9.0使用getAppInfo2(null,function(info){})\")"];
+        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用getAppInfo2(null,function(info){})\")"];
 
         return [[MSWebAppInfo getWebAppInfoWithSettings:settings] jsonString];
     };
     [goods setObject:getAppInfo forKeyedSubscript:@"getAppInfo"];
+    
+    [self registerHandler:@"getAppInfo" JSContextHandler:(id)getAppInfo];
+
 #endif
 
     

@@ -139,13 +139,28 @@ static JSBridge *JSCurrentBridgeInstance = nil;
                 }
             }
         }
+
+        NSDictionary *handlers = [module messageHandlers];
+        for(NSString *key in handlers) {
+            WVJBHandler handler = [handlers[key] copy];
+            [self.javaScriptBridge registerHandler:key handler:handler];
+        }
+
+        UIWebView *webView  = self.webView;
+        if ([webView isKindOfClass:[UIWebView class]]) {
+            NSDictionary *JSContextHandlers = [module JSContextMessageHandlers];
+            for(NSString *key in JSContextHandlers) {
+                id handler = [JSContextHandlers[key] copy];
+                [self.javascriptContext setObject:key forKeyedSubscript:handler];
+            }
+
+        }
+        
+        
+
     }
     
-    NSDictionary *handlers = [module messageHandlers];
-    for(NSString *key in [module messageHandlers]) {
-        WVJBHandler handler = [handlers[key] copy];
-        [self.javaScriptBridge registerHandler:key handler:handler];
-    }
+    
 }
 
 @end

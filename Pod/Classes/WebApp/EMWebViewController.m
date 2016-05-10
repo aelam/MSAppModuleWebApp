@@ -37,7 +37,7 @@
 #import "WKWebView+XWebView.h"
 #import "UIWebView+XWebView.h"
 
-static BOOL kEnableWKWebView = YES;
+static BOOL kEnableWKWebView = NO;
 
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
 static const BOOL kNavigationBarHidden = YES;
@@ -72,6 +72,8 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)dealloc
 {
+    self.bridge = nil;
+    
     [self.webView setUIDelegate:nil];
     self.webView  = nil;
     self.backView = nil;
@@ -426,12 +428,15 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx
 {
+    [JSBridge sharedBridge].javascriptContext = ctx;
     [[JSBridge sharedBridge] attachToBridge:self.bridge];
 }
 
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView
 {
+//    [[JSBridge sharedBridge] attachToBridge:self.bridge];
+
     [self showNetworkActivityIndicator:NO];
     
     if (self.synchronizeDocumentTitle)

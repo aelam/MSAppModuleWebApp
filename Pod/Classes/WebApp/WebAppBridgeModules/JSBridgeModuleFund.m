@@ -7,6 +7,7 @@
 //
 
 #import "JSBridgeModuleFund.h"
+#import "JSBridge.h"
 
 @implementation JSBridgeModuleFund
 
@@ -17,10 +18,14 @@ JS_EXPORT_MODULE();
 }
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
+    
 }
 
 
 - (void)registerGetAppInfoWithBridge:(JSBridge *)bridge {
+    
+    UIViewController* webViewController = bridge.viewController;
+    
 }
 
 @end

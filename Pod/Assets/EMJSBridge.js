@@ -13,6 +13,16 @@
     return params;
   }
 
+  function openPath(path, params) {
+    openPath2(AppURLScheme, path, params);
+  }
+
+  function openPath2(URLScheme, path, params) {
+    var doc = document;
+    var fullPath = URLScheme + "://" + path + "?" + ParseParam(params);
+    _createQueueReadyIframe(doc, fullPath);
+  }
+
   function _createQueueReadyIframe(doc, src) {
     messagingIframe = doc.createElement('iframe')
     messagingIframe.style.display = 'none'
@@ -20,26 +30,8 @@
     doc.documentElement.appendChild(messagingIframe);
     doc.documentElement.removeChild(messagingIframe);
   }
-
-
-  if (window.goods) {
-    return;
-  };
-
-  // 如果不支持WebViewJavascriptBridge 则使用老的方式
-  window.GoodsBridge = {
-    callHandler: function(handlerName, data, responseCallback) {
-      if (window.WebViewJavascriptBridge) {
-        window.WebViewJavascriptBridge.callHandler(handlerName, data,
-          responseCallback);
-      } else {
-        openPath(handlerName, data);
-      }
-    }
-  };
-
-  window.goods = {
-    ready: function(callback) {
+ 
+ function prepareWebViewJavascriptBridge(callback) {
       if (window.WebViewJavascriptBridge) {
         return callback(WebViewJavascriptBridge);
       }
@@ -54,16 +46,30 @@
       setTimeout(function() {
         document.documentElement.removeChild(WVJBIframe)
       }, 0)
-    },
+ }
 
-    openPath: function(path, params) {
-      openPath2(AppURLScheme, path, params);
-    },
 
-    openPath2: function(URLScheme, path, params) {
-      var doc = document;
-      var fullPath = URLScheme + "://" + path + "?" + ParseParam(params);
-      _createQueueReadyIframe(doc, fullPath);
+  if (window.goods) {
+    return;
+  };
+
+  // 如果不支持WebViewJavascriptBridge 则使用老的方式
+  window.GoodsBridge = {
+    callHandler: function(handlerName, data, responseCallback) {
+      prepareWebViewJavascriptBridge(function (){});
+ 
+      if (window.WebViewJavascriptBridge) {
+        window.WebViewJavascriptBridge.callHandler(handlerName, data,
+          responseCallback);
+      } else {
+        openPath(handlerName, data);
+      }
+    }
+  };
+
+  window.goods = {
+    ready: function(callback) {
+      prepareWebViewJavascriptBridge(callback);
     },
 
     goback: function() {
@@ -95,6 +101,9 @@
       openPath("page", params);
     },
 
+    route: function(path, params) {
+      openPath(path, params);
+    },
 
     // 页面跳转类型
     showgoods: function(stockId, fk, goodsName, subType) {
@@ -104,7 +113,7 @@
         "goodsName": goodsName,
         "fk": fk
       };
-      openPath('showgoods', params);
+      openPath('stock', params);
     },
 
     // 自选股模块
@@ -350,19 +359,19 @@
 
     // 2.9.0+ 改成回调方式
     getAppInfo2: function(params, responseCallback) {
-      WebViewJavascriptBridge.callHandler('getAppInfo2', params,
+      GoodsBridge.callHandler('getAppInfo2', params,
         responseCallback);
     },
 
     // 2.9.0+
     updateTitle: function(params, responseCallback) {
-      WebViewJavascriptBridge.callHandler('updateTitle', params,
+      GoodsBridge.callHandler('updateTitle', params,
         responseCallback);
     },
 
     // 2.9.0+
     post: function(params, responseCallback) {
-      WebViewJavascriptBridge.callHandler('updateTitle', params,
+      GoodsBridge.callHandler('updateTitle', params,
         responseCallback);
     },
 

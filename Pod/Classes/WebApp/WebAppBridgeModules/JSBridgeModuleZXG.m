@@ -9,6 +9,7 @@
 #import "JSBridgeModuleZXG.h"
 #import <JLRoutes/JLRoutes.h>
 #import "JSBridge.h"
+#import "UIWebView+TS_JavaScriptContext.h"
 
 extern BOOL User_hasStockAtZXG(NSInteger);
 
@@ -34,6 +35,11 @@ JS_EXPORT_MODULE();
 
 // IsZXG
 - (void)registerIsZXGWithBridge:(JSBridge *)bridge {
+    UIWebView *webView = bridge.webView;
+    if (![webView isKindOfClass:[UIWebView class]]) {
+        return;
+    }
+
     JSContext *context = bridge.javascriptContext;
     JSValue *goods = [context objectForKeyedSubscript:@"goods"];
 
@@ -44,7 +50,9 @@ JS_EXPORT_MODULE();
             NSInteger goodsId = [stockId integerValue];
             BOOL isZXG = User_hasStockAtZXG(goodsId);
             NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
-            [weakBridge.webView evaluateJavaScript:string completionHandler:NULL];
+            [weakBridge.webView evaluateJavaScript:string completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+                
+            }];
             return isZXG;
         } else {
             return NO;
@@ -52,6 +60,7 @@ JS_EXPORT_MODULE();
     };
     [goods setObject:IsZxg forKeyedSubscript:@"isZxg"];
 
+//    [self registerHandler:@"goods.isZxg" JSContextHandler:(id)IsZxg];
 }
 
 @end

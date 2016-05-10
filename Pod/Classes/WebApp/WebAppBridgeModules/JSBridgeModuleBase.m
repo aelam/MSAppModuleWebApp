@@ -22,17 +22,13 @@
 
 JS_EXPORT_MODULE();
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
 - (NSString *)moduleSourceFile {
     return [[NSBundle bundleForClass:[self class]] pathForResource:@"EMJSBridge" ofType:@"js"];
 }
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
+
+    [self registerLogWithBridge:bridge];
     
     [self registerGetAppInfoWithBridge:bridge];
     [self registerCopyWithBridge:bridge];
@@ -44,10 +40,10 @@ JS_EXPORT_MODULE();
     [self registerShareConfigWithBridge:bridge];
     [self registerShareWithBridge:bridge];
     [self registerSearchToggleWithBridge:bridge];
-    
+
 //    [self registerShowGoodsWithBridge:bridge];
     [self registerOpenPageWithBridge:bridge];
-    
+
     [self registerHeightChangeWithBridge:bridge];
     [self registerLoginWithBridge:bridge];
     
@@ -58,6 +54,11 @@ JS_EXPORT_MODULE();
 
 }
 
+- (void)registerLogWithBridge:(JSBridge *)bridge {
+    [self registerHandler:@"log" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"Log: %@", data);
+    }];
+}
 
 - (void)registerGetAppInfoWithBridge:(JSBridge *)bridge {
     [self registerHandler:@"getAppInfo2" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -90,7 +91,7 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerShareWithBridge:(JSBridge *)bridge {
-    EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
+    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     
     [self registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"share called: %@", data);
@@ -123,14 +124,14 @@ JS_EXPORT_MODULE();
     [self registerHandler:@"shareConfig" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"shareConfig called: %@", data);
         NSDictionary *parameters = (NSDictionary *)data;
-        if ([self respondsToSelector:@selector(setIsShareItemEnabled:)]) {
+        if ([webViewController respondsToSelector:@selector(setIsShareItemEnabled:)]) {
             BOOL showsShare = [parameters[@"shareToggle"] boolValue];
             if ([webViewController respondsToSelector:@selector(setIsShareItemEnabled:)]) {
                 [webViewController setIsShareItemEnabled:showsShare];
             }
         }
         
-        if ([self respondsToSelector:@selector(setShareEntity:)]) {
+        if ([webViewController respondsToSelector:@selector(setShareEntity:)]) {
             UIImage *appIcon = [UIImage imageNamed:@"AppIcon60x60"];
             NSString *title = parameters[@"title"];
             NSString *content = parameters[@"content"];
@@ -143,8 +144,8 @@ JS_EXPORT_MODULE();
             shareEntity.callback = callback;
             shareEntity.socialType = socialType;
             
-            if ([webViewController respondsToSelector:@selector(share:)]) {
-                [webViewController share:shareEntity];
+            if ([webViewController respondsToSelector:@selector(setShareEntity:)]) {
+                [webViewController setShareEntity:shareEntity];
             }
         }
         
@@ -209,7 +210,7 @@ JS_EXPORT_MODULE();
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     };
     
-    [self registerHandler:@"searchToggle" handler:handler];
+    [self registerHandler:@"searchConfig" handler:handler];
 }
 
 #pragma mark - JLRoutes跳转
@@ -303,7 +304,6 @@ JS_EXPORT_MODULE();
 
 // 移到search
 - (void)registerSearchWithBridge:(JSBridge *)bridge {
-//    __typeof(self)weakSelf = self;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"search"] withParameters:parameters];
@@ -315,11 +315,11 @@ JS_EXPORT_MODULE();
 
 // Base
 - (void)registerUpdateTitleWithBridge:(JSBridge *)bridge {
-    __typeof(self)weakSelf = self;
+    __weak UIViewController *viewController = bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         NSString *title = parameters[@"title"];
-        weakSelf.bridge.viewController.title = title;
+        viewController.title = title;
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     };
     

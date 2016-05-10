@@ -329,6 +329,8 @@
 		94AD65121CDE52CA00B2D803 /* WKWebView+XWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 94AD65091CDE52CA00B2D803 /* WKWebView+XWebView.h */; };
 		94AD65131CDE52CA00B2D803 /* WKWebView+XWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AD650A1CDE52CA00B2D803 /* WKWebView+XWebView.m */; };
 		94AD65141CDE52CA00B2D803 /* XWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = 94AD650B1CDE52CA00B2D803 /* XWebView.h */; };
+		94B38ACD1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 94B38ACB1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.h */; };
+		94B38ACE1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B38ACC1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.m */; };
 		94BE19551CDB5F460067E818 /* JSBridgeModuleZXG.h in Headers */ = {isa = PBXBuildFile; fileRef = 94BE19531CDB5F460067E818 /* JSBridgeModuleZXG.h */; };
 		94BE19561CDB5F460067E818 /* JSBridgeModuleZXG.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE19541CDB5F460067E818 /* JSBridgeModuleZXG.m */; };
 		94BE19591CDC2BFB0067E818 /* WebViewJavascriptBridge+JSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 94BE19571CDC2BFB0067E818 /* WebViewJavascriptBridge+JSContext.h */; };
@@ -1357,6 +1359,9 @@
 		94AD65091CDE52CA00B2D803 /* WKWebView+XWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+XWebView.h"; sourceTree = "<group>"; };
 		94AD650A1CDE52CA00B2D803 /* WKWebView+XWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+XWebView.m"; sourceTree = "<group>"; };
 		94AD650B1CDE52CA00B2D803 /* XWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XWebView.h; sourceTree = "<group>"; };
+		94B38ACB1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBridgeModuleAudioPlay.h; sourceTree = "<group>"; };
+		94B38ACC1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBridgeModuleAudioPlay.m; sourceTree = "<group>"; };
+		94B38ACF1CE0346F002EDAD6 /* EMJSBridgeAudioPlay.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = EMJSBridgeAudioPlay.js; sourceTree = "<group>"; };
 		94BE19531CDB5F460067E818 /* JSBridgeModuleZXG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBridgeModuleZXG.h; sourceTree = "<group>"; };
 		94BE19541CDB5F460067E818 /* JSBridgeModuleZXG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBridgeModuleZXG.m; sourceTree = "<group>"; };
 		94BE19571CDC2BFB0067E818 /* WebViewJavascriptBridge+JSContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WebViewJavascriptBridge+JSContext.h"; sourceTree = "<group>"; };
@@ -1887,6 +1892,7 @@
 				4B4CA5376DF1BE9051D81178115A1548 /* EMJSBridge.js */,
 				CBE355A8CBFC13E525152F60FB49971D /* EMJSBridgeFund.js */,
 				A11C3A8EB8079DEFA0070B1116EB7BCC /* EMJSBridgePay.js */,
+				94B38ACF1CE0346F002EDAD6 /* EMJSBridgeAudioPlay.js */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -1940,6 +1946,8 @@
 				4BA04B59A1DEF7336409617BEA617812 /* JSBridgeModuleFund.m */,
 				94BE19531CDB5F460067E818 /* JSBridgeModuleZXG.h */,
 				94BE19541CDB5F460067E818 /* JSBridgeModuleZXG.m */,
+				94B38ACB1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.h */,
+				94B38ACC1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.m */,
 				37D48807FFFEB02763681BFA275C287D /* JSBridgeModuleJSContext.h */,
 				FA1B84CBFE8FD2D8265590F1C6732712 /* JSBridgeModuleJSContext.m */,
 				08436D73CEB4ACD68EC61D626D4CE12D /* UIWebView+JSExtend.h */,
@@ -3238,6 +3246,7 @@
 				7C49B177DC33065FE1AFBE77B82C9D8E /* JSBridgeModuleJSContext.h in Headers */,
 				AE92C26A57B0C3DA5509C39F218FD917 /* JSDefines.h in Headers */,
 				94BE19591CDC2BFB0067E818 /* WebViewJavascriptBridge+JSContext.h in Headers */,
+				94B38ACD1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.h in Headers */,
 				21A59958623CDDBB5C7955618CADC997 /* MSAppModuleWebApp.h in Headers */,
 				DC8A053FEBF532198933C442151BF164 /* MSAppSettingsWebApp.h in Headers */,
 				2A72641FB4BE20C7D060DA6E33EEDA96 /* MSWebAppInfo.h in Headers */,
@@ -4360,6 +4369,7 @@
 				D31CEE33D8663C9C1D0B6AA29464FB9D /* MSWebAppInfo.m in Sources */,
 				1DA2B86EF15C4DBA7137F9F8945CAAD4 /* NSURL+AuthedURL.m in Sources */,
 				EC6DEA3767429603AE7ABBD9E28F88B5 /* NSURL+RoutableURL.m in Sources */,
+				94B38ACE1CE03459002EDAD6 /* JSBridgeModuleAudioPlay.m in Sources */,
 				94BE195A1CDC2BFB0067E818 /* WebViewJavascriptBridge+JSContext.m in Sources */,
 				F87FA850701C66EEF66504DB07587827 /* UIViewController+EMShare.m in Sources */,
 				88879C9FA2C774AAAEFDED39CA18E192 /* UIViewController+searchStock.m in Sources */,

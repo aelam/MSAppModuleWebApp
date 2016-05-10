@@ -53,7 +53,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'WebBridgeCore' do |ss|
     ss.source_files = 'Pod/Classes/WebBridgeCore/**/*'
-    ss.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore'
+    ss.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore', 'WebKit'
     ss.dependency 'WebViewJavascriptBridge'
 
   end

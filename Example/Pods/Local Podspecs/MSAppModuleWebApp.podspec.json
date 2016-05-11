@@ -16,11 +16,6 @@
     "ios": "7.0"
   },
   "requires_arc": true,
-  "dependencies": {
-    "WebViewJavascriptBridge": [
-
-    ]
-  },
   "subspecs": [
     {
       "name": "WebViewController",
@@ -68,8 +63,14 @@
       "frameworks": [
         "UIKit",
         "Foundation",
-        "JavaScriptCore"
-      ]
+        "JavaScriptCore",
+        "WebKit"
+      ],
+      "dependencies": {
+        "WebViewJavascriptBridge": [
+
+        ]
+      }
     }
   ]
 }

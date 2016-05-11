@@ -1,1 +1,1 @@
-../../../../../Pod/Classes/WebBridgeCore/UIWebView+TS_JavaScriptContext.h
+../../../../../Pod/Classes/WebBridgeCore/WebView/UIWebView+TS_JavaScriptContext.h

@@ -60,16 +60,12 @@ install_resource()
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "EMSpeed/EMSpeed/UIKit/FontAwesome+iOS/resource/FontAwesome.ttf"
   install_resource "../../Pod/Assets/EMJSBridge.js"
-  install_resource "../../Pod/Assets/EMJSBridgeFund.js"
-  install_resource "../../Pod/Assets/EMJSBridgePay.js"
   install_resource "WeiboSDK/libWeiboSDK/WeiboSDK.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/EMSocialKit.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "EMSpeed/EMSpeed/UIKit/FontAwesome+iOS/resource/FontAwesome.ttf"
   install_resource "../../Pod/Assets/EMJSBridge.js"
-  install_resource "../../Pod/Assets/EMJSBridgeFund.js"
-  install_resource "../../Pod/Assets/EMJSBridgePay.js"
   install_resource "WeiboSDK/libWeiboSDK/WeiboSDK.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/EMSocialKit.bundle"
 fi

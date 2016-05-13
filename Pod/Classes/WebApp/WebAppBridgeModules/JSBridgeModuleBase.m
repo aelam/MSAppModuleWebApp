@@ -43,7 +43,9 @@ JS_EXPORT_MODULE();
 
 //    [self registerShowGoodsWithBridge:bridge];
     [self registerOpenPageWithBridge:bridge];
-
+    [self registerRoutePageWithBridge:bridge];
+    [self registerRouteWithBridge:bridge];
+    
     [self registerHeightChangeWithBridge:bridge];
     [self registerLoginWithBridge:bridge];
     
@@ -226,6 +228,34 @@ JS_EXPORT_MODULE();
     
 }
 
+- (void)registerRoutePageWithBridge:(JSBridge *)bridge {
+    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+        NSDictionary *parameters = (NSDictionary *)data;
+        [JLRoutes routeURL:[NSURL URLWithString:@"page"] withParameters:parameters];
+        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+    };
+    
+    [self registerHandler:@"routePage" handler:handler];
+    
+}
+
+- (void)registerRouteWithBridge:(JSBridge *)bridge {
+    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+        NSDictionary *parameters = (NSDictionary *)data;
+        NSString *path = parameters[@"path"];
+        if (path) {
+            [JLRoutes routeURL:[NSURL URLWithString:path] withParameters:parameters];
+            responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+        } else {
+            responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeFailed)});
+        }
+    };
+    
+    [self registerHandler:@"route" handler:handler];
+    
+}
+
+
 //// showgoods
 //- (void)registerShowGoodsWithBridge:(JSBridge *)bridge {
 //    [self registerHandler:@"showgoods" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -278,7 +308,7 @@ JS_EXPORT_MODULE();
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     };
     
-    [self registerHandler:@"heightChange" handler:handler];
+//    [self registerHandler:@"heightChange" handler:handler];
 }
 
 - (void)registerLoginWithBridge:(JSBridge *)bridge {

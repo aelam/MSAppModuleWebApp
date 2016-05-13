@@ -98,11 +98,22 @@
       var params = {
         "pageId": pageId
       };
-      openPath("page", params);
+      GoodsBridge.callHandler("page", params, function(
+        response) {})
     },
 
+    // 2.9.0
+    // {pageId:104000, stockCode:2000,stockName:10000}
+    routePage: function(params) {
+      GoodsBridge.callHandler("routePage", params, function(
+        response) {})
+    },
+
+    // 2.9.0
     route: function(path, params) {
-      openPath(path, params);
+      params.path = path;
+      GoodsBridge.callHandler("route", params, function(
+        response) {})
     },
 
     // 页面跳转类型
@@ -113,7 +124,7 @@
         "goodsName": goodsName,
         "fk": fk
       };
-      openPath('stock', params);
+      goods.route('stock', params);
     },
 
     // 自选股模块
@@ -132,7 +143,7 @@
         "next": gowhere,
         "callback": callback
       };
-      openPath('login', params);
+      goods.route('login', params);
     },
 
     // Not implement
@@ -149,7 +160,7 @@
     },
 
     homepage: function() {
-      openPage("home", null);
+      goods.route('home', params);
     },
 
     // 分享模块
@@ -347,6 +358,7 @@
         "webViewheight": webViewheight,
         "type": type,
       };
+ 
       GoodsBridge.callHandler('heightChange', params, function(
         response) {})
     },

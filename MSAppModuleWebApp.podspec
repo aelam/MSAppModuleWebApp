@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
     ss.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
     ss.dependency 'RDVTabBarController'
     ss.dependency 'EMClick'
-
+    ss.dependency 'SDWebImage'
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
 
   end

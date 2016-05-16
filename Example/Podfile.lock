@@ -68,6 +68,7 @@ PODS:
     - MSRoutes
     - MSThemeKit
     - RDVTabBarController
+    - SDWebImage
     - UIColor-HexString (~> 1.1.0)
   - MSRoutes (0.1.2):
     - JLRoutes (~> 1.5.3)
@@ -83,7 +84,7 @@ PODS:
   - TencentOpenApiSDK/Basic (2.9.5)
   - UIColor-HexString (1.1.0)
   - UIImage-ResizeMagick (0.0.1)
-  - UMengAnalytics-NO-IDFA (3.6.7)
+  - UMengAnalytics-NO-IDFA (4.0.1)
   - WebViewJavascriptBridge (5.0.5)
   - WeiboSDK (3.1.3)
   - YRJSONAdapter (1.0.1)
@@ -108,7 +109,7 @@ SPEC CHECKSUMS:
   JLRoutes: d191a496b820f60d70225202d04289582da962df
   MSAppModuleKit: 4bb48f53526994a4bc2ab651af37f76dfd1ff6a1
   MSAppModuleShare: cccc9886d980db792e24111544ae1af3ba5782a8
-  MSAppModuleWebApp: e7f7bceb28134c490731578dc4cd333a92608fc9
+  MSAppModuleWebApp: c94663cb3b8143641eed2dab6f6c5490e53d0c1a
   MSRoutes: 09a729dc8d82f47a7f297bf2ab5b5c2081975db4
   MSThemeKit: 23f319260a5874dd9ba39770b4778b0dd7708fad
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
@@ -117,7 +118,7 @@ SPEC CHECKSUMS:
   TencentOpenApiSDK: a0d7716edd6eb438d65828168e8e5137301b436d
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
-  UMengAnalytics-NO-IDFA: 6d02561a00579b2e37718f204eb81347df5d7b8b
+  UMengAnalytics-NO-IDFA: 0dc13e0a7b34eaff346e7f57fc7a698f8f26cd59
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   YRJSONAdapter: 55956d3e6f6b6eadf05e734914b8d29afa0fc06b

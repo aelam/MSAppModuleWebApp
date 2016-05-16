@@ -26,6 +26,7 @@
 #import "EMSocialSDK+URLBind.h"
 #import "NSURL+AuthedURL.h"
 
+// Bridge
 #import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
 #import "UIWebView+TS_JavaScriptContext.h"
 #import "JSBridgeModule.h"
@@ -36,6 +37,12 @@
 #import "XWebView.h"
 #import "WKWebView+XWebView.h"
 #import "UIWebView+XWebView.h"
+
+// MenuItems
+#import "MSSearchMenuItem.h"
+#import "MSShareMenuItem.h"
+#import "MSCustomMenuItem.h"
+#import <SDWebImage/UIButton+WebCache.h>
 
 static BOOL kEnableWKWebView = NO;
 
@@ -175,7 +182,6 @@ static const BOOL kNavigationBarHidden = YES;
 {
     [super viewDidLoad];
     [self setUpWebView];
-//    [self bridgeWithWebView];
     
     _isPushBack = NO;
     
@@ -435,8 +441,6 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)webViewDidFinishLoad:(UIWebView*)webView
 {
-//    [[JSBridge sharedBridge] attachToBridge:self.bridge];
-
     [self showNetworkActivityIndicator:NO];
     
     if (self.synchronizeDocumentTitle)
@@ -588,6 +592,40 @@ static const BOOL kNavigationBarHidden = YES;
     
     self.navigationItem.rightBarButtonItems = items;
 }
+
+- (void)setMenuItems:(NSArray <MSMenuItemData *> *)items {
+    if (_menuItems != items) {
+        _menuItems = items;
+        [self updateRightItems2];
+    }
+}
+
+- (void)updateRightItems2 {
+    NSMutableArray *items = [NSMutableArray array];
+    
+    for(MSMenuItemData *item in _menuItems) {
+        if ([item isKindOfClass:[MSShareMenuItem class]]) {
+            [items addObject:[self shareItem]];
+        } else if ([item isKindOfClass:[MSSearchMenuItem class]]) {
+            [items addObject:[self searchItem]];
+        } else if ([item isKindOfClass:[MSCustomMenuItem class]]) {
+            MSCustomMenuItem *customMenuItem = (MSCustomMenuItem *)item;
+            UIButton *button = [[UIButton alloc] init];
+            if ([customMenuItem icon]) {
+                [button sd_setImageWithURL:[customMenuItem icon] forState:UIControlStateNormal];
+            } else {
+                [button sd_setImageWithURL:[customMenuItem title] forState:UIControlStateNormal];
+            }
+            
+            UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+            [items addObject:buttonItem];
+        }
+    }
+    
+    self.navigationItem.rightBarButtonItems = items;
+}
+
+
 
 
 #pragma mark -

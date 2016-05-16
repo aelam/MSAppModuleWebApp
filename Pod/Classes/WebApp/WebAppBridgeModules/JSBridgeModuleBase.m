@@ -15,6 +15,7 @@
 #import "BDKNotifyHUD.h"
 #import "JSBridgeModule.h"
 #import <JLRoutes/JLRoutes.h>
+#import "MSMenuItemData.h"
 
 @implementation JSBridgeModuleBase
 
@@ -27,6 +28,8 @@ JS_EXPORT_MODULE();
 }
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
+
+    [self registerShowMenuItemsWithBridge:bridge];
 
     [self registerLogWithBridge:bridge];
     
@@ -54,6 +57,15 @@ JS_EXPORT_MODULE();
     
     [self registerUpdateTitleWithBridge:bridge];
 
+}
+
+- (void)registerShowMenuItemsWithBridge:(JSBridge *)bridge {
+    
+    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
+    [self registerHandler:@"showMenuItems" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"showMenuItems: %@", data);
+        webViewController.menuItems = [MSMenuItemData itemsWithData:data];
+    }];
 }
 
 - (void)registerLogWithBridge:(JSBridge *)bridge {

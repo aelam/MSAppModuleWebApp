@@ -115,6 +115,11 @@
       GoodsBridge.callHandler("route", params, function(
         response) {})
     },
+    
+    showMenuItems:function(params) {
+      GoodsBridge.callHandler("showMenuItems", params, function(
+        response) {})
+    },
 
     // 页面跳转类型
     showgoods: function(stockId, fk, goodsName, subType) {

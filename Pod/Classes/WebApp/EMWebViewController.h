@@ -19,6 +19,7 @@
 #import "UIViewController+EMShare.h"
 #import "UIViewController+SearchStock.h"
 
+@class MSMenuItemData;
 @class EMWebBackView;
 @class EMShareEntity;
 @protocol UIViewControllerRouter;
@@ -42,11 +43,14 @@
 // Search Supports
 @property (nonatomic, assign) BOOL isSearchItemEnabled;
 
+@property (nonatomic, strong) NSArray <MSMenuItemData *> * menuItems;
+
+// 通过JLRoutes跳转的时候 可附加eventAttributes 会传入统计中去
 @property (nonatomic, strong) NSDictionary *eventAttributes;
 
 
-- (id)initWithRequest:(NSURLRequest *)request;
-- (id)initWithURL:(NSURL *)URL;
+- (instancetype)initWithURL:(NSURL *)URL;
+- (instancetype)initWithRequest:(NSURLRequest *)request;
 
 - (NSURL *)URL;
 

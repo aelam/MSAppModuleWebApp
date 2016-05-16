@@ -14,14 +14,14 @@ extern void MSMenuItemDataClasses(Class);
 @protocol MSMenuItemData <NSObject>
 
 + (NSString *)key;
++ (instancetype)itemWithData:(NSDictionary *)itemData;
 
 @end
 
 
 @interface MSMenuItemData : NSObject <MSMenuItemData>
 
++ (NSArray <MSMenuItemData *> *)itemsWithData:(NSArray *)data;
 
-
-+ (NSArray <MSMenuItemData *> *)itemsWithData:(NSDictionary *)data;
 
 @end

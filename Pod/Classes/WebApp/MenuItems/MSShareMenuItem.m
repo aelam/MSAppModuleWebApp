@@ -18,5 +18,10 @@
     return @"Share";
 }
 
++ (instancetype)itemWithData:(NSDictionary *)itemData {
+    MSShareMenuItem *item = [[self alloc] init];
+    
+    return item;
+}
 
 @end

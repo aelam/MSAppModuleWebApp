@@ -18,4 +18,14 @@
     return @"CustomItem";
 }
 
++ (instancetype)itemWithData:(NSDictionary *)itemData {
+    MSCustomMenuItem *item = [[self alloc] init];
+    item.title = itemData[@"title"];
+    item.icon = itemData[@"icon"];
+    item.action = itemData[@"action"];
+    
+    return item;
+}
+
+
 @end

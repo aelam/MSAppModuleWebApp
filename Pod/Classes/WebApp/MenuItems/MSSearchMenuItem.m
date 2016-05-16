@@ -15,7 +15,11 @@
 }
 
 + (NSString *)key {
-    return @"Share";
+    return @"Search";
+}
+
++ (instancetype)itemWithData:(NSDictionary *)itemData {
+    return [[self alloc] init];
 }
 
 

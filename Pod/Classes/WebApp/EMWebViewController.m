@@ -43,6 +43,7 @@
 #import "MSShareMenuItem.h"
 #import "MSCustomMenuItem.h"
 #import <SDWebImage/UIButton+WebCache.h>
+#import "JSMenuItemButton.h"
 
 static BOOL kEnableWKWebView = NO;
 
@@ -605,18 +606,18 @@ static const BOOL kNavigationBarHidden = YES;
     
     for(MSMenuItemData *item in _menuItems) {
         if ([item isKindOfClass:[MSShareMenuItem class]]) {
-            [items addObject:[self shareItem]];
+            if ([self respondsToSelector:@selector(shareItem)]) {
+                [items addObject:[self shareItem]];
+            }
         } else if ([item isKindOfClass:[MSSearchMenuItem class]]) {
-            [items addObject:[self searchItem]];
+            if ([self respondsToSelector:@selector(searchItem)]) {
+                [items addObject:[self searchItem]];
+            }
         } else if ([item isKindOfClass:[MSCustomMenuItem class]]) {
             MSCustomMenuItem *customMenuItem = (MSCustomMenuItem *)item;
-            UIButton *button = [[UIButton alloc] init];
-            if ([customMenuItem icon]) {
-                [button sd_setImageWithURL:[customMenuItem icon] forState:UIControlStateNormal];
-            } else {
-                [button sd_setImageWithURL:[customMenuItem title] forState:UIControlStateNormal];
-            }
-            
+            JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
+            button.menuItem = customMenuItem;
+            [button addTarget:self action:@selector(customMeunItemButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
             UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
             [items addObject:buttonItem];
         }
@@ -626,7 +627,9 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 
-
+- (void)customMeunItemButtonTapped:(JSMenuItemButton *)button {
+    [self.webView x_evaluateJavaScript:[NSString stringWithFormat:@"%@()", button.menuItem.action]];
+}
 
 #pragma mark -
 #pragma mark actions

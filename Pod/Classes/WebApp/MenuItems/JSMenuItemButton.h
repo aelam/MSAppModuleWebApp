@@ -12,5 +12,6 @@
 @interface JSMenuItemButton : UIButton
 
 @property (nonatomic, weak) MSCustomMenuItem *menuItem;
+//@property (nonatomic, strong) UIColor *tintColor;
 
 @end

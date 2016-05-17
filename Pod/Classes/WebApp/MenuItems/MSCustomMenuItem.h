@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *icon;
+@property (nonatomic, strong) NSString *tintColor;
 @property (nonatomic, strong) NSString *action;
 
 @end

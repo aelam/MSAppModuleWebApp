@@ -331,6 +331,8 @@
 		91892548E1F1C02BCDDA1348C8D59CD5 /* MSRefreshTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4500F2785B65F9D86E8DAE1D3D425089 /* MSRefreshTableFooterView.m */; };
 		91B2850EBC3EB84E69BC207E44A06769 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88B49A4B84DDD0B457031B23A9B5B1 /* UIColor+HexString.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		9248EA8506CEBF56D5AC2A003D62B294 /* SpectaUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = F51BAC6B0B00F0E0C12A2D1ACEF970FA /* SpectaUtility.m */; };
+		9409D5BB1CEAB0E1005474EB /* EMShareEntity+Parameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 9409D5B91CEAB0E1005474EB /* EMShareEntity+Parameters.h */; };
+		9409D5BC1CEAB0E1005474EB /* EMShareEntity+Parameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 9409D5BA1CEAB0E1005474EB /* EMShareEntity+Parameters.m */; };
 		943BA894A2B33B3654D49DF79B40D012 /* EMSSlideUpTransitionAnimator2.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E445D4B8572BB94BB44C371DFE28236 /* EMSSlideUpTransitionAnimator2.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94C7FB811CEA258B00FE2488 /* JSMenuItemButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 94C7FB7F1CEA258B00FE2488 /* JSMenuItemButton.h */; };
 		94C7FB821CEA258B00FE2488 /* JSMenuItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C7FB801CEA258B00FE2488 /* JSMenuItemButton.m */; };
@@ -1363,6 +1365,8 @@
 		93784A6116870782425622E9263E0C87 /* NSString+Drawing.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSString+Drawing.m"; path = "EMSpeed/MSContext/src/NSString+Drawing.m"; sourceTree = "<group>"; };
 		93DFE5D7C054DC45E303AAA37FCEEBA6 /* MSMessage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MSMessage.m; path = EMSpeed/UIKit/UIKitCollections/src/Messages/MSMessage.m; sourceTree = "<group>"; };
 		94017702AE6E8D344D1BC65CC6899049 /* EMClickDebugManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EMClickDebugManager.h; path = Pod/Classes/EMClickDebugManager.h; sourceTree = "<group>"; };
+		9409D5B91CEAB0E1005474EB /* EMShareEntity+Parameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMShareEntity+Parameters.h"; sourceTree = "<group>"; };
+		9409D5BA1CEAB0E1005474EB /* EMShareEntity+Parameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMShareEntity+Parameters.m"; sourceTree = "<group>"; };
 		944B1B175B4157BCDFAED774FED7C2D7 /* NSTimer+Pause.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSTimer+Pause.h"; path = "EMSpeed/Core/src/NSTimer+Pause.h"; sourceTree = "<group>"; };
 		94C7FB7F1CEA258B00FE2488 /* JSMenuItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMenuItemButton.h; sourceTree = "<group>"; };
 		94C7FB801CEA258B00FE2488 /* JSMenuItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMenuItemButton.m; sourceTree = "<group>"; };
@@ -2271,6 +2275,8 @@
 				86519AB0D4C01199C799BD02341CBE7D /* MSSearchMenuItem.m */,
 				CE0B615D7E4EA4F7443FF12A2029D0F5 /* MSShareMenuItem.h */,
 				F47F9C10A932C0041158B74A994D293C /* MSShareMenuItem.m */,
+				9409D5B91CEAB0E1005474EB /* EMShareEntity+Parameters.h */,
+				9409D5BA1CEAB0E1005474EB /* EMShareEntity+Parameters.m */,
 				94C7FB7F1CEA258B00FE2488 /* JSMenuItemButton.h */,
 				94C7FB801CEA258B00FE2488 /* JSMenuItemButton.m */,
 			);
@@ -3575,6 +3581,7 @@
 				A1C1DB2FA1E68A69FA2337BD1061514E /* UIWebView+XWebView.h in Headers */,
 				8C89A0BE27B16FFF3B68C5FA3338C1A5 /* WebViewJavascriptBridge+JSContext.h in Headers */,
 				B075C701A35EF1D0C2635C61F9E178F5 /* WebViewJavascriptBridgeProtocol.h in Headers */,
+				9409D5BB1CEAB0E1005474EB /* EMShareEntity+Parameters.h in Headers */,
 				32BD081572DB81D32D24504B2025DBB4 /* WKWebView+XWebView.h in Headers */,
 				B5E58F4AAE6540E99C6CA44863398A07 /* XWebView.h in Headers */,
 			);
@@ -4099,6 +4106,7 @@
 				ABA2D9FC8029D49F8EAF84C24477CE62 /* EMWebViewController.m in Sources */,
 				5B916B841F80F4C9EC058ECC65F8BB3D /* JLRoutes+WebApp.m in Sources */,
 				F747AF073A835560D08AA40BE9101811 /* JSBridge.m in Sources */,
+				9409D5BC1CEAB0E1005474EB /* EMShareEntity+Parameters.m in Sources */,
 				E5E5B57D1E8B132BA69C2548405EB645 /* JSBridgeModule.m in Sources */,
 				88FF18001EFD0235CC54A127D8486C8C /* JSBridgeModuleBase.m in Sources */,
 				1CE1838B9F5A40ACC444620B6A71FF8E /* JSBridgeModuleJSContext.m in Sources */,

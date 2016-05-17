@@ -22,7 +22,8 @@
     MSCustomMenuItem *item = [[self alloc] init];
     item.title = itemData[@"title"];
     item.icon = itemData[@"icon"];
-    item.action = itemData[@"action"];
+    item.tintColor = itemData[@"tintColor"];
+    item.action = itemData[@"callback"];
     
     return item;
 }

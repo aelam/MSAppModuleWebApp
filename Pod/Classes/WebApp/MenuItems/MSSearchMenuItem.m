@@ -10,9 +10,9 @@
 
 @implementation MSSearchMenuItem
 
-+ (void)load {
-    MSMenuItemDataClasses(self);
-}
+//+ (void)load {
+//    MSMenuItemDataClasses(self);
+//}
 
 + (NSString *)key {
     return @"Search";

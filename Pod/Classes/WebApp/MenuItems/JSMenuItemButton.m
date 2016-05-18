@@ -13,6 +13,13 @@
 
 @implementation JSMenuItemButton
 
+- (instancetype)init {
+    if (self = [super init]) {
+        self.imageEdgeInsets = UIEdgeInsetsMake(-3, 0, 0, 0);
+    }
+    return self;
+}
+
 - (void)setMenuItem:(MSCustomMenuItem *)menuItem {
     if(_menuItem != menuItem) {
         _menuItem = menuItem;
@@ -24,25 +31,34 @@
             color = [UIColor colorWithHexString:_menuItem.tintColor];
         }
         
-        if ([menuItem icon]) {
-            
-            self.imageEdgeInsets = UIEdgeInsetsMake(-3, 0, 0, 0);
-
-            [self sd_setImageWithURL:[NSURL URLWithString:[menuItem icon]] forState:UIControlStateNormal completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                UIImage *newImage = [image rt_tintedImageWithColor:color];
-                UIImage *newImage2 = [self resizeImage:newImage newSize:CGSizeMake(24, 24)];
-                [weakSelf setImage:newImage2 forState:UIControlStateNormal];
-                [weakSelf sizeToFit];
-                [weakSelf setFrame:CGRectMake(0, 0, 42, 30)];
-            }];
+        NSString *icon = [menuItem icon];
+        
+        if ([icon length] > 0) {
+            if ([icon hasPrefix:@"http"]) {
+                [self sd_setImageWithURL:[NSURL URLWithString:icon] forState:UIControlStateNormal completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    [weakSelf _setImage:image withTintColor:color];
+                }];
+            } else {
+                icon = [icon stringByReplacingOccurrencesOfString:@".png" withString:@""];
+                UIImage *image = [UIImage imageNamed:icon];
+                [weakSelf _setImage:image withTintColor:color];
+            }
         } else {
             [self setTitleColor:[weakSelf tintColor] forState:UIControlStateNormal];
-
+            
             self.titleLabel.font = [UIFont systemFontOfSize:14];
             [self setTitle:[menuItem title] forState:UIControlStateNormal];
             [weakSelf sizeToFit];
         }
     }
+}
+
+- (void)_setImage:(UIImage *)image withTintColor:(UIColor *)color {
+    UIImage *newImage = [image rt_tintedImageWithColor:color];
+    UIImage *newImage2 = [self resizeImage:newImage newSize:CGSizeMake(24, 24)];
+    [self setImage:newImage2 forState:UIControlStateNormal];
+    [self sizeToFit];
+    [self setFrame:CGRectMake(0, 0, 42, 30)];
 }
 
 - (UIImage *)resizeImage:(UIImage *)originImage newSize:(CGSize)size{

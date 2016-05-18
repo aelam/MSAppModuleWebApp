@@ -33,7 +33,7 @@ Pod::Spec.new do |s|
 
   s.subspec  'WebViewController' do |ss|
     ss.source_files = 'Pod/Classes/**/*'
-    ss.resource     = 'Pod/Assets/**/*.js'
+    ss.resource     = 'Pod/Assets/**/*.js', 'Pod/Assets/**/*.png'
 
     ss.dependency 'UIColor-HexString', '~> 1.1.0'
     ss.dependency 'MSAppModuleShare'

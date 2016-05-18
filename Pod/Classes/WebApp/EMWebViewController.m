@@ -607,6 +607,7 @@ static const BOOL kNavigationBarHidden = YES;
     NSEnumerator <MSMenuItemData *> *e = [_menuItems reverseObjectEnumerator];
     MSMenuItemData *item = nil;
     while (item = [e nextObject]) {
+#if 0
         if ([item isKindOfClass:[MSShareMenuItem class]]) {
             MSShareMenuItem *shareItem = (MSShareMenuItem *)item;
             self.shareEntity = shareItem.shareEntity;
@@ -627,6 +628,16 @@ static const BOOL kNavigationBarHidden = YES;
             UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
             [items addObject:buttonItem];
         }
+#else
+        MSCustomMenuItem *customMenuItem = (MSCustomMenuItem *)item;
+        JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
+        button.tintColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
+        button.menuItem = customMenuItem;
+        
+        [button addTarget:self action:@selector(customMeunItemButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+        [items addObject:buttonItem];
+#endif
 
     }
     

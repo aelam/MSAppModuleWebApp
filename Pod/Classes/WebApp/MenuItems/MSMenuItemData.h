@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern void MSMenuItemDataClasses(Class);
+//extern void MSMenuItemDataClasses(Class);
 
 
 @protocol MSMenuItemData <NSObject>

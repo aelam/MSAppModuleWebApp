@@ -10,13 +10,25 @@
 
 @implementation MSCustomMenuItem
 
-+ (void)load {
-    MSMenuItemDataClasses(self);
-}
+//+ (void)load {
+//    MSMenuItemDataClasses(self);
+//}
 
 + (NSString *)key {
     return @"CustomItem";
 }
+
+
++ (NSArray <MSMenuItemData *> *)itemsWithData:(NSArray *)data {
+    NSMutableArray <MSMenuItemData *>*items = [NSMutableArray array];
+    for(NSDictionary *i in data) {
+        MSMenuItemData *item = [self itemWithData:i];
+        [items addObject:item];
+    }
+    
+    return items;
+}
+
 
 + (instancetype)itemWithData:(NSDictionary *)itemData {
     MSCustomMenuItem *item = [[self alloc] init];

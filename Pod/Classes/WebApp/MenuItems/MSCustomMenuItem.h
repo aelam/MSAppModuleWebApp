@@ -15,4 +15,6 @@
 @property (nonatomic, strong) NSString *tintColor;
 @property (nonatomic, strong) NSString *action;
 
++ (NSArray <MSMenuItemData *> *)itemsWithData:(NSArray *)data;
+
 @end

@@ -15,7 +15,7 @@
 #import "BDKNotifyHUD.h"
 #import "JSBridgeModule.h"
 #import <JLRoutes/JLRoutes.h>
-#import "MSMenuItemData.h"
+#import "MSCustomMenuItem.h"
 
 @implementation JSBridgeModuleBase
 
@@ -64,8 +64,14 @@ JS_EXPORT_MODULE();
     __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     [self registerHandler:@"showMenuItems" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"showMenuItems: %@", data);
-        NSArray *menuItems = data[@"menuItems"];
-        webViewController.menuItems = [MSMenuItemData itemsWithData:menuItems];
+        NSDictionary *parameters  = data;
+        if ([parameters isKindOfClass:[NSString class]]) {
+            NSData *jsondata = [data dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *jsonError = nil;
+            parameters = [NSJSONSerialization JSONObjectWithData:jsondata options:kNilOptions error:&jsonError];
+        }
+        NSArray *menuItems = parameters[@"menuItems"];
+        webViewController.menuItems = [MSCustomMenuItem itemsWithData:menuItems];
     }];
 }
 

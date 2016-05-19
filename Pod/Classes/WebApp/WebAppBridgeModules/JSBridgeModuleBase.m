@@ -56,6 +56,10 @@ JS_EXPORT_MODULE();
     [self registerUpdateUserInfoWithBridge:bridge];
     
     [self registerUpdateTitleWithBridge:bridge];
+    
+    
+    [self registerOpenURLWithBridge:bridge];
+
 
 }
 
@@ -375,5 +379,18 @@ JS_EXPORT_MODULE();
     [self registerHandler:@"updateTitle" handler:handler];
 }
 
+- (void)registerOpenURLWithBridge:(JSBridge *)bridge {
+    __weak UIViewController *viewController = bridge.viewController;
+    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+        NSDictionary *parameters = (NSDictionary *)data;
+        
+        EMWebViewController *webViewController = [[EMWebViewController alloc] initWithRouterParams:parameters];
+        
+        [viewController.navigationController pushViewController:webViewController animated:YES];
+        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+    };
+    
+    [self registerHandler:@"web" handler:handler];
+}
 
 @end

@@ -31,7 +31,7 @@
 }
 
 - (void)moduleUnregisterRoutes:(JLRoutes *)route {
-    [route registerRoutesForWebApp];
+//    [route registerRoutesForWebApp];
 }
 
 @end

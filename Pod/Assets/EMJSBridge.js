@@ -59,8 +59,21 @@
       prepareWebViewJavascriptBridge(function (){});
  
       if (window.WebViewJavascriptBridge) {
-        window.WebViewJavascriptBridge.callHandler(handlerName, data,
-          responseCallback);
+        var parameters = data;
+        if (typeof(data) === "string") {
+          parameters = JSON.parse(data);
+        }
+        
+        if(responseCallback) {
+          window.WebViewJavascriptBridge.callHandler(handlerName, parameters, responseCallback);
+        } else {
+          window.WebViewJavascriptBridge.callHandler(handlerName, parameters, function(result){
+            var callback = parameters["callback"]; 
+            if (callback) {
+              eval(callback)(result);  
+            }
+          });
+        }
       } else {
         openPath(handlerName, data);
       }

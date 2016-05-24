@@ -48,6 +48,8 @@ Pod::Spec.new do |s|
     ss.dependency 'SDWebImage'
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
     ss.dependency 'UIImage+RTTint', '~> 1.0.0'
+    ss.dependency 'Masonry'
+
   end
 
 

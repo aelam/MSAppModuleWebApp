@@ -16,7 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - Aspects (1.4.1)
   - DXYWeChatSDK (1.5.1)
-  - EMClick (0.1.13):
+  - EMClick (0.1.14):
     - AFNetworking
     - Aspects (~> 1.4.1)
     - EMSpeed/Network
@@ -44,6 +44,7 @@ PODS:
     - EMSpeed/UIKit/UIColors
   - Expecta (1.0.5)
   - JLRoutes (1.5.5)
+  - Masonry (1.0.0)
   - MSAppModuleKit (0.0.13):
     - JLRoutes
     - MSRoutes
@@ -62,6 +63,7 @@ PODS:
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
     - EMSpeed/UIKit/UIKitCollections
+    - Masonry
     - MSAppModuleKit
     - MSAppModuleShare
     - MSAppModuleWebApp/WebBridgeCore
@@ -70,6 +72,7 @@ PODS:
     - RDVTabBarController
     - SDWebImage
     - UIColor-HexString (~> 1.1.0)
+    - UIImage+RTTint (~> 1.0.0)
   - MSRoutes (0.1.2):
     - JLRoutes (~> 1.5.3)
   - MSThemeKit (0.1.1):
@@ -83,6 +86,7 @@ PODS:
     - TencentOpenApiSDK/Basic (= 2.9.5)
   - TencentOpenApiSDK/Basic (2.9.5)
   - UIColor-HexString (1.1.0)
+  - UIImage+RTTint (1.0.0)
   - UIImage-ResizeMagick (0.0.1)
   - UMengAnalytics-NO-IDFA (4.0.1)
   - WebViewJavascriptBridge (5.0.5)
@@ -102,14 +106,15 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   DXYWeChatSDK: 6a23dbf67a4545bfc80e3e18f9b5cf0c98699576
-  EMClick: 1d2a3ea42b8284c80150daf3bc5aff3f6f395383
+  EMClick: 398d917b0dfb5f278dd8df223ce367180c7635af
   EMSocialKit: ed7c06bde9feb06dceb7f99cc331893409106fa9
   EMSpeed: 1e5e400932f31e854f3eba569538a0a00c96de0e
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   JLRoutes: d191a496b820f60d70225202d04289582da962df
+  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   MSAppModuleKit: 4bb48f53526994a4bc2ab651af37f76dfd1ff6a1
   MSAppModuleShare: cccc9886d980db792e24111544ae1af3ba5782a8
-  MSAppModuleWebApp: c94663cb3b8143641eed2dab6f6c5490e53d0c1a
+  MSAppModuleWebApp: 7811770124d416d4de0abdf134f1ee4b9816cec4
   MSRoutes: 09a729dc8d82f47a7f297bf2ab5b5c2081975db4
   MSThemeKit: 23f319260a5874dd9ba39770b4778b0dd7708fad
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
@@ -117,6 +122,7 @@ SPEC CHECKSUMS:
   Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
   TencentOpenApiSDK: a0d7716edd6eb438d65828168e8e5137301b436d
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
+  UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51
   UIImage-ResizeMagick: f08c2d14d1e8a5f0b402185408785540562f2fe7
   UMengAnalytics-NO-IDFA: 0dc13e0a7b34eaff346e7f57fc7a698f8f26cd59
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5

@@ -60,12 +60,24 @@ install_resource()
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "EMSpeed/EMSpeed/UIKit/FontAwesome+iOS/resource/FontAwesome.ttf"
   install_resource "../../Pod/Assets/EMJSBridge.js"
+  install_resource "../../Pod/Assets/web_icon_logo@2x.png"
+  install_resource "../../Pod/Assets/web_icon_logo@3x.png"
+  install_resource "../../Pod/Assets/web_search@2x.png"
+  install_resource "../../Pod/Assets/web_search@3x.png"
+  install_resource "../../Pod/Assets/web_share@2x.png"
+  install_resource "../../Pod/Assets/web_share@3x.png"
   install_resource "WeiboSDK/libWeiboSDK/WeiboSDK.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/EMSocialKit.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "EMSpeed/EMSpeed/UIKit/FontAwesome+iOS/resource/FontAwesome.ttf"
   install_resource "../../Pod/Assets/EMJSBridge.js"
+  install_resource "../../Pod/Assets/web_icon_logo@2x.png"
+  install_resource "../../Pod/Assets/web_icon_logo@3x.png"
+  install_resource "../../Pod/Assets/web_search@2x.png"
+  install_resource "../../Pod/Assets/web_search@3x.png"
+  install_resource "../../Pod/Assets/web_share@2x.png"
+  install_resource "../../Pod/Assets/web_share@3x.png"
   install_resource "WeiboSDK/libWeiboSDK/WeiboSDK.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/EMSocialKit.bundle"
 fi

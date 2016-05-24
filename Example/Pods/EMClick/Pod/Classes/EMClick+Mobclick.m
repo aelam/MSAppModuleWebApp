@@ -8,7 +8,7 @@
 
 #import "EMClick+Mobclick.h"
 #ifdef HAS_MOBCLICK
-#import <MobClick.h>
+#import <UMMobClick/MobClick.h>
 #endif
 
 @implementation EMClick (Mobclick)
@@ -35,7 +35,12 @@
         policy = SEND_INTERVAL;
     }
     NSAssert(appkey, @"appkey cann't be nil");
-    [MobClick startWithAppkey:appkey reportPolicy:policy channelId:channelId];
+    
+    UMConfigInstance.appKey = appkey;
+    UMConfigInstance.ePolicy = policy;
+    UMConfigInstance.channelId = channelId;
+    [MobClick startWithConfigure:UMConfigInstance];
+
     //   reportPolicy为枚举类型,可以为 REALTIME, BATCH,SENDDAILY,SENDWIFIONLY几种
     //   channelId 为NSString * 类型，channelId 为nil或@""时,默认会被被当作@"App Store"渠道
 #endif /* HAS_MOBCLICK */

@@ -29,6 +29,7 @@ BOOL User_hasStockAtZXG(int a) {
     [MSThemeManager registerThemes:@[@"white", @"black"]
                            modules:@[@"showgoods",@"info"]];
     
+    [MSThemeManager changeTheme:@"white"];
     
     return YES;
 }

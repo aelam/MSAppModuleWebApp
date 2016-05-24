@@ -20,7 +20,10 @@
     {
       "name": "WebViewController",
       "source_files": "Pod/Classes/**/*",
-      "resources": "Pod/Assets/**/*.js",
+      "resources": [
+        "Pod/Assets/**/*.js",
+        "Pod/Assets/**/*.png"
+      ],
       "dependencies": {
         "UIColor-HexString": [
           "~> 1.1.0"
@@ -56,6 +59,12 @@
 
         ],
         "MSAppModuleWebApp/WebBridgeCore": [
+
+        ],
+        "UIImage+RTTint": [
+          "~> 1.0.0"
+        ],
+        "Masonry": [
 
         ]
       }

@@ -122,6 +122,7 @@ JS_EXPORT_MODULE();
         NSLog(@"share called: %@", data);
         NSDictionary *parameters = (NSDictionary *)data;
         
+        UIImage *appIcon = [UIImage imageNamed:@"AppIcon60x60"];
         NSString *title = parameters[@"title"];
         NSString *content = parameters[@"content"];
         NSString *postUrl = parameters[@"url"];
@@ -131,7 +132,7 @@ JS_EXPORT_MODULE();
         NSInteger socialType = [parameters[@"id"] integerValue];
         NSString *callback = parameters[@"callback"];
         
-        EMShareEntity *shareEntity = [[EMShareEntity alloc] initShareEntityTitle:title Description:content Image:nil Url:postUrl ImageUrl:imageUrl];
+        EMShareEntity *shareEntity = [[EMShareEntity alloc] initShareEntityTitle:title Description:content Image:appIcon Url:postUrl ImageUrl:imageUrl];
         shareEntity.iconUrl = iconUrl;
         shareEntity.socialType = socialType;
         shareEntity.callback = callback;

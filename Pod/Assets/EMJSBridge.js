@@ -227,7 +227,7 @@
         "wordslimit": wordslimit,
         "callback": callback
       };
-      openPath("writePost", params);
+      goods.route("writePost", params);
     },
 
     sendPost: function(barId, barType, topicType, title, content,
@@ -242,7 +242,7 @@
         "wordslimit": wordslimit,
         "callback": callback
       };
-      openPath("sendPost", params);
+      goods.route("sendPost", params);
     },
 
     reply: function(topidid, quotoid, wordslimit, replyTo, callback) {
@@ -253,7 +253,7 @@
         "replyTo": replyTo,
         "callback": callback
       };
-      openPath("reply", params);
+      goods.route("reply", params);
     },
 
     replyHalfScreen: function(topicId, postId, wordLimit, replyTo, callback) {
@@ -264,14 +264,14 @@
         "replyTo": replyTo,
         "callback": callback
       };
-      openPath("replyHalfScreen", params);
+      goods.route("replyHalfScreen", params);
     },
 
     myFunsTopics: function(userId) {
       var params = {
         "userId": userId
       };
-      openPath("friendList", params);
+      goods.route("friendList", params);
     },
 
     openCommentList: function(url, topicId) {
@@ -279,7 +279,7 @@
         "url": url,
         "topicId": topicId
       };
-      openPath("commentList", params);
+      goods.route("commentList", params)
     },
 
     // 用户信息模块
@@ -320,12 +320,12 @@
         "title": title,
         "videoStatus": videoStatus
       };
-      openPath("playVideo", params);
+      goods.route("playVideo", params);
     },
 
 
     openAccount: function() {
-      openPath("openAccount", params);
+      goods.route("openAccount", params);
     },
 
 
@@ -401,7 +401,7 @@
 
     // 2.9.0+
     post: function(params, responseCallback) {
-      GoodsBridge.callHandler('updateTitle', params,
+      GoodsBridge.callHandler('post', params,
         responseCallback);
     },
 

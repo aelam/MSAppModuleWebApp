@@ -67,7 +67,9 @@ JS_EXPORT_MODULE();
     
     __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     [self registerHandler:@"showMenuItems" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"showMenuItems: %@", data);
+        if (![webViewController respondsToSelector:@selector(setMenuItems:)]) {
+            return;
+        }
         NSDictionary *parameters  = data;
         if ([parameters isKindOfClass:[NSString class]]) {
             NSData *jsondata = [data dataUsingEncoding:NSUTF8StringEncoding];

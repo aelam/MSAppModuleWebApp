@@ -60,19 +60,19 @@
     CGSize imageSize = self.imageView.frame.size;
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(imageSize);
-        make.center.mas_equalTo(superView);
+        make.center.mas_equalTo(superView).centerOffset(CGPointMake(0, -15));
     }];
 
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(superView.imageView.mas_bottom).with.offset(7);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(16);
         make.left.and.right.equalTo(superView);
     }];
 
 
     [self.subtitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(superView.titleLabel.mas_bottom).with.offset(2);
-        make.height.mas_equalTo(20);
+        make.top.equalTo(superView.titleLabel.mas_bottom).with.offset(1);
+        make.height.mas_equalTo(16);
         make.left.and.right.equalTo(superView);
     }];
 

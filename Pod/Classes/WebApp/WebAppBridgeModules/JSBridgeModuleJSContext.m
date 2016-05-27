@@ -19,7 +19,7 @@
 JS_EXPORT_MODULE();
 
 - (void)attachToJSBridge:(JSBridge *)bridge {
-    UIWebView *webView = bridge.webView;
+    UIWebView *webView = (UIWebView <XWebView> *)bridge.webView;
     if (![webView isKindOfClass:[UIWebView class]]) {
         return;
     }
@@ -33,7 +33,9 @@ JS_EXPORT_MODULE();
         BOOL rs = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]];
         NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,rs];
         [weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用canOpenURL2({appurl:xxx},function(info){})\")"];
-        [weakBridge.webView evaluateJavaScript:string completionHandler:NULL];
+        [weakBridge.webView evaluateJavaScript:string completionHandler:^(id result, NSError * _Nullable error) {
+            
+        }];
 
         return rs;
     };

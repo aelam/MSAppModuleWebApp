@@ -24,7 +24,9 @@
 
 - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^ __nullable)(__nullable id, NSError * __nullable error))completionHandler {
     NSString *rs = [self stringByEvaluatingJavaScriptFromString:javaScriptString];
-    completionHandler(rs, NULL);
+    if (completionHandler) {
+        completionHandler(rs, NULL);
+    }
 }
 
 

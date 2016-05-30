@@ -10,14 +10,9 @@
 
 @implementation MSCustomMenuItem
 
-//+ (void)load {
-//    MSMenuItemDataClasses(self);
-//}
-
 + (NSString *)key {
     return @"CustomItem";
 }
-
 
 + (NSArray <MSMenuItemData *> *)itemsWithData:(NSArray *)data {
     NSMutableArray <MSMenuItemData *>*items = [NSMutableArray array];

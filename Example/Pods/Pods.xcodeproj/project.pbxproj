@@ -2130,7 +2130,7 @@
 		<dict>
 			<key>children</key>
 			<array>
-				<string>3DA17BC66939C4C92EDFC787B07D08E6</string>
+				<string>34A6AC912A46775D3D8BB7D865EF05ED</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -4849,6 +4849,19 @@
 				</array>
 			</dict>
 		</dict>
+		<key>34A6AC912A46775D3D8BB7D865EF05ED</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>CC0F2FC6A750BE7E2D06558BF52A2F9B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>3511AE7ADBB71D05565854F0E70B7D08</key>
 		<dict>
 			<key>fileRef</key>
@@ -5483,19 +5496,6 @@
 					<string>Public</string>
 				</array>
 			</dict>
-		</dict>
-		<key>3DA17BC66939C4C92EDFC787B07D08E6</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9B5607BE884E9049189148D9A75A6482</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
 		</dict>
 		<key>3E27B0BC0DCDCB54D1241BF0942757F4</key>
 		<dict>
@@ -14517,19 +14517,6 @@
 				</array>
 			</dict>
 		</dict>
-		<key>9B5607BE884E9049189148D9A75A6482</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>UMMobClick.framework</string>
-			<key>path</key>
-			<string>umsdk_IOS_analyics_no-idfa_v4.0.1/UMMobClick.framework</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
 		<key>9B6AA6A1A4C597BE39DE7C022F26BD10</key>
 		<dict>
 			<key>containerPortal</key>
@@ -19191,6 +19178,19 @@
 			<string>sourcecode.c.h</string>
 			<key>path</key>
 			<string>JSBridgeModuleJSContext.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>CC0F2FC6A750BE7E2D06558BF52A2F9B</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>UMMobClick.framework</string>
+			<key>path</key>
+			<string>umsdk_IOS_analyics_no-idfa_v4.0.3/UMMobClick.framework</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>

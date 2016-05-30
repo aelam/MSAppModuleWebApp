@@ -11,6 +11,9 @@
 @implementation EMShareEntity (Parameters)
 
 + (instancetype)shareEntityWithParameters:(NSDictionary *)parameters {
+    if(![parameters isKindOfClass:[NSDictionary class]]) {
+        return nil;
+    }
     
     UIImage *appIcon = [UIImage imageNamed:@"AppIcon60x60"];
     NSString *title = parameters[@"title"];

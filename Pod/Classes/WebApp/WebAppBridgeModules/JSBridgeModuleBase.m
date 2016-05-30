@@ -16,6 +16,7 @@
 #import "JSBridgeModule.h"
 #import <JLRoutes/JLRoutes.h>
 #import "MSCustomMenuItem.h"
+#import "EMShareEntity+Parameters.h"
 
 @implementation JSBridgeModuleBase
 
@@ -44,12 +45,10 @@ JS_EXPORT_MODULE();
     [self registerShareWithBridge:bridge];
     [self registerSearchToggleWithBridge:bridge];
 
-//    [self registerShowGoodsWithBridge:bridge];
     [self registerOpenPageWithBridge:bridge];
     [self registerRoutePageWithBridge:bridge];
     [self registerRouteWithBridge:bridge];
     
-    [self registerHeightChangeWithBridge:bridge];
     [self registerLoginWithBridge:bridge];
     
     [self registerSearchWithBridge:bridge];
@@ -124,22 +123,8 @@ JS_EXPORT_MODULE();
         NSLog(@"share called: %@", data);
         NSDictionary *parameters = (NSDictionary *)data;
         
-        UIImage *appIcon = [UIImage imageNamed:@"AppIcon60x60"];
-        NSString *title = parameters[@"title"];
-        NSString *content = parameters[@"content"];
-        NSString *postUrl = parameters[@"url"];
-        NSString *imageUrl = parameters[@"imageurl"];
-        NSString *iconUrl = parameters[@"iconUrl"];
-        
-        NSInteger socialType = [parameters[@"id"] integerValue];
-        NSString *callback = parameters[@"callback"];
-        
-        EMShareEntity *shareEntity = [[EMShareEntity alloc] initShareEntityTitle:title Description:content Image:appIcon Url:postUrl ImageUrl:imageUrl];
-        shareEntity.iconUrl = iconUrl;
-        shareEntity.socialType = socialType;
-        shareEntity.callback = callback;
-
         if ([webViewController respondsToSelector:@selector(share:)]) {
+            EMShareEntity *shareEntity = [EMShareEntity shareEntityWithParameters:parameters];
             [webViewController share:shareEntity];
         }
         
@@ -160,21 +145,8 @@ JS_EXPORT_MODULE();
         }
         
         if ([webViewController respondsToSelector:@selector(setShareEntity:)]) {
-            UIImage *appIcon = [UIImage imageNamed:@"AppIcon60x60"];
-            NSString *title = parameters[@"title"];
-            NSString *content = parameters[@"content"];
-            NSString *postUrl = parameters[@"url"];
-            NSString *imageUrl = parameters[@"imageurl"];
-            NSInteger socialType = [parameters[@"id"] integerValue];
-            NSString *callback = parameters[@"callback"];
-            
-            EMShareEntity *shareEntity = [[EMShareEntity alloc] initShareEntityTitle:title Description:content Image:appIcon Url:postUrl ImageUrl:imageUrl];
-            shareEntity.callback = callback;
-            shareEntity.socialType = socialType;
-            
-            if ([webViewController respondsToSelector:@selector(setShareEntity:)]) {
-                [webViewController setShareEntity:shareEntity];
-            }
+            EMShareEntity *shareEntity = [EMShareEntity shareEntityWithParameters:parameters];
+            [webViewController setShareEntity:shareEntity];
         }
         
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
@@ -281,60 +253,12 @@ JS_EXPORT_MODULE();
     
 }
 
-
-//// showgoods
-//- (void)registerShowGoodsWithBridge:(JSBridge *)bridge {
-//    [self registerHandler:@"showgoods" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSDictionary *parameters = (NSDictionary *)data;
-//        [JLRoutes routeURL:[NSURL URLWithString:@"showgoods"] withParameters:parameters];
-//        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-//    }];
-//}
-
 - (void)registerCheckTaskStatusWithBridge:(JSBridge *)bridge {
     [self registerHandler:@"checkTaskStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"checkTaskStatus"] withParameters:parameters];
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     }];
-}
-
-// openAccount
-//- (void)registerOpenAccountWithBridge:(JSBridge *)bridge {
-//    __typeof(self)weakSelf = self;
-//    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-//        NSDictionary *parameters = (NSDictionary *)data;
-//        [JLRoutes routeURL:[NSURL URLWithString:@"openAccount"] withParameters:parameters];
-//        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-//    };
-//    
-//    [self registerHandler:@"openAccount" handler:handler];
-//    
-//}
-
-//// 移到社区
-//// commentList
-//- (void)registerOpenCommentListWithBridge:(JSBridge *)bridge {
-//    __typeof(self)weakSelf = self;
-//    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-//        NSDictionary *parameters = (NSDictionary *)data;
-//        [JLRoutes routeURL:[NSURL URLWithString:@"commentList"] withParameters:parameters];
-//        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-//    };
-//    
-//    [self registerHandler:@"commentList" handler:handler];
-//    
-//}
-
-
-- (void)registerHeightChangeWithBridge:(JSBridge *)bridge {
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"heightChange"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-//    [self registerHandler:@"heightChange" handler:handler];
 }
 
 - (void)registerLoginWithBridge:(JSBridge *)bridge {

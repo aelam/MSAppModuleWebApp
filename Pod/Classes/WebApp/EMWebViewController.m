@@ -302,7 +302,7 @@ static const BOOL kNavigationBarHidden = YES;
         __weak __typeof(UIView<XWebView> *) webView = self.webView;
         self.errorView.tapBlock = ^() {
             [weakSelf hideErrorView];
-            [webView x_loadRequest:self.loadRequest];
+            [webView x_loadRequest:weakSelf.loadRequest];
         };
     }
     self.errorView.frame = self.webView.bounds;

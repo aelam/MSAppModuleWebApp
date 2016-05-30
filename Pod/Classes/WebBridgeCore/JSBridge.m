@@ -146,7 +146,7 @@ static JSBridge *JSCurrentBridgeInstance = nil;
             [self.javaScriptBridge registerHandler:key handler:handler];
         }
 
-        UIWebView *webView  = self.webView;
+        UIWebView *webView  = (UIWebView *)self.webView;
         if ([webView isKindOfClass:[UIWebView class]]) {
             NSDictionary *JSContextHandlers = [module JSContextMessageHandlers];
             for(NSString *key in JSContextHandlers) {

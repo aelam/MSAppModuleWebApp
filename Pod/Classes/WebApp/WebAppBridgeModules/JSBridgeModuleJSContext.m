@@ -47,22 +47,22 @@ JS_EXPORT_MODULE();
     
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
 
-#warning 实现自选股JS
-#if 1
+//#warning 实现自选股JS
+#if 0
     //
-//    BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
-//        if (&User_hasStockAtZXG) {
-//            NSInteger goodsId = [stockId integerValue];
-////            BOOL isZXG = User_hasStockAtZXG(goodsId);
-//            NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
-////            [weakSelf stringByEvaluatingJavaScriptFromString:string];
-//            return isZXG;
-//        } else {
-//            return NO;
-//        }
-//    };
-//    [goods setObject:IsZxg forKeyedSubscript:@"isZxg"];
-    
+    BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
+        if (&User_hasStockAtZXG) {
+            NSInteger goodsId = [stockId integerValue];
+            BOOL isZXG = User_hasStockAtZXG(goodsId);
+            NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
+            [weakSelf stringByEvaluatingJavaScriptFromString:string];
+            return isZXG;
+        } else {
+            return NO;
+        }
+    };
+    [goods setObject:IsZxg forKeyedSubscript:@"isZxg"];
+#endif
     //
     NSString *(^getAppInfo)() = ^NSString * () {
         [weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用getAppInfo2(null,function(info){})\")"];
@@ -73,7 +73,6 @@ JS_EXPORT_MODULE();
     
     [self registerHandler:@"getAppInfo" JSContextHandler:(id)getAppInfo];
 
-#endif
 
     
 }

@@ -420,11 +420,11 @@
   document.dispatchEvent(ev);
 } ());
 
-document.addEventListener("DOMContentLoaded", function () {
+window.onload = function () {
   //炒盘技巧--区分是否有此任务
-  if (typeof (clientGoods) != "undefined" && clientGoods != null && typeof (
-    clientGoods.initTasks) != "undefined" && clientGoods.initTasks != null) {
+  if (typeof (clientGoods) != "undefined" && clientGoods != null &&
+    typeof (clientGoods.initTasks) != "undefined" &&
+    clientGoods.initTasks != null) {
     clientGoods.initTasks();
   }
-
-})
+}

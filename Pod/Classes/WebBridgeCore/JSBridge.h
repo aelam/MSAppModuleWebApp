@@ -43,4 +43,6 @@ JS_EXTERN NSArray<Class> *JSGetModuleClasses(void);
 
 - (void)attachToBridge:(id <WebViewJavascriptBridgeProtocol>)bridge;
 
+- (void)reset;
+
 @end

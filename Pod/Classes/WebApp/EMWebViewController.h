@@ -26,15 +26,15 @@
 @protocol XWebView;
 
 
-@interface EMWebViewController : UIViewController<UIWebViewDelegate, UIViewControllerRouter, UIViewControllerShareSupport, UIViewControllerSearchSupport>
+@interface EMWebViewController : UIViewController<UIViewControllerRouter, UIViewControllerShareSupport, UIViewControllerSearchSupport>
 {
-
+    
 }
 
 @property (nonatomic, assign) BOOL synchronizeDocumentTitle;//navbar同步页面document的title，default is yes
 
 @property (nonatomic, strong, readonly) UIView<XWebView> *webView;
-@property (nonatomic, assign,getter=isCloseButtonShown) BOOL showsCloseButton; // Default YES
+@property (nonatomic, assign, getter = isCloseButtonShown) BOOL showsCloseButton; // Default YES
 
 // Share Supports
 @property (nonatomic, strong) EMShareEntity *shareEntity;
@@ -43,7 +43,7 @@
 // Search Supports
 @property (nonatomic, assign) BOOL isSearchItemEnabled;
 
-@property (nonatomic, strong) NSArray <MSMenuItemData *> * menuItems;
+@property (nonatomic, strong) NSArray <MSMenuItemData *> *menuItems;
 
 // 通过JLRoutes跳转的时候 可附加eventAttributes 会传入统计中去
 @property (nonatomic, strong) NSDictionary *eventAttributes;
@@ -54,9 +54,9 @@
 
 - (NSURL *)URL;
 
-- (void)openURL:(NSURL*)URL;
-- (void)openRequest:(NSURLRequest*)request;
-- (void)openHTMLString:(NSString*)htmlString baseURL:(NSURL*)baseUrl;
+- (void)openURL:(NSURL *)URL;
+- (void)openRequest:(NSURLRequest *)request;
+- (void)openHTMLString:(NSString *)htmlString baseURL:(NSURL *)baseUrl;
 
 
 + (Class)webViewClass; // 子类重写
@@ -66,16 +66,3 @@
 - (void)share:(EMShareEntity *)shareEntity;
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -52,16 +52,16 @@ static BOOL kEnableWKWebView = NO;
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
 static const BOOL kNavigationBarHidden = YES;
 
-@interface EMWebViewController () <UIViewControllerRouter, WKUIDelegate, WKNavigationDelegate>
+@interface EMWebViewController () <UIWebViewDelegate, UIViewControllerRouter, WKUIDelegate, WKNavigationDelegate>
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;
-
+    
     NSString *_currentURLString;
     BOOL _isPushBack;
-
+    
     BOOL _isLoadedError;
-
+    
 }
 
 @property (nonatomic, strong) UIView *statusBarBackView;
@@ -85,8 +85,11 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)dealloc {
+    [self.jsBridge reset];
+    
     self.bridge = nil;
-
+    self.jsBridge = nil;
+    
     [self.webView setUIDelegate:nil];
     self.webView = nil;
     self.backView = nil;
@@ -95,15 +98,15 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (instancetype)initWithRouterParams:(NSDictionary *)params {
-
+    
     NSString *urlString = params[@"url"];
-
+    
     NSURL *url = [NSURL URLWithString:urlString];
     self = [self initWithURL:url];
-
+    
     if (self) {
         self.eventAttributes = [self eventAttributesFromJLRoutesParams:params];
-
+        
         NSString *navigationBarHidden = params[@"navigationBarHidden"];
         NSString *navigaionBarHidden = params[@"navigaionBarHidden"]; // 之前的拼写错误
         if (navigationBarHidden.length > 0) {
@@ -114,7 +117,7 @@ static const BOOL kNavigationBarHidden = YES;
             navigationBarStatus = 0;
         }
     }
-
+    
     return self;
 }
 
@@ -138,19 +141,19 @@ static const BOOL kNavigationBarHidden = YES;
     if (self) {
         self.hidesBottomBarWhenPushed = YES;
         self.synchronizeDocumentTitle = YES;
-
+        
         if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
             self.edgesForExtendedLayout = UIRectEdgeAll;
         }
-
+        
         [self setShowsCloseButton:YES];
-
+        
         if (request) {
             [self openRequest:request];
         }
     }
-
-
+    
+    
     return self;
 }
 
@@ -181,9 +184,9 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpWebView];
-
+    
     _isPushBack = NO;
-
+    
     if (nil != self.loadRequest) {
         [self.webView x_loadRequest:self.loadRequest];
     }
@@ -196,16 +199,16 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
     [self changeTabbarStatus];
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
-
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
+    
     if (_isPushBack) {
         [self trackBackFromViewDidAppear];
         _isPushBack = NO;
@@ -214,16 +217,16 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
+    
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
-
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self endTrackingLastPage];
-
+    
     _isPushBack = YES;
 }
 
@@ -236,34 +239,34 @@ static const BOOL kNavigationBarHidden = YES;
     // [[JSBridge sharedBridge] attachToBridge:self.bridge];调用的时机不一样
     // WKWebView通过userContentController 注入脚本
     // UIWebView在获取JSContext的时候注入脚本
-
+    
     if (NSClassFromString(@"WKWebView") && kEnableWKWebView) {
         [WKWebViewJavascriptBridge enableLogging];
-
+        
         WKUserContentController *userContentController = [[WKUserContentController alloc] init];
-
+        
         WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
         configuration.userContentController = userContentController;
-
+        
         // 显示WKWebView
         WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
         wkWebView.UIDelegate = self; // 设置WKUIDelegate代理
         wkWebView.navigationDelegate = self; // 设置WKNavigationDelegate代理
         [self.view addSubview:wkWebView];
-
+        
         _webView = (UIView<XWebView> *)wkWebView;
-
+        
         [self bridgeWithWebView];
-
+        
         [[JSBridge sharedBridge] attachToBridge:self.bridge];
-
+        
     } else {
         [WebViewJavascriptBridge enableLogging];
-
+        
         UIWebView *webView = [[[[self class] webViewClass] alloc] initWithFrame:self.view.bounds];
         webView.backgroundColor = [UIColor colorForKey:@"common_bgColor"];
         webView.scrollView.backgroundColor = [UIColor colorForKey:@"common_bgColor"];
-
+        
         webView.opaque = NO;
         webView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         webView.scrollView.clipsToBounds = YES;
@@ -271,25 +274,27 @@ static const BOOL kNavigationBarHidden = YES;
         webView.scalesPageToFit = YES;
         [self.view addSubview:webView];
         _webView = (UIView<XWebView> *)webView;
-
+        
         [self bridgeWithWebView];
     }
 }
 
 - (void)bridgeWithWebView {
-
+    
     if (!self.bridge) {
-
+        
         if ([_webView isKindOfClass:[WKWebView class]]) {
             self.bridge = [WKWebViewJavascriptBridge bridgeForWebView:(WKWebView *)_webView];
         } else {
             self.bridge = [WebViewJavascriptBridge bridgeForWebView:(UIWebView *)_webView];
         }
-
+        
         [self.bridge setWebViewDelegate:self];
         [JSBridge sharedBridge].javaScriptBridge = self.bridge;
         [JSBridge sharedBridge].viewController = self;
         [JSBridge sharedBridge].webView = _webView;
+        
+        self.jsBridge = [JSBridge sharedBridge];
     }
 }
 
@@ -297,7 +302,7 @@ static const BOOL kNavigationBarHidden = YES;
     if (!self.errorView) {
         self.errorView = [[EMWebErrorView alloc] initWithFrame:self.view.bounds];
         [self.webView addSubview:self.errorView];
-
+        
         __weak __typeof(self) weakSelf = self;
         __weak __typeof(UIView<XWebView> *) webView = self.webView;
         self.errorView.tapBlock = ^() {
@@ -331,7 +336,7 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)changeNavigaiotnBarColor {
-
+    
 }
 
 - (void)reloadTitle {        //提取页面的标题作为当前controller的标题
@@ -360,7 +365,7 @@ static const BOOL kNavigationBarHidden = YES;
         } else {
             self.statusBarBackView.frame = topBarRect;
         }
-
+        
         self.statusBarBackView.backgroundColor = [UIColor colorForKey:@"common_webStatusBarColor"];
         [self.view addSubview:self.statusBarBackView];
     } else {
@@ -383,7 +388,7 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self showNetworkActivityIndicator:NO];
     NSLog(@"%@ %zd", error.domain, error.code);
-
+    
     if (-1202 == error.code) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                         message:@"请确认网页的证书"
@@ -400,15 +405,15 @@ static const BOOL kNavigationBarHidden = YES;
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
-
+    
     NSURL *url = request.URL;
-
+    
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         if ([url.scheme isEqualToString:@"tel"] ||
             [url.scheme isEqualToString:@"telprompt"]) {
             NSString *phoneNum = url.resourceSpecifier;
             MSMakePhoneCall(phoneNum);
-
+            
             return NO;
         } else if ([url.scheme isEqualToString:@"sms"]) {
             return NO;
@@ -417,16 +422,16 @@ static const BOOL kNavigationBarHidden = YES;
         [JLRoutes routeURL:url];
         return NO;
     }
-
+    
     [self showNetworkActivityIndicator:YES];
     self.loadRequest = request;
-
+    
     if ([[[url scheme] lowercaseString] hasPrefix:@"http"] ||
         [[[url scheme] lowercaseString] hasPrefix:@"file"]
         ) {
         [self beginTrackingEventsWithURL:url];
     }
-
+    
     return YES;
 }
 
@@ -443,14 +448,14 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self showNetworkActivityIndicator:NO];
-
+    
     if (self.synchronizeDocumentTitle) {
         [self reloadTitle];
     }
-
+    
     self.backView.showGoBack = self.webView.canGoBack;
     [self updateNavigationBarByMeta];
-
+    
     if (!_longPress) {
         _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(coverWebviewAction:)];
         _longPress.minimumPressDuration = 0.4;
@@ -477,8 +482,8 @@ static const BOOL kNavigationBarHidden = YES;
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定"
                                                         style:UIAlertActionStyleCancel
                                                       handler:^(UIAlertAction *action) {
-        completionHandler();
-    }]];
+                                                          completionHandler();
+                                                      }]];
     [self presentViewController:alertController animated:YES completion:^{}];
 }
 
@@ -487,13 +492,13 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
-
+    
 }
 
 #pragma mark -
 - (void)updateNavigationBarByMeta {
     NSString *js = kNavigaionBarHiddenMetaJS;
-
+    
     __block BOOL hide = NO;
     __weak typeof(self) weakSelf = self;
     [self.webView evaluateJavaScript:js completionHandler:^(id _Nullable hiddenObject, NSError *_Nullable error) {
@@ -524,7 +529,7 @@ static const BOOL kNavigationBarHidden = YES;
         [self showTopStatusBarViewWithNavigationBarHidden:NO];
         [self updateWebViewPropertiesWithNavigationBarHidden:NO];
     }
-
+    
     if (changed) {
     }
 }
@@ -543,7 +548,7 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)openRequest:(NSURLRequest *)request {
     self.loadRequest = request;
-
+    
     if ([self isViewLoaded]) {
         if (nil != request) {
             [self.webView x_loadRequest:request];
@@ -570,7 +575,7 @@ static const BOOL kNavigationBarHidden = YES;
         _isSearchItemEnabled = isSearchItemEnabled;
         [self updateRightItems];
     }
-
+    
 }
 
 - (void)updateRightItems {
@@ -578,11 +583,11 @@ static const BOOL kNavigationBarHidden = YES;
     if (_isSearchItemEnabled) {
         [items addObject:[self searchItem]];
     }
-
+    
     if (_isShareItemEnabled) {
         [items addObject:[self shareItem]];
     }
-
+    
     self.navigationItem.rightBarButtonItems = items;
 }
 
@@ -595,7 +600,7 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)updateRightItems2 {
     NSMutableArray *items = [NSMutableArray array];
-
+    
     NSEnumerator <MSMenuItemData *> *e = [_menuItems reverseObjectEnumerator];
     MSMenuItemData *item = nil;
     while (item = [e nextObject]) {
@@ -615,7 +620,7 @@ static const BOOL kNavigationBarHidden = YES;
             JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
             button.tintColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
             button.menuItem = customMenuItem;
-
+            
             [button addTarget:self action:@selector(customMeunItemButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
             UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
             [items addObject:buttonItem];
@@ -625,14 +630,14 @@ static const BOOL kNavigationBarHidden = YES;
         JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
         button.tintColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
         button.menuItem = customMenuItem;
-
+        
         [button addTarget:self action:@selector(customMeunItemButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
         [items addObject:buttonItem];
 #endif
-
+        
     }
-
+    
     self.navigationItem.rightBarButtonItems = items;
 }
 
@@ -724,11 +729,11 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)share:(EMShareEntity *)shareEntity {
     [EMClick event:@"web:share" attributes:self.eventAttributes];
     NSString *callback = shareEntity.callback;
-
+    
     [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
         EMSocialType socialType = 0;
         NSInteger statusCode = 0;
-
+        
         NSString *message = nil;
         if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
             message = returnedInfo[EMActivityWeiboStatusMessageKey];
@@ -752,7 +757,7 @@ static const BOOL kNavigationBarHidden = YES;
                     statusCode = -1;
                 }
             }
-
+            
         } else if ([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
             message = returnedInfo[EMActivityWeChatStatusMessageKey];
             socialType = EMSocialTypeMoments;
@@ -776,7 +781,7 @@ static const BOOL kNavigationBarHidden = YES;
                 }
             }
         }
-
+        
         if (callback.length > 0) {
             NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
             [_webView x_evaluateJavaScript:script];
@@ -800,21 +805,21 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)beginTrackingEventsWithURL:(NSURL *)url {
     [self endTrackingLastPage];
-
+    
     _currentURLString = [url absoluteString];
-
+    
     [EMClick beginLogPageView:@"web"];
 }
 
 - (void)endTrackingLastPage {
-
+    
     if (_currentURLString.length > 0) {
         __block NSMutableDictionary *atrributes = [NSMutableDictionary dictionary];
         if (self.eventAttributes) {
             [atrributes addEntriesFromDictionary:self.eventAttributes];
         }
         atrributes[@"url"] = _currentURLString;
-
+        
         [self getRemoteTitleWithHandler:^(NSString *title) {
             if (title && title.length) {
                 atrributes[@"title"] = title;
@@ -826,13 +831,13 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (NSDictionary *)eventAttributesFromJLRoutesParams:(NSDictionary *)params {
     NSMutableDictionary *eventsAtrributes = [params mutableCopy];
-
+    
     [eventsAtrributes removeObjectForKey:kJLRoutePatternKey];
     [eventsAtrributes removeObjectForKey:kJLRouteURLKey];
     [eventsAtrributes removeObjectForKey:kJLRouteNamespaceKey];
     [eventsAtrributes removeObjectForKey:kJLRouteWildcardComponentsKey];
     [eventsAtrributes removeObjectForKey:kJLRoutesGlobalNamespaceKey];
-
+    
     return eventsAtrributes;
 }
 

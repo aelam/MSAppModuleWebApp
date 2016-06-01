@@ -139,13 +139,13 @@ static JSBridge *JSCurrentBridgeInstance = nil;
                 }
             }
         }
-
+        
         NSDictionary *handlers = [module messageHandlers];
         for(NSString *key in handlers) {
             WVJBHandler handler = [handlers[key] copy];
             [self.javaScriptBridge registerHandler:key handler:handler];
         }
-
+        
         UIWebView *webView  = (UIWebView *)self.webView;
         if ([webView isKindOfClass:[UIWebView class]]) {
             NSDictionary *JSContextHandlers = [module JSContextMessageHandlers];
@@ -153,14 +153,16 @@ static JSBridge *JSCurrentBridgeInstance = nil;
                 id handler = [JSContextHandlers[key] copy];
                 [self.javascriptContext setObject:key forKeyedSubscript:handler];
             }
-
+            
         }
-        
-        
-
     }
-    
-    
+}
+
+- (void)reset {
+    self.viewController = nil;
+    self.webView = nil;
+    self.javaScriptBridge = nil;
+    self.javascriptContext = nil;
 }
 
 @end

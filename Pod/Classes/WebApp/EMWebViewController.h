@@ -26,7 +26,7 @@
 @protocol XWebView;
 
 
-@interface EMWebViewController : UIViewController<UIViewControllerRouter, UIViewControllerShareSupport, UIViewControllerSearchSupport>
+@interface EMWebViewController : UIViewController<UIWebViewDelegate, UIViewControllerRouter, UIViewControllerShareSupport, UIViewControllerSearchSupport>
 {
     
 }

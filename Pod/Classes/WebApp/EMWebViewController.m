@@ -52,7 +52,7 @@ static BOOL kEnableWKWebView = NO;
 static NSString *const kNavigaionBarHiddenMetaJS = @"document.getElementsByName('app-navigation-bar-hidden')[0].getAttribute('content')";
 static const BOOL kNavigationBarHidden = YES;
 
-@interface EMWebViewController () <UIWebViewDelegate, UIViewControllerRouter, WKUIDelegate, WKNavigationDelegate>
+@interface EMWebViewController () <UIViewControllerRouter, WKUIDelegate, WKNavigationDelegate>
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;
@@ -258,7 +258,7 @@ static const BOOL kNavigationBarHidden = YES;
         
         [self bridgeWithWebView];
         
-        [[JSBridge sharedBridge] attachToBridge:self.bridge];
+        [self.jsBridge attachToBridge:self.bridge];
         
     } else {
         [WebViewJavascriptBridge enableLogging];
@@ -290,11 +290,12 @@ static const BOOL kNavigationBarHidden = YES;
         }
         
         [self.bridge setWebViewDelegate:self];
-        [JSBridge sharedBridge].javaScriptBridge = self.bridge;
-        [JSBridge sharedBridge].viewController = self;
-        [JSBridge sharedBridge].webView = _webView;
         
-        self.jsBridge = [JSBridge sharedBridge];
+        self.jsBridge = [JSBridge new];
+        
+        self.jsBridge.javaScriptBridge = self.bridge;
+        self.jsBridge.viewController = self;
+        self.jsBridge.webView = _webView;
     }
 }
 
@@ -408,16 +409,13 @@ static const BOOL kNavigationBarHidden = YES;
     
     NSURL *url = request.URL;
     
-    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        if ([url.scheme isEqualToString:@"tel"] ||
-            [url.scheme isEqualToString:@"telprompt"]) {
-            NSString *phoneNum = url.resourceSpecifier;
-            MSMakePhoneCall(phoneNum);
-            
-            return NO;
-        } else if ([url.scheme isEqualToString:@"sms"]) {
-            return NO;
-        }
+    if ([url.scheme isEqualToString:@"tel"] ||
+        [url.scheme isEqualToString:@"telprompt"]) {
+        NSString *phoneNum = url.resourceSpecifier;
+        return MSMakePhoneCall(phoneNum);
+        
+    } else if ([url.scheme isEqualToString:@"sms"]) {
+        return NO;
     } else if ([[settings supportsURLSchemes] containsObject:url.scheme]) {
         [JLRoutes routeURL:url];
         return NO;
@@ -442,8 +440,8 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx {
-    [JSBridge sharedBridge].javascriptContext = ctx;
-    [[JSBridge sharedBridge] attachToBridge:self.bridge];
+    self.jsBridge.javascriptContext = ctx;
+    [self.jsBridge attachToBridge:self.bridge];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {

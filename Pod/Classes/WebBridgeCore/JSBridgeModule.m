@@ -8,7 +8,7 @@
 
 #import "JSBridgeModule.h"
 
-NSString * const JSResponseErrorCodeKey    = @"code";
+NSString * const JSResponseErrorCodeKey    = @"status";
 NSString * const JSResponseErrorMessageKey = @"message";
 NSString * const JSResponseErrorDataKey    = @"data";
 

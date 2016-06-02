@@ -60,8 +60,6 @@ static const BOOL kNavigationBarHidden = YES;
     NSString *_currentURLString;
     BOOL _isPushBack;
     
-    BOOL _isLoadedError;
-    
 }
 
 @property (nonatomic, strong) UIView *statusBarBackView;
@@ -388,9 +386,10 @@ static const BOOL kNavigationBarHidden = YES;
 #pragma mark UIWebView delegate
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self showNetworkActivityIndicator:NO];
-    NSLog(@"%@ %zd", error.domain, error.code);
+    NSLog(@"%zd %@", error.code,[error localizedDescription]);
     
-    if (-1202 == error.code) {
+    if([error code] == NSURLErrorCancelled /* -999 */) {
+    } else if (error.code == NSURLErrorServerCertificateUntrusted /* -1202 */) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                         message:@"请确认网页的证书"
                                                        delegate:nil
@@ -398,7 +397,6 @@ static const BOOL kNavigationBarHidden = YES;
                                               otherButtonTitles:@"确定", nil];
         [alert show];
     } else {
-        _isLoadedError = YES;
         [self showErrorView];
     }
 }
@@ -424,19 +422,21 @@ static const BOOL kNavigationBarHidden = YES;
     [self showNetworkActivityIndicator:YES];
     self.loadRequest = request;
     
-    if ([[[url scheme] lowercaseString] hasPrefix:@"http"] ||
-        [[[url scheme] lowercaseString] hasPrefix:@"file"]
-        ) {
-        [self beginTrackingEventsWithURL:url];
-    }
-    
     return YES;
 }
 
 #pragma mark -
 #pragma mark UIWebView delegate
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    _isLoadedError = NO;
+    
+    NSURL *url = [self.loadRequest URL];
+    
+    if ([[[url scheme] lowercaseString] hasPrefix:@"http"] ||
+        [[[url scheme] lowercaseString] hasPrefix:@"file"]
+        ) {
+        [self beginTrackingEventsWithURL:url];
+    }
+    
 }
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx {

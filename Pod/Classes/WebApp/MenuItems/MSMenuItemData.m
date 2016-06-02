@@ -18,4 +18,9 @@
     return nil;
 }
 
++ (NSArray <MSMenuItemData *> *)itemsWithData:(NSArray *)data {
+    return nil;
+}
+
+
 @end

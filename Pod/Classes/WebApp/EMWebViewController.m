@@ -406,21 +406,21 @@ static const BOOL kNavigationBarHidden = YES;
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
     
     NSURL *url = request.URL;
-    
-    if ([url.scheme isEqualToString:@"tel"] ||
-        [url.scheme isEqualToString:@"telprompt"]) {
-        NSString *phoneNum = url.resourceSpecifier;
-        return MSMakePhoneCall(phoneNum);
-        
-    } else if ([url.scheme isEqualToString:@"sms"]) {
-        return NO;
+    NSString *lowercaseScheme = [[url scheme] lowercaseString];
+                                 
+    if ([lowercaseScheme isEqualToString:@"tel"] ||
+        [lowercaseScheme isEqualToString:@"telprompt"] ||
+        [lowercaseScheme isEqualToString:@"sms"]) {
+        return YES;
     } else if ([[settings supportsURLSchemes] containsObject:url.scheme]) {
         [JLRoutes routeURL:url];
         return NO;
+    } else if ([lowercaseScheme hasPrefix:@"http"] ||
+        [lowercaseScheme hasPrefix:@"file"]
+        ) {
+        [self showNetworkActivityIndicator:YES];
+        self.loadRequest = request;
     }
-    
-    [self showNetworkActivityIndicator:YES];
-    self.loadRequest = request;
     
     return YES;
 }

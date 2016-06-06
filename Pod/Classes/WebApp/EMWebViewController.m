@@ -589,6 +589,36 @@ static const BOOL kNavigationBarHidden = YES;
     self.navigationItem.rightBarButtonItems = items;
 }
 
+- (UIBarButtonItem *)shareItem {
+    MSCustomMenuItem *customMenuItem = [MSCustomMenuItem new];
+    customMenuItem.icon = @"web_share";
+    
+    JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
+    button.tintColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
+    button.menuItem = customMenuItem;
+    
+    [button addTarget:self action:@selector(doShare) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+
+    return buttonItem;
+}
+
+- (UIBarButtonItem *)searchItem {
+    MSCustomMenuItem *customMenuItem = [MSCustomMenuItem new];
+    customMenuItem.icon = @"web_search";
+
+    JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
+    button.tintColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
+    button.menuItem = customMenuItem;
+    
+    [button addTarget:self action:@selector(doSearch) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    return buttonItem;
+}
+
+
+
 - (void)setMenuItems:(NSArray <MSMenuItemData *> *)items {
     if (_menuItems != items) {
         _menuItems = items;
@@ -720,6 +750,12 @@ static const BOOL kNavigationBarHidden = YES;
     [EMClick event:@"web:search" attributes:self.eventAttributes];
     if ([super respondsToSelector:_cmd]) {
         [super doSearch];
+    }
+}
+
+- (void)doShare {
+    if (self.shareEntity) {
+        [self share:self.shareEntity];
     }
 }
 

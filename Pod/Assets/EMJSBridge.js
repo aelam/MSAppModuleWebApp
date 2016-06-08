@@ -309,13 +309,13 @@
     },
 
     // 视频播放
-    playVideo: function (id, videoresourcetype, videoUrl, domain, meetingid, title) {
+    playVideo: function (id, videoresourcetype, videoUrl, domain, mettingid, title) {
         var params = {
         "id": id,
         "videoresourcetype": videoresourcetype,
         "videoUrl": videoUrl,
         "domain": domain,
-        "meetingid": meetingid,
+        "mettingid": mettingid,
         "title": title
     };
     goods.route("playVideo", params);

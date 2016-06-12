@@ -818,7 +818,12 @@ static const BOOL kNavigationBarHidden = YES;
         
         if (callback.length > 0) {
             NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
-            [_webView x_evaluateJavaScript:script];
+            // FIXME: 在callback指明却不实现的情况直接使用webview会卡死
+            if (self.jsBridge.javascriptContext) {
+                [self.jsBridge.javascriptContext evaluateScript:script];
+            } else {
+                [_webView x_evaluateJavaScript:script];
+            }
         } else {
             if (message.length > 0) {
                 [BDKNotifyHUD showNotifHUDWithText:message];

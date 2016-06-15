@@ -17,6 +17,14 @@ typedef NS_ENUM(NSInteger, JSResponseErrorCode)  {
     JSResponseErrorCodeFailed   = -2
 };
 
+typedef NS_ENUM(NSInteger, JSBridgeModulePriority)  {
+    JSBridgeModulePriorityHigh  = 1000,
+    JSBridgeModulePriorityNormal= 500,
+    JSBridgeModulePriorityLow   = 0
+};
+
+
+
 extern NSString * const JSResponseErrorCodeKey;
 extern NSString * const JSResponseErrorMessageKey;
 extern NSString * const JSResponseErrorDataKey;

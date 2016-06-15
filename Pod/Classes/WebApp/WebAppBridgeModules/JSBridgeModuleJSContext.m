@@ -18,13 +18,17 @@
 
 JS_EXPORT_MODULE();
 
+- (NSUInteger)priority {
+    return JSBridgeModulePriorityLow;
+}
+
 - (void)attachToJSBridge:(JSBridge *)bridge {
     UIWebView *webView = (UIWebView <XWebView> *)bridge.webView;
     if (![webView isKindOfClass:[UIWebView class]]) {
         return;
     }
     
-    JSContext *context = webView.ts_javaScriptContext;
+    JSContext *context = bridge.javascriptContext;
     __weak JSBridge *weakBridge = bridge;
     
     JSValue *goods = [context objectForKeyedSubscript:@"goods"];

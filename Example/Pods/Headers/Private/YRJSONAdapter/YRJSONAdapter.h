@@ -1,1 +1,0 @@
-../../../YRJSONAdapter/YRJSONAdapter/YRJSONAdapter.h

@@ -31,7 +31,7 @@ NSString * const JSResponseErrorDataKey    = @"data";
 }
 
 - (NSUInteger)priority {
-    return 100;
+    return JSBridgeModulePriorityNormal;
 }
 
 - (NSString *)moduleSourceFile {

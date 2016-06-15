@@ -24,6 +24,10 @@
 
 JS_EXPORT_MODULE();
 
+- (NSUInteger)priority {
+    return JSBridgeModulePriorityHigh;
+}
+
 - (NSString *)moduleSourceFile {
     return [[NSBundle bundleForClass:[self class]] pathForResource:@"EMJSBridge" ofType:@"js"];
 }

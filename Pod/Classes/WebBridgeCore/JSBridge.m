@@ -98,10 +98,28 @@ static JSBridge *JSCurrentBridgeInstance = nil;
     
     NSMutableSet *moduleClasses = [NSMutableSet new];
     [moduleClasses addObjectsFromArray:JSGetModuleClasses()];
-    
+
     for (Class c in moduleClasses) {
         id <JSBridgeModule> module = [c new];
         [_modules addObject:module];
+    }
+    
+    // sort
+    [_modules sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        id <JSBridgeModule> module1 = obj1;
+        id <JSBridgeModule> module2 = obj2;
+        
+        if([module1 priority] > [module2 priority]) {
+            return NSOrderedAscending;
+        } else if([module1 priority] == [module2 priority]) {
+            return NSOrderedSame;
+        } else {
+            return NSOrderedDescending;
+        }
+    }];
+    
+    // load
+    for(id <JSBridgeModule> module in _modules) {
         //TODO 更好的方式?
         [self setBridgeForInstance:module];
         [module attachToJSBridge:self];

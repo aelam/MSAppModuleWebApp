@@ -8,18 +8,18 @@
 
 Pod::Spec.new do |s|
   s.name             = "MSAppModuleWebApp"
-  s.version          = "0.1.20"
+  s.version          = "0.1.21"
   s.summary          = "MSAppModuleWebApp"
 
   s.description      = <<-DESC
     MSAppModuleWebApp
 * [x]JS
-* [ ]MenuConfig
+* [x]MenuConfig
 ** [x]Share
 ** [x]Search
 * [x]ZXG
 * [x]Theme
-* []Routes
+* [x]Routes
                        DESC
 
   s.homepage         = "http://ph.benemind.com/diffusion/WEBAPP"

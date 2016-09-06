@@ -418,15 +418,15 @@ static const BOOL kNavigationBarHidden = YES;
     } else if ([lowercaseScheme hasPrefix:@"http"] ||
         [lowercaseScheme hasPrefix:@"file"]
         ) {
-        [self showNetworkActivityIndicator:YES];
         self.loadRequest = request;
     }
     
     return YES;
 }
 
-#pragma mark -
-#pragma mark UIWebView delegate
+// 使用hash跳转不会进入- (void)webViewDidFinishLoad:(UIWebView *)webView
+// 所以在里面-shouldStartLoadWithRequest 中调用[self showNetworkActivityIndicator:YES];
+// Indicator 无法再-webViewDidFinishLoad中停止
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     
     NSURL *url = [self.loadRequest URL];
@@ -434,6 +434,7 @@ static const BOOL kNavigationBarHidden = YES;
     if ([[[url scheme] lowercaseString] hasPrefix:@"http"] ||
         [[[url scheme] lowercaseString] hasPrefix:@"file"]
         ) {
+        [self showNetworkActivityIndicator:YES];
         [self beginTrackingEventsWithURL:url];
     }
     

@@ -10,6 +10,7 @@
 #import <MSAppModuleKit/MSAppModuleKit.h>
 
 typedef NSDictionary *(^MSWebAppAuthInfo)(void);
+typedef BOOL (^MSUserHasZXGHandler)(NSInteger);
 
 @protocol MSAppSettingsWebApp <MSAppSettings>
 
@@ -22,5 +23,6 @@ typedef NSDictionary *(^MSWebAppAuthInfo)(void);
 @property (nonatomic, strong, readonly) NSString *mainURLScheme;
 
 @property (nonatomic,  copy) MSWebAppAuthInfo webAppAuthInfo;
+@property (nonatomic,  copy) MSUserHasZXGHandler userHasZXGHandler;
 
 @end

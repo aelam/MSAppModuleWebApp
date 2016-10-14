@@ -13,23 +13,13 @@
 #import <EMSpeed/MSCore.h>
 
 //TODO
-extern int User_hasStockAtZXG(NSInteger);
-
+//extern int User_hasStockAtZXG(NSInteger);
 
 @implementation UIWebView (JSExtend)
 
 - (void)attachExtendActionsWithContext:(JSContext *)context {
 
     __weak __typeof (self)weakSelf = self;
-    
-//    JSValue *JSCBridge = [context objectForKeyedSubscript:@"JSCBridge"];
-//    if ([JSCBridge isUndefined] || ![JSCBridge isArray]){
-//        [self stringByEvaluatingJavaScriptFromString:@"window.JSCBridge = {}"];
-//        
-//    }
-//
-//    JSCBridge = [context objectForKeyedSubscript:@"JSCBridge"];
-//    
     
     JSValue *goods = [context objectForKeyedSubscript:@"goods"];
     if ([goods isUndefined] || ![goods toDictionary]){
@@ -50,11 +40,30 @@ extern int User_hasStockAtZXG(NSInteger);
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
 
 #if 1
-    // TODO isZXG
+//    // TODO isZXG
+//    BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
+//        if (&User_hasStockAtZXG) {
+//            NSInteger goodsId = [stockId integerValue];
+//            BOOL isZXG = User_hasStockAtZXG(goodsId);
+//
+//            id<MSAppSettingsWebApp>appSettings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
+//            BOOL isZXG = appSettings.userHasZXG(goodsId);
+//            
+//            NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
+//            [weakSelf stringByEvaluatingJavaScriptFromString:string];
+//            return isZXG;
+//        } else {
+//            return NO;
+//        }
+//    };
+    
     BOOL (^IsZxg)(NSString *, NSString *callback) = ^BOOL(NSString *stockId, NSString *callback) {
-        if (&User_hasStockAtZXG) {
+        id<MSAppSettingsWebApp>appSettings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
+        
+        if (appSettings.userHasZXGHandler) {
             NSInteger goodsId = [stockId integerValue];
-            BOOL isZXG = User_hasStockAtZXG(goodsId);
+            BOOL isZXG = appSettings.userHasZXGHandler(goodsId);
+            
             NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,isZXG];
             [weakSelf stringByEvaluatingJavaScriptFromString:string];
             return isZXG;
@@ -62,6 +71,8 @@ extern int User_hasStockAtZXG(NSInteger);
             return NO;
         }
     };
+
+    
     [goods setObject:IsZxg forKeyedSubscript:@"isZxg"];
 
     //

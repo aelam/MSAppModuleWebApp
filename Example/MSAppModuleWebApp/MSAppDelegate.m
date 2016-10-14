@@ -22,7 +22,7 @@ BOOL User_hasStockAtZXG(int a) {
 {
 
     EMAppSettings *appSettings = [EMAppSettings appSettings];
-    
+    appSettings.userHasZXG = 
     [MSAppModuleController appModuleControllerWithSettings:appSettings];
     [appModuleManager addModule:[MSAppModuleWebApp new]];
     

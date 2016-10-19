@@ -106,7 +106,9 @@ NSObject
 @property (nonatomic, strong, readwrite) NSString *mainURLScheme;
 @property (nonatomic, strong) NSArray *supportsURLSchemes;
 @property (nonatomic,   copy) MSWebAppAuthInfo webAppAuthInfo;
-#elif MSAppModuleSettingsOnlineTrade
+@property (nonatomic,  copy) MSUserHasZXGHandler userHasZXGHandler;
+
+#elif __MODULE_ONLINE_TRADE_ENABLED__
 @property (nonatomic, strong, readwrite) NSString *mainURLScheme;
 #endif /* __MODULE_WEB_APP_ENABLED__ */
 

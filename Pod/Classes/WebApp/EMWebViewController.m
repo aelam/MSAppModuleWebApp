@@ -846,7 +846,13 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)beginTrackingEventsWithURL:(NSURL *)url {
     [self endTrackingLastPage];
     
-    _currentURLString = [url absoluteString];
+    NSString *scheme = url.scheme;
+    NSString *host = url.host;
+    NSString *relativePath = url.relativePath;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@//%@%@",scheme,host,relativePath];
+
+    _currentURLString = urlString;
     
     [EMClick beginLogPageView:@"web"];
 }

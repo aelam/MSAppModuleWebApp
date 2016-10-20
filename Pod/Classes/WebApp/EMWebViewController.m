@@ -850,7 +850,7 @@ static const BOOL kNavigationBarHidden = YES;
     NSString *host = url.host;
     NSString *relativePath = url.relativePath;
     
-    NSString *urlString = [NSString stringWithFormat:@"%@//%@%@",scheme,host,relativePath];
+    NSString *urlString = [NSString stringWithFormat:@"%@://%@%@",scheme,host,relativePath];
 
     _currentURLString = urlString;
     

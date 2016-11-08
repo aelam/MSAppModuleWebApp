@@ -16,50 +16,54 @@ PODS:
     - AFNetworking/NSURLSession
   - Aspects (1.4.1)
   - DXYWeChatSDK (1.5.1)
-  - EMClick (0.2.1):
-    - EMClick/Basic (= 0.2.1)
-  - EMClick/Basic (0.2.1):
+  - EMClick (0.2.4):
+    - EMClick/Basic (= 0.2.4)
+    - MSAppModuleKit
+    - Statue (~> 0.1.0)
+  - EMClick/Basic (0.2.4):
     - AFNetworking
     - Aspects (~> 1.4.1)
     - EMSpeed/Network
     - EMSpeed/UIKit/Core
+    - MSAppModuleKit
+    - Statue (~> 0.1.0)
     - YRJSONAdapter (~> 1.0.1)
   - EMSocialKit (0.1.9):
     - DXYWeChatSDK (~> 1.5.1)
     - TencentOpenApiSDK (~> 2.9.5)
     - UIImage-ResizeMagick@NoWarnings (~> 0.0.2)
     - WeiboSDK (~> 3.0)
-  - EMSpeed/Core (0.3.3)
-  - EMSpeed/MSContext (0.3.3)
-  - EMSpeed/Network (0.3.3):
+  - EMSpeed/Core (0.3.4)
+  - EMSpeed/MSContext (0.3.4)
+  - EMSpeed/Network (0.3.4):
     - AFNetworking
     - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/Core (0.3.3):
+  - EMSpeed/UIKit/Core (0.3.4):
     - EMSpeed/Core
-  - EMSpeed/UIKit/FontAwesome+iOS (0.3.3)
-  - EMSpeed/UIKit/UIColors (0.3.3):
+  - EMSpeed/UIKit/FontAwesome+iOS (0.3.4)
+  - EMSpeed/UIKit/UIColors (0.3.4):
     - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/UIKitCollections (0.3.3):
+  - EMSpeed/UIKit/UIKitCollections (0.3.4):
     - EMSpeed/MSContext
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/UIColors
+    - Masonry
   - Expecta (1.0.5)
   - JLRoutes (1.5.5)
   - Masonry (1.0.2)
-  - MSAppModuleKit (0.0.14):
-    - JLRoutes
+  - MSAppModuleKit (0.0.16):
     - MSRoutes
   - MSAppModuleShare (0.1.4):
     - EMSocialKit
     - EMSpeed/Core
     - MSAppModuleKit
     - SDWebImage
-  - MSAppModuleWebApp (0.1.21):
-    - MSAppModuleWebApp/WebBridgeCore (= 0.1.21)
-    - MSAppModuleWebApp/WebViewController (= 0.1.21)
-  - MSAppModuleWebApp/WebBridgeCore (0.1.21):
+  - MSAppModuleWebApp (0.2.2):
+    - MSAppModuleWebApp/WebBridgeCore (= 0.2.2)
+    - MSAppModuleWebApp/WebViewController (= 0.2.2)
+  - MSAppModuleWebApp/WebBridgeCore (0.2.2):
     - WebViewJavascriptBridge
-  - MSAppModuleWebApp/WebViewController (0.1.21):
+  - MSAppModuleWebApp/WebViewController (0.2.2):
     - EMClick
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -83,6 +87,7 @@ PODS:
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - Specta (1.0.5)
+  - Statue (0.1.0)
   - TencentOpenApiSDK (2.9.5):
     - TencentOpenApiSDK/Basic (= 2.9.5)
   - TencentOpenApiSDK/Basic (2.9.5)
@@ -100,26 +105,27 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MSAppModuleWebApp:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   DXYWeChatSDK: 6a23dbf67a4545bfc80e3e18f9b5cf0c98699576
-  EMClick: 16bd89bd51b20ae112edefe19619562a32fac632
+  EMClick: f3cac1586a24c2d3660ce017e38b59a9937f5bbc
   EMSocialKit: 346b5322f8b3c3a73305e6bbf7a7c3a8d51bde6e
-  EMSpeed: ab153acafdecf57ca3001415cfc6a82943a1598d
+  EMSpeed: a09678543e10fc135a26e8cadaa3754579e1b4d6
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
   JLRoutes: d191a496b820f60d70225202d04289582da962df
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  MSAppModuleKit: 5a58b476dd3f97628e729585369f4423f5bf1c1f
+  MSAppModuleKit: 39b9e18656df55c00c85609f1452f5030fbd9b2b
   MSAppModuleShare: 24f48f18e6684d01e39e7235b9f9857775a384bf
-  MSAppModuleWebApp: a9b3fd38bcabcf7d00466b8f88ffd4aff4c1a851
+  MSAppModuleWebApp: aa7f10bfd40073c866685c02d41041667a57f38a
   MSRoutes: 09a729dc8d82f47a7f297bf2ab5b5c2081975db4
   MSThemeKit: 4c23a62794faace8be56c2dc53fa16d2daece39b
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
+  Statue: 4b725275ffde8fc68867bd27c85a136b51a81e72
   TencentOpenApiSDK: a0d7716edd6eb438d65828168e8e5137301b436d
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51

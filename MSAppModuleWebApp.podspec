@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "MSAppModuleWebApp"
-  s.version          = "0.2.2"
+  s.version          = "0.2.3"
   s.summary          = "MSAppModuleWebApp"
 
   s.description      = <<-DESC

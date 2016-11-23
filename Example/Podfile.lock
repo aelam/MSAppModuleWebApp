@@ -49,21 +49,21 @@ PODS:
     - EMSpeed/UIKit/UIColors
     - Masonry
   - Expecta (1.0.5)
-  - JLRoutes (1.5.5)
+  - JLRoutes (2.0)
   - Masonry (1.0.2)
-  - MSAppModuleKit (0.0.16):
-    - MSRoutes
+  - MSAppModuleKit (1.0.0):
+    - MSRoutes (~> 1.1.0)
   - MSAppModuleShare (0.1.4):
     - EMSocialKit
     - EMSpeed/Core
     - MSAppModuleKit
     - SDWebImage
-  - MSAppModuleWebApp (0.2.2):
-    - MSAppModuleWebApp/WebBridgeCore (= 0.2.2)
-    - MSAppModuleWebApp/WebViewController (= 0.2.2)
-  - MSAppModuleWebApp/WebBridgeCore (0.2.2):
+  - MSAppModuleWebApp (0.2.3):
+    - MSAppModuleWebApp/WebBridgeCore (= 0.2.3)
+    - MSAppModuleWebApp/WebViewController (= 0.2.3)
+  - MSAppModuleWebApp/WebBridgeCore (0.2.3):
     - WebViewJavascriptBridge
-  - MSAppModuleWebApp/WebViewController (0.2.2):
+  - MSAppModuleWebApp/WebViewController (0.2.3):
     - EMClick
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -72,14 +72,13 @@ PODS:
     - MSAppModuleKit
     - MSAppModuleShare
     - MSAppModuleWebApp/WebBridgeCore
-    - MSRoutes
     - MSThemeKit
     - RDVTabBarController
     - SDWebImage
     - UIColor-HexString (~> 1.1.0)
     - UIImage+RTTint (~> 1.0.0)
-  - MSRoutes (0.1.2):
-    - JLRoutes (~> 1.5.3)
+  - MSRoutes (1.1.0):
+    - JLRoutes
   - MSThemeKit (0.1.4):
     - UIColor-HexString (~> 1.1.0)
   - RDVTabBarController (1.1.9)
@@ -105,7 +104,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MSAppModuleWebApp:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -115,12 +114,12 @@ SPEC CHECKSUMS:
   EMSocialKit: 346b5322f8b3c3a73305e6bbf7a7c3a8d51bde6e
   EMSpeed: a09678543e10fc135a26e8cadaa3754579e1b4d6
   Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
-  JLRoutes: d191a496b820f60d70225202d04289582da962df
+  JLRoutes: 0bead23690bafa726e1528aa6459a56c9b81cb5e
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  MSAppModuleKit: 39b9e18656df55c00c85609f1452f5030fbd9b2b
+  MSAppModuleKit: 16d6966564e0ca29748b762ba334319df811f1ac
   MSAppModuleShare: 24f48f18e6684d01e39e7235b9f9857775a384bf
-  MSAppModuleWebApp: aa7f10bfd40073c866685c02d41041667a57f38a
-  MSRoutes: 09a729dc8d82f47a7f297bf2ab5b5c2081975db4
+  MSAppModuleWebApp: e4032ad814fd516665b3c71467eb983146648c91
+  MSRoutes: b0b7654bf2e1b61145da7c7eaea5cd4def86286a
   MSThemeKit: 4c23a62794faace8be56c2dc53fa16d2daece39b
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
@@ -134,4 +133,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   YRJSONAdapter: 55956d3e6f6b6eadf05e734914b8d29afa0fc06b
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: b9947d21f0c888eb918fd22a6e74733b0c52c6cb
+
+COCOAPODS: 1.1.1

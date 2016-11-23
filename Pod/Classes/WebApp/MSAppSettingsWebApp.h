@@ -19,8 +19,6 @@ typedef BOOL (^MSUserHasZXGHandler)(NSInteger);
 @property (nonatomic, assign) NSInteger vendorID;
 
 @property (nonatomic, strong) NSString *theme;
-@property (nonatomic, strong) NSArray *supportsURLSchemes;
-@property (nonatomic, strong, readonly) NSString *mainURLScheme;
 
 @property (nonatomic,  copy) MSWebAppAuthInfo webAppAuthInfo;
 @property (nonatomic,  copy) MSUserHasZXGHandler userHasZXGHandler;

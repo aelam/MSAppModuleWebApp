@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 source 'http://ph.benemind.com/diffusion/SPEC/emspecs.git'
 
-target 'MSAppModuleWebApp_Example', :exclusive => true do
+target 'MSAppModuleWebApp_Example' do
   pod 'MSAppModuleWebApp', :path => '../'
 end
 
-target 'MSAppModuleWebApp_Tests', :exclusive => true do
+target 'MSAppModuleWebApp_Tests' do
   pod 'MSAppModuleWebApp', :path => '../'
 
   pod 'Specta'

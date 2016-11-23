@@ -880,11 +880,11 @@ static const BOOL kNavigationBarHidden = YES;
 - (NSDictionary *)eventAttributesFromJLRoutesParams:(NSDictionary *)params {
     NSMutableDictionary *eventsAtrributes = [params mutableCopy];
     
-    [eventsAtrributes removeObjectForKey:kJLRoutePatternKey];
-    [eventsAtrributes removeObjectForKey:kJLRouteURLKey];
-    [eventsAtrributes removeObjectForKey:kJLRouteNamespaceKey];
-    [eventsAtrributes removeObjectForKey:kJLRouteWildcardComponentsKey];
-    [eventsAtrributes removeObjectForKey:kJLRoutesGlobalNamespaceKey];
+    [eventsAtrributes removeObjectForKey:JLRoutePatternKey];
+    [eventsAtrributes removeObjectForKey:JLRouteURLKey];
+    [eventsAtrributes removeObjectForKey:JLRouteSchemeKey];
+    [eventsAtrributes removeObjectForKey:JLRouteWildcardComponentsKey];
+    [eventsAtrributes removeObjectForKey:JLRoutesGlobalRoutesScheme];
     
     return eventsAtrributes;
 }

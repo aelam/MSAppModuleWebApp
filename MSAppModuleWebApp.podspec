@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "MSAppModuleWebApp"
-  s.version          = "0.2.3"
+  s.version          = "0.2.4"
   s.summary          = "MSAppModuleWebApp"
 
   s.description      = <<-DESC
@@ -37,7 +37,6 @@ Pod::Spec.new do |s|
 
     ss.dependency 'UIColor-HexString', '~> 1.1.0'
     ss.dependency 'MSAppModuleShare'
-    ss.dependency 'MSRoutes'
     ss.dependency 'MSThemeKit'
     ss.dependency 'MSAppModuleKit'
     ss.dependency 'EMSpeed/UIKit/Core'

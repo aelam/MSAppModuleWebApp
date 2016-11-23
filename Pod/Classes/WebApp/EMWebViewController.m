@@ -402,8 +402,6 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    
-    [self.errorView removeFromSuperview];
     MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
     
@@ -740,6 +738,7 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)doRefresh {
+    [self hideErrorView];
     if ([_webView canGoBack]) {
         [_webView x_reload];
     } else {

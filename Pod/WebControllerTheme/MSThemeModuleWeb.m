@@ -15,7 +15,7 @@
 }
 
 + (MSThemeModulePriority)priority {
-    return MSThemeModulePriorityLow;
+    return MSThemeModulePriorityLowest;
 }
 
 - (NSString *)moduleName {
@@ -29,6 +29,5 @@
 - (NSString *)plistDir {
     return [[NSBundle bundleForClass:[self class]] bundlePath];
 }
-
 
 @end

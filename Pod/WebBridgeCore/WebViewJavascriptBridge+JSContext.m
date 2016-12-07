@@ -10,7 +10,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <objc/runtime.h>
 
-@implementation WebViewJavascriptBridge (JSContext)
+@implementation WebViewJavascriptBridgeBase (JSContext)
 
 - (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx
 {

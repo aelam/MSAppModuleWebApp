@@ -6,12 +6,16 @@
 //
 //
 
-#if __has_include(<WebViewJavascriptBridge/WebViewJavascriptBridge.h>)
-#import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
+#if __has_include(<WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>)
 #import <WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>
+#import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
 #else
 @import WebViewJavascriptBridge;
 #endif
+
+
+
+
 
 @protocol WebViewJavascriptBridgeProtocol <NSObject>
 

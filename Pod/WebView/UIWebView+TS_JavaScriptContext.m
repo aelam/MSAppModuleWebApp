@@ -5,7 +5,6 @@
 //  Copyright (c) 2013 CoDeveloper, LLC. All rights reserved.
 
 #import "UIWebView+TS_JavaScriptContext.h"
-
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <objc/runtime.h>
 

@@ -23,6 +23,14 @@
 #import "NSURL+AuthedURL.h"
 
 // Bridge
+#if __has_include(<WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>)
+#import <WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>
+#import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
+#else
+@import WebViewJavascriptBridge;
+#endif
+
+
 #import "WebBridgeCore.h"
 #import "WebView.h"
 
@@ -68,6 +76,7 @@ static const BOOL kNavigationBarHidden = YES;
 @property (nonatomic, strong) JSBridge *jsBridge;
 
 @property (nonatomic, strong) EMWebErrorView *errorView;
+@property (nonatomic, strong) Class EMClickClass;
 
 @end
 
@@ -246,7 +255,9 @@ static const BOOL kNavigationBarHidden = YES;
     // WKWebView通过userContentController 注入脚本
     // UIWebView在获取JSContext的时候注入脚本
     
-    if (NSClassFromString(@"WKWebView") && [kModuleSettings WKWebViewEnabled]) {
+    if (NSClassFromString(@"WKWebView") &&
+        [kModuleSettings respondsToSelector:@selector(WKWebViewEnabled)] &&
+        [kModuleSettings WKWebViewEnabled]) {
         [WKWebViewJavascriptBridge enableLogging];
         
         WKUserContentController *userContentController = [[WKUserContentController alloc] init];
@@ -735,7 +746,7 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (void)doSearch {
-    [kModuleSettings.EMClickClass event:@"web:search" attributes:self.eventAttributes];
+    [self event:@"web:search" attributes:self.eventAttributes];
     if ([super respondsToSelector:_cmd]) {
         [super doSearch];
     }
@@ -749,7 +760,8 @@ static const BOOL kNavigationBarHidden = YES;
 
 #pragma mark - Share
 - (void)share:(EMShareEntity *)shareEntity {
-    [kModuleSettings.EMClickClass event:@"web:share" attributes:self.eventAttributes];
+    [self event:@"web:share" attributes:self.eventAttributes];
+    
     NSString *callback = shareEntity.callback;
     
     [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
@@ -808,7 +820,7 @@ static const BOOL kNavigationBarHidden = YES;
 // 这个时候在`-viewDidAppear`里面统计这个page
 - (void)trackBackFromViewDidAppear {
     if (_currentURLString) {
-        [kModuleSettings.EMClickClass beginLogPageView:@"web"];
+        [self beginLogPageView:@"web"];
     }
 }
 
@@ -823,7 +835,7 @@ static const BOOL kNavigationBarHidden = YES;
 
     _currentURLString = urlString;
     
-    [kModuleSettings.EMClickClass beginLogPageView:@"web"];
+    [self beginLogPageView:@"web"];
 }
 
 - (void)endTrackingLastPage {
@@ -835,11 +847,13 @@ static const BOOL kNavigationBarHidden = YES;
         }
         atrributes[@"url"] = _currentURLString;
         
+        __weak typeof(self)weakSelf = self;
+        
         [self getRemoteTitleWithHandler:^(NSString *title) {
             if (title && title.length) {
                 atrributes[@"title"] = title;
             }
-            [kModuleSettings.EMClickClass endLogPageView:@"web" attributes:atrributes];
+            [weakSelf endLogPageView:@"web" attributes:atrributes];
         }];
     }
 }
@@ -854,6 +868,40 @@ static const BOOL kNavigationBarHidden = YES;
     [eventsAtrributes removeObjectForKey:@"JLRoutesGlobalRoutesScheme"];
     
     return eventsAtrributes;
+}
+
+- (Class)EMClickClass {
+    if (_EMClickClass == nil) {
+        if ([kModuleSettings respondsToSelector:@selector(EMClickClass)]) {
+            _EMClickClass = kModuleSettings.EMClickClass;
+        }
+    }
+    return _EMClickClass;
+}
+
+- (void)event:(NSString *)event {
+    if ([[self EMClickClass] respondsToSelector:@selector(event:)]) {
+        [[self EMClickClass] event:event];
+    }
+}
+
+- (void)event:(NSString *)event attributes:(NSDictionary *)attributes {
+    if ([[self EMClickClass] respondsToSelector:@selector(event:attributes:)]) {
+        [[self EMClickClass] event:event attributes:attributes];
+    }
+}
+
+- (id)beginLogPageView:(NSString *)pageId {
+    if ([[self EMClickClass] respondsToSelector:@selector(beginLogPageView:)]) {
+        [[self EMClickClass] beginLogPageView:pageId];
+    }
+}
+
+- (void)endLogPageView:(NSString *)pageId attributes:(NSDictionary *)attributes {
+    if ([[self EMClickClass] respondsToSelector:@selector(endLogPageView:attributes:)]) {
+        [[self EMClickClass] endLogPageView:pageId attributes:attributes];
+    }
+
 }
 
 @end

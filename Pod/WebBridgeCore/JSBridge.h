@@ -7,12 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <WebViewJavaScriptBridge/WebViewJavaScriptBridge.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 #import "JSDefines.h"
 #import "WebViewJavascriptBridgeProtocol.h"
 #import "XWebView.h"
+
+#if __has_include(<WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>)
+#import <WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>
+#import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
+#else
+@import WebViewJavascriptBridge;
+#endif
+
 
 @protocol WebView <NSObject>
 

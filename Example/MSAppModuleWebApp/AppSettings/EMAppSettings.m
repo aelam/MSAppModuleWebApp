@@ -89,6 +89,10 @@ NSString *DefaultVendorConfig();
     return @[@"emstock",@"emlite"];
 }
 
+- (BOOL)WKWebViewEnabled {
+    return YES;
+}
+
 + (BOOL)isAppStoreVersion
 {
     return [[self appSettings] vendorID] == kAppStoreVendorID;

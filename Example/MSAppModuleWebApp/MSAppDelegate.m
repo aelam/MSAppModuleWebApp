@@ -7,10 +7,10 @@
 //
 
 #import "MSAppDelegate.h"
-#import <MSAppModuleKit.h>
+#import <MSAppModuleKit/MSAppModuleKit.h>
 #import "EMAppSettings.h"
-#import <MSAppModuleWebApp.h>
-#import "MSThemeManager.h"
+#import <MSAppModuleWebApp/MSAppModuleWebApp.h>
+#import <MSThemeKit/MSThemeKit.h>
 
 BOOL User_hasStockAtZXG(int a) {
     return 1;
@@ -25,6 +25,10 @@ BOOL User_hasStockAtZXG(int a) {
     appSettings.userHasZXGHandler = ^BOOL(NSInteger code) {
         return (BOOL)User_hasStockAtZXG((int)code);
     };
+    appSettings.webAppAuthInfo = ^(){
+        return @{@"app":@"webApp"};
+    };
+    
     [MSAppModuleController appModuleControllerWithSettings:appSettings];
     [appModuleManager addModule:[MSAppModuleWebApp new]];
     

@@ -31,10 +31,15 @@ static NSString *kURL = @"http://mt.emoney.cn/html/emstock/bbs/Index.html?topicI
 }
 
 - (IBAction)open:(id)sender {
-    
-//    NSURL *url = [NSURL URLWithString:kURL];
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html"];
-    EMWebViewController *webViewController = [[EMWebViewController alloc] initWithURL:url];
+    NSURL *URL;
+    NSString *url = self.textField.text;
+    if (url.length > 0) {
+        URL = [NSURL URLWithString:url];
+    }
+    if (!URL) {
+        URL = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html"];
+    }
+    EMWebViewController *webViewController = [[EMWebViewController alloc] initWithURL:URL];
     [self.navigationController pushViewController:webViewController animated:YES];
 }
 

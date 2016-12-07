@@ -1,132 +1,91 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
-    - AFNetworking/NSURLSession
-  - Aspects (1.4.1)
-  - DXYWeChatSDK (1.5.1)
-  - EMClick (0.2.5):
-    - EMClick/Basic (= 0.2.5)
-  - EMClick/Basic (0.2.5):
-    - AFNetworking
-    - Aspects (~> 1.4.1)
-    - EMSpeed/Network
-    - EMSpeed/UIKit/Core
-    - YRJSONAdapter (~> 1.0.1)
-  - EMSocialKit (0.1.9):
-    - DXYWeChatSDK (~> 1.5.1)
-    - TencentOpenApiSDK (~> 2.9.5)
-    - UIImage-ResizeMagick@NoWarnings (~> 0.0.2)
-    - WeiboSDK (~> 3.0)
-  - EMSpeed/Core (0.3.4)
-  - EMSpeed/MSContext (0.3.4)
-  - EMSpeed/Network (0.3.4):
-    - AFNetworking
-    - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/Core (0.3.4):
+  - EMSocialKit (1.0.0-beta.2)
+  - EMSpeed/Core (0.4.3)
+  - EMSpeed/MSContext (0.4.3)
+  - EMSpeed/UIKit/Core (0.4.3):
     - EMSpeed/Core
-  - EMSpeed/UIKit/FontAwesome+iOS (0.3.4)
-  - EMSpeed/UIKit/UIColors (0.3.4):
+  - EMSpeed/UIKit/FontAwesome+iOS (0.4.3):
+    - EMSpeed/Core
+  - EMSpeed/UIKit/UIColors (0.4.3):
     - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/UIKitCollections (0.3.4):
+  - EMSpeed/UIKit/UIKitCollections (0.4.3):
     - EMSpeed/MSContext
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/UIColors
     - Masonry
-  - Expecta (1.0.5)
-  - JLRoutes (2.0)
+  - JLRoutes (2.0.1)
   - Masonry (1.0.2)
-  - MSAppModuleKit (1.0.0):
-    - MSRoutes (~> 1.1.0)
-  - MSAppModuleShare (0.1.4):
-    - EMSocialKit
+  - MSAppModuleKit (1.1.0):
+    - MSRoutes (~> 1.2)
+  - MSAppModuleShare (1.0.0-beta.1):
+    - EMSocialKit (~> 1.0.0-beta.2)
     - EMSpeed/Core
-    - MSAppModuleKit
+    - MSAppModuleKit (~> 1.0)
     - SDWebImage
-  - MSAppModuleWebApp (0.2.4):
-    - MSAppModuleWebApp/WebBridgeCore (= 0.2.4)
-    - MSAppModuleWebApp/WebViewController (= 0.2.4)
-  - MSAppModuleWebApp/WebBridgeCore (0.2.4):
+  - MSAppModuleWebApp (1.0.0-beta.1):
+    - MSAppModuleWebApp/EMStock (= 1.0.0-beta.1)
+    - MSAppModuleWebApp/WebViewController (= 1.0.0-beta.1)
+  - MSAppModuleWebApp/EMStock (1.0.0-beta.1):
+    - MSAppModuleWebApp/WebBridgeCore
+  - MSAppModuleWebApp/WebBridgeCore (1.0.0-beta.1):
     - WebViewJavascriptBridge
-  - MSAppModuleWebApp/WebViewController (0.2.4):
-    - EMClick
+  - MSAppModuleWebApp/WebControllerTheme (1.0.0-beta.1):
+    - MSThemeKit (~> 1.0.0.beta.3)
+  - MSAppModuleWebApp/WebView (1.0.0-beta.1)
+  - MSAppModuleWebApp/WebViewController (1.0.0-beta.1):
+    - EMSocialKit (~> 1.0-beta.2)
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
     - EMSpeed/UIKit/UIKitCollections
     - Masonry
-    - MSAppModuleKit
-    - MSAppModuleShare
+    - MSAppModuleKit (~> 1.0)
+    - MSAppModuleShare (~> 1.0-beta.1)
     - MSAppModuleWebApp/WebBridgeCore
-    - MSThemeKit
+    - MSAppModuleWebApp/WebControllerTheme
+    - MSAppModuleWebApp/WebView
     - RDVTabBarController
     - SDWebImage
     - UIColor-HexString (~> 1.1.0)
     - UIImage+RTTint (~> 1.0.0)
-  - MSRoutes (1.1.0):
+  - MSRoutes (1.2.0):
     - JLRoutes
-  - MSThemeKit (0.1.4):
-    - UIColor-HexString (~> 1.1.0)
+  - MSThemeKit (1.0.0-beta.4):
+    - MSThemeKit/Core (= 1.0.0-beta.4)
+    - MSThemeKit/UIKit (= 1.0.0-beta.4)
+  - MSThemeKit/Core (1.0.0-beta.4)
+  - MSThemeKit/UIKit (1.0.0-beta.4):
+    - MSThemeKit/Core
   - RDVTabBarController (1.1.9)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
-  - Specta (1.0.5)
-  - TencentOpenApiSDK (2.9.5):
-    - TencentOpenApiSDK/Basic (= 2.9.5)
-  - TencentOpenApiSDK/Basic (2.9.5)
   - UIColor-HexString (1.1.0)
   - UIImage+RTTint (1.0.0)
-  - UIImage-ResizeMagick@NoWarnings (0.0.3)
   - WebViewJavascriptBridge (5.0.5)
-  - WeiboSDK (3.1.3)
-  - YRJSONAdapter (1.0.1)
 
 DEPENDENCIES:
-  - Expecta
   - MSAppModuleWebApp (from `../`)
-  - Specta
 
 EXTERNAL SOURCES:
   MSAppModuleWebApp:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  DXYWeChatSDK: 6a23dbf67a4545bfc80e3e18f9b5cf0c98699576
-  EMClick: ebacd436e2a69069438d340af3323e3c2b0e737d
-  EMSocialKit: 346b5322f8b3c3a73305e6bbf7a7c3a8d51bde6e
-  EMSpeed: a09678543e10fc135a26e8cadaa3754579e1b4d6
-  Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
-  JLRoutes: 0bead23690bafa726e1528aa6459a56c9b81cb5e
+  EMSocialKit: 2e13d4500e6c48efe01245c1cb5932a7165cd5e6
+  EMSpeed: 1113769c61bef0c5bac214781dda0111521ce437
+  JLRoutes: 3652abe3b4ac51bc93ec3a371353d762e8566092
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  MSAppModuleKit: 16d6966564e0ca29748b762ba334319df811f1ac
-  MSAppModuleShare: 24f48f18e6684d01e39e7235b9f9857775a384bf
-  MSAppModuleWebApp: 1160d954c7ae35cb71c5fa8f9ce0469771adaa20
-  MSRoutes: b0b7654bf2e1b61145da7c7eaea5cd4def86286a
-  MSThemeKit: 4c23a62794faace8be56c2dc53fa16d2daece39b
+  MSAppModuleKit: c1f94eef67239dbdca8ba695fe5167df44836541
+  MSAppModuleShare: dbc8c66afe9d8a75060488019a4c73f203a08b06
+  MSAppModuleWebApp: 6de04ba43acd999ae673fb9eb5874f9f2fe9c6c5
+  MSRoutes: 175360dea2d43d29b7b9bba2094066c52fc9c8ff
+  MSThemeKit: d544de997df713fc9c589e0fd4b10a2145d444af
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
-  Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
-  TencentOpenApiSDK: a0d7716edd6eb438d65828168e8e5137301b436d
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51
-  UIImage-ResizeMagick@NoWarnings: 7d1a61c23404ac1daef0d5397b1a1d7182addd60
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
-  WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
-  YRJSONAdapter: 55956d3e6f6b6eadf05e734914b8d29afa0fc06b
 
-PODFILE CHECKSUM: b9947d21f0c888eb918fd22a6e74733b0c52c6cb
+PODFILE CHECKSUM: 67181c9ecdeaec8e3df73bd4f366b8413d711372
 
 COCOAPODS: 1.1.1

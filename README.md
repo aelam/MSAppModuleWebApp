@@ -9,26 +9,29 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## 
-```lan=objc
-EMAppSettings *appSettings = [EMAppSettings appSettings];
+## WebApp的配置
 
-appSettings.webAppAuthInfo = ^NSDictionary *(void){
-NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-parameters[@"loginType"] = @([EMAccount sharedAccount].loginType);
-NSString *userId = [EMAccount sharedAccount].userID;
-if (userId) {
-parameters[@"userId"] = userId;
-}
-NSString *webAuthToken = [EMAccount sharedAccount].webAuthToken;
-if (webAuthToken) {
-parameters[@"webAuthToken"] = webAuthToken;
-}
+### 需要设置三个颜色, 见SettingsWebApp
 
-return parameters;
-};
-
+### 关于webAppAuthInfo的配置 全部在主工程里面配置
 ```
+    // 旧版代码
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+
+    parameters[@"pd"] = @(appSettings.productID);
+    parameters[@"ar"] = @(appSettings.platformID);
+    parameters[@"mv"] = [UIApplication sharedApplication].versionDescription;
+    parameters[@"vd"] = @(appSettings.vendorID);
+
+    parameters[@"guid"] = [UIDevice currentDevice].uniqueGlobalDeviceIdentifier;
+    parameters[@"systemVersion"] = [UIDevice currentDevice].systemVersion;
+
+    if(appSettings.webAppAuthInfo) {
+        NSDictionary *extraInfo = appSettings.webAppAuthInfo();
+        [parameters addEntriesFromDictionary:extraInfo];
+    }
+
+``
 
 
 

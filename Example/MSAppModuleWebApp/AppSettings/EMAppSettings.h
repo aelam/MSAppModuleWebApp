@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MSAppSettings.h"
+#import <MSAppModuleKit/MSAppModuleKit.h>
 #import "EMAppBaseInfoSettings.h"
 #import "EMSettingsCondition.h"
 
@@ -25,6 +25,7 @@
 
 #if __MODULE_WEB_APP_ENABLED__
     #import <MSAppModuleWebApp/MSAppSettingsWebApp.h>
+//@import MSAppModuleWebApp;
 #endif /* __MODULE_WEB_APP_ENABLED__ */
 
 
@@ -103,10 +104,10 @@ NSObject
 #endif /* MSMessageAppSettings */
 
 #if __MODULE_WEB_APP_ENABLED__
-@property (nonatomic, strong, readwrite) NSString *mainURLScheme;
-@property (nonatomic, strong) NSArray *supportsURLSchemes;
 @property (nonatomic,   copy) MSWebAppAuthInfo webAppAuthInfo;
 @property (nonatomic,  copy) MSUserHasZXGHandler userHasZXGHandler;
+@property (nonatomic, assign) BOOL WKWebViewEnabled; // Default NO
+@property (nonatomic, strong) Class EMClickClass;
 
 #elif __MODULE_ONLINE_TRADE_ENABLED__
 @property (nonatomic, strong, readwrite) NSString *mainURLScheme;

@@ -11,16 +11,15 @@
 
 @protocol EMClickAdapter;
 
-typedef NSDictionary *(^MSWebAppAuthInfo)(void);
+typedef NSDictionary * (^MSWebAppAuthInfo)(void);
 typedef BOOL (^MSUserHasZXGHandler)(NSInteger);
 
 @protocol MSAppSettingsWebApp <MSAppSettings>
 
 @property (nonatomic, copy) MSWebAppAuthInfo webAppAuthInfo;
-@property (nonatomic, copy) MSUserHasZXGHandler userHasZXGHandler;
-
 
 @optional
+@property (nonatomic, copy) MSUserHasZXGHandler userHasZXGHandler;
 @property (nonatomic, assign) BOOL WKWebViewEnabled; // Default NO
 @property (nonatomic, strong) Class<EMClickAdapter> EMClickClass;
 

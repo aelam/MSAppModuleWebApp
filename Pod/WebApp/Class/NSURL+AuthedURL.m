@@ -18,13 +18,18 @@
     
     MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
-    NSDictionary *authInfo = nil;
+
     
+    NSDictionary *authInfo = nil;
     if(settings.webAppAuthInfo) {
         authInfo = settings.webAppAuthInfo();
     }
+    
+    NSString *urlString = [plainURL absoluteString];
 
-    NSString *urlString = [[plainURL absoluteString] stringByAppendingParameters:authInfo];
+    if ([authInfo count] > 0) {
+        urlString = [urlString stringByAppendingParameters:authInfo];
+    }
     
     if ([settings.theme isEqualToString:@"black"]) {
         urlString = [urlString stringByAppendingString:@"&css=b"];

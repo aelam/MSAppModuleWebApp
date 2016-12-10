@@ -891,7 +891,7 @@ static const BOOL kNavigationBarHidden = YES;
     }
 }
 
-- (id)beginLogPageView:(NSString *)pageId {
+- (void)beginLogPageView:(NSString *)pageId {
     if ([[self EMClickClass] respondsToSelector:@selector(beginLogPageView:)]) {
         [[self EMClickClass] beginLogPageView:pageId];
     }

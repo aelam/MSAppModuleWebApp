@@ -20,7 +20,7 @@
     
     NSAssert([[info supportsURLSchemes] count] >= 1, @"需要配置`supportsURLSchemes`");
     NSAssert([info mainURLScheme], @"需要配置`mainURLScheme`");
-    NSAssert([info userHasZXGHandler], @"需要配置`userHasZXGHandler`");
+//    NSAssert([info userHasZXGHandler], @"需要配置`userHasZXGHandler`");
 
     [EMWebViewController setModuleSettings:info];
 }

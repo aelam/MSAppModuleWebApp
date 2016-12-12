@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>web_bgColor</key>
-	<string>111112</string>
+	<string>ffffff</string>
 	<key>web_navbarItemTextColor</key>
-	<string>969696</string>
+	<string>4690ef</string>
 	<key>web_statusBarColor</key>
 	<string>e9e9e9</string>
 </dict>

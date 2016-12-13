@@ -22,13 +22,13 @@
 @class MSMenuItemData;
 @class EMWebBackView;
 @class EMShareEntity;
-@protocol UIViewControllerRouter;
+@protocol UIViewControllerRoutable;
 @protocol XWebView;
 @protocol MSAppSettingsWebApp;
 
-@interface EMWebViewController : UIViewController<UIWebViewDelegate, UIViewControllerRouter, UIViewControllerShareSupport, UIViewControllerSearchSupport>
+@interface EMWebViewController : UIViewController<UIWebViewDelegate, UIViewControllerRoutable, UIViewControllerShareSupport, UIViewControllerSearchSupport>
 
-@property (nonatomic, assign) BOOL synchronizeDocumentTitle;//navbar同步页面document的title，default is yes
+@property (nonatomic, assign) BOOL synchronizeDocumentTitle; // navbar同步页面document的title，default is `YES`
 
 @property (nonatomic, strong, readonly) UIView<XWebView> *webView;
 @property (nonatomic, assign, getter = isCloseButtonShown) BOOL showsCloseButton; // Default YES
@@ -41,9 +41,6 @@
 @property (nonatomic, assign) BOOL isSearchItemEnabled;
 
 @property (nonatomic, strong) NSArray <MSMenuItemData *> *menuItems;
-
-// 通过JLRoutes跳转的时候 可附加eventAttributes 会传入统计中去
-@property (nonatomic, strong) NSDictionary *eventAttributes;
 
 + (void)setModuleSettings:(id<MSAppSettingsWebApp>)moduleSettings;
 + (id<MSAppSettingsWebApp>)moduleSettings;
@@ -64,5 +61,9 @@
 - (void)doRefresh;
 
 - (void)share:(EMShareEntity *)shareEntity;
+
+
+// 通过JLRoutes跳转的时候 可附加eventAttributes 会传入统计中去
+@property (nonatomic, strong) NSDictionary *eventAttributes;
 
 @end

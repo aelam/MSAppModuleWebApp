@@ -46,7 +46,7 @@
 #import "EMWebBackView.h"
 
 // ThemeColors
-#import "UIColor+WebApp.h"
+#import "MSThemeColor+WebApp.h"
 
 // Click
 #import "EMClickAdapter.h"
@@ -185,7 +185,7 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)loadBackView {
     //生成导航条返回按键
     self.backView = [[EMWebBackView alloc] initWithParamSupportClose:YES];
-    self.backView.titleColor = [UIColor web_navbarItemTextColor];
+    self.backView.titleColor = [MSThemeColor web_navbarItemTextColor];
     
     [self.backView addTarget:self backAction:@selector(doBack) closeAction:@selector(doClose) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.backView];
@@ -281,7 +281,7 @@ static const BOOL kNavigationBarHidden = YES;
         [WebViewJavascriptBridge enableLogging];
         
         UIWebView *webView = [[[[self class] webViewClass] alloc] initWithFrame:self.view.bounds];
-        UIColor *bgColor = [UIColor web_bgColor];
+        UIColor *bgColor = [MSThemeColor web_bgColor];
         
         webView.backgroundColor = bgColor;
         webView.scrollView.backgroundColor = bgColor;
@@ -387,7 +387,7 @@ static const BOOL kNavigationBarHidden = YES;
             self.statusBarBackView.frame = topBarRect;
         }
         
-        self.statusBarBackView.backgroundColor = [UIColor web_statusBarColor];
+        self.statusBarBackView.backgroundColor = [MSThemeColor web_statusBarColor];
         [self.view addSubview:self.statusBarBackView];
     } else {
         [self.statusBarBackView removeFromSuperview];
@@ -617,7 +617,7 @@ static const BOOL kNavigationBarHidden = YES;
     customMenuItem.icon = @"web_share";
     
     JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
-    button.tintColor = [UIColor web_navbarItemTextColor];
+    button.tintColor = [MSThemeColor web_navbarItemTextColor];
     button.menuItem = customMenuItem;
     
     [button addTarget:self action:@selector(doShare) forControlEvents:UIControlEventTouchUpInside];
@@ -631,7 +631,7 @@ static const BOOL kNavigationBarHidden = YES;
     customMenuItem.icon = @"web_search";
 
     JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
-    button.tintColor = [UIColor web_navbarItemTextColor];
+    button.tintColor = [MSThemeColor web_navbarItemTextColor];
     button.menuItem = customMenuItem;
     
     [button addTarget:self action:@selector(doSearch) forControlEvents:UIControlEventTouchUpInside];
@@ -657,7 +657,7 @@ static const BOOL kNavigationBarHidden = YES;
     while (item = [e nextObject]) {
         MSCustomMenuItem *customMenuItem = (MSCustomMenuItem *)item;
         JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
-        button.tintColor = [UIColor web_navbarItemTextColor];
+        button.tintColor = [MSThemeColor web_navbarItemTextColor];
         button.menuItem = customMenuItem;
         
         [button addTarget:self action:@selector(customMeunItemButtonTapped:) forControlEvents:UIControlEventTouchUpInside];

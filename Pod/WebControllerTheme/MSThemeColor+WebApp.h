@@ -7,11 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MSThemeKit/MSThemeKit.h>
 
-@interface UIColor (WebApp)
+@protocol MSThemeColorWebApp
 
+@optional
 + (UIColor *)web_statusBarColor;
 + (UIColor *)web_bgColor;
 + (UIColor *)web_navbarItemTextColor;
+
+@end
+
+@interface MSThemeColor (WebApp)<MSThemeColorWebApp>
 
 @end

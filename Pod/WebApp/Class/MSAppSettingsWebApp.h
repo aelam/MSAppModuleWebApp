@@ -20,7 +20,8 @@ typedef BOOL (^MSUserHasZXGHandler)(NSInteger);
 
 @optional
 @property (nonatomic, copy) MSUserHasZXGHandler userHasZXGHandler;
-@property (nonatomic, assign) BOOL WKWebViewEnabled; // Default NO
+@property (nonatomic, assign, readonly) BOOL WKWebViewEnabled; // Default NO
+@property (nonatomic, assign, readonly) BOOL supportsFontChange; // Default NO
 @property (nonatomic, strong) Class<EMClickAdapter> EMClickClass;
 
 @property (nonatomic, assign) NSInteger productID;

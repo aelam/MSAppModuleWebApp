@@ -16,6 +16,10 @@
 + (UIColor *)web_bgColor;
 + (UIColor *)web_navbarItemTextColor;
 
++ (UIColor *)web_fontSizeChangeViewBgColor;
++ (UIColor *)web_fontSizeChangeViewBorderColor;
++ (UIColor *)web_fontSizeChangeViewTextColor;
+
 @end
 
 @interface MSThemeColor (WebApp)<MSThemeColorWebApp>

@@ -16,6 +16,7 @@
 #import <JLRoutes/JLRoutes.h>
 #import "MSCustomMenuItem.h"
 #import "EMShareEntity+Parameters.h"
+#import "WebFontSizeChangeSupport.h"
 
 @implementation JSBridgeModuleBase
 
@@ -39,7 +40,6 @@ JS_EXPORT_MODULE();
     
     [self registerGetAppInfoWithBridge:bridge];
     [self registerCopyWithBridge:bridge];
-    [self registerCanOpenURL2WithBridge:bridge];
     [self registerShowNotifyWithBridge:bridge];
     [self registerPopWithBridge:bridge];
     [self registerGoBackWithBridge:bridge];
@@ -48,21 +48,12 @@ JS_EXPORT_MODULE();
     [self registerShareWithBridge:bridge];
     [self registerSearchToggleWithBridge:bridge];
 
-    [self registerOpenPageWithBridge:bridge];
-    [self registerRoutePageWithBridge:bridge];
     [self registerRouteWithBridge:bridge];
-    
-    [self registerLoginWithBridge:bridge];
-    
-    [self registerSearchWithBridge:bridge];
-    [self registerUpdateUserInfoWithBridge:bridge];
-    
     [self registerUpdateTitleWithBridge:bridge];
-    
-    
     [self registerOpenURLWithBridge:bridge];
 
 
+    [self registerShowChangeFontSizeViewWithBridge:bridge];
 }
 
 - (void)registerShowMenuItemsWithBridge:(JSBridge *)bridge {
@@ -99,18 +90,6 @@ JS_EXPORT_MODULE();
         } else {
             responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeFailed)});
         }
-    }];
-}
-
-- (void)registerCanOpenURL2WithBridge:(JSBridge *)bridge {
-    [self registerHandler:@"canOpenURL2" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSDictionary *parameters = (NSDictionary *)data;
-        NSString *url = parameters[@"appurl"];
-        
-        BOOL canopen = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
-        
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess),
-                           JSResponseErrorDataKey:@(canopen)});
     }];
 }
 
@@ -202,7 +181,6 @@ JS_EXPORT_MODULE();
     
     [self registerHandler:@"goback" handler:handler];
     [self registerHandler:@"goBack" handler:handler];
-    
 }
 
 - (void)registerSearchToggleWithBridge:(JSBridge *)bridge {
@@ -220,29 +198,6 @@ JS_EXPORT_MODULE();
     [self registerHandler:@"searchConfig" handler:handler];
 }
 
-#pragma mark - JLRoutes跳转
-// page
-- (void)registerOpenPageWithBridge:(JSBridge *)bridge {
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"page"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"page" handler:handler];
-    
-}
-
-- (void)registerRoutePageWithBridge:(JSBridge *)bridge {
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"page"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"routePage" handler:handler];
-    
-}
 
 - (void)registerRouteWithBridge:(JSBridge *)bridge {
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
@@ -260,45 +215,6 @@ JS_EXPORT_MODULE();
     
 }
 
-- (void)registerCheckTaskStatusWithBridge:(JSBridge *)bridge {
-    [self registerHandler:@"checkTaskStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"checkTaskStatus"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    }];
-}
-
-- (void)registerLoginWithBridge:(JSBridge *)bridge {
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"login"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"login" handler:handler];
-}
-
-- (void)registerUpdateUserInfoWithBridge:(JSBridge *)bridge {
-//    __typeof(self)weakSelf = self;
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"updateUserInfo"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"updateUserInfo" handler:handler];
-}
-
-// 移到search
-- (void)registerSearchWithBridge:(JSBridge *)bridge {
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        [JLRoutes routeURL:[NSURL URLWithString:@"search"] withParameters:parameters];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"search" handler:handler];
-}
 
 // Base
 - (void)registerUpdateTitleWithBridge:(JSBridge *)bridge {
@@ -325,6 +241,19 @@ JS_EXPORT_MODULE();
     };
     
     [self registerHandler:@"web" handler:handler];
+}
+
+- (void)registerShowChangeFontSizeViewWithBridge:(JSBridge *)bridge {
+    __weak UIViewController <WebFontSizeChangeSupport> *viewController = bridge.viewController;
+    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+        
+        [viewController showChangeFontSizeViewWithSelection:^(NSInteger newFontSize) {
+            
+        }];
+        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+    };
+    
+    [self registerHandler:@"showChangeFontSizeView" handler:handler];
 }
 
 @end

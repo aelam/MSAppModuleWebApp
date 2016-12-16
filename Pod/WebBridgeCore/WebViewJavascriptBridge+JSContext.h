@@ -6,13 +6,6 @@
 //
 //
 
-//#if __has_include(<WebViewJavascriptBridge/WebViewJavascriptBridge.h>)
-//#else
-//#endif
-
-//#import "WebViewJavascriptBridge.h"
-//#import "WKWebViewJavascriptBridge.h"
-
 // 查找_webViewDelegate 并转发`-[delegate webView:didCreateJavaScriptContext:]`
 #import <WebViewJavascriptBridge/WebViewJavascriptBridgeBase.h>
 

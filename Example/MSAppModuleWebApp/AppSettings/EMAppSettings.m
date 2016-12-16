@@ -7,7 +7,7 @@
 //
 
 #import "EMAppSettings.h"
-//#import "EMSocialEMStockConfigurator.h"
+#import "EMSocialEMStockConfigurator.h"
 
 #define kPlatformID         9           // iphone平台号
 #define kProductID          15          // 产品号
@@ -98,9 +98,9 @@ NSString *DefaultVendorConfig();
     return [[self appSettings] vendorID] == kAppStoreVendorID;
 }
 
-//- (EMSocialDefaultConfigurator *)shareConfigurator {
-//    return [EMSocialEMStockConfigurator new];
-//}
+- (EMSocialDefaultConfigurator *)shareConfigurator {
+    return [EMSocialEMStockConfigurator new];
+}
 
 - (void)save
 {

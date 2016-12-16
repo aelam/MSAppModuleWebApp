@@ -15,6 +15,8 @@
 @end
 
 
+static NSBundle *webAppResourceBundle = nil;
+
 @implementation NSBundle (WebApp)
 
 
@@ -22,5 +24,15 @@
     return [NSBundle bundleForClass:[EMWebAppDummy class]];
 }
 
++ (instancetype)webAppResourceBundle {
+    if (webAppResourceBundle == nil) {
+        webAppResourceBundle = [NSBundle bundleForClass:[EMWebAppDummy class]];
+    }
+    return webAppResourceBundle;
+}
+
++ (void)setWebAppResourceBundle:(NSBundle *)bundle {
+    webAppResourceBundle = bundle;
+}
 
 @end

@@ -20,13 +20,7 @@
 }
 
 - (void)registerWeb {
-    [self addRoute:@"web" handler:^BOOL(NSDictionary *parameters) {
-        UINavigationController *navController = [MSActiveControllerFinder finder].activeNavigationController();
-        [MSActiveControllerFinder finder].resetStatus();
-        [navController pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:parameters];
-        
-        return YES;
-    }];
+    [self registerRoute:@"web" pushingControllerName:@"EMWebViewController"];
 }
 
 /**
@@ -48,7 +42,9 @@
 
 
 - (void)unregisterRoutesForWebApp {
-    
+    [self removeRoute:@"web"];
+    [self removeRoute:@"goBack"];
+    [self removeRoute:@"goback"];
 }
 
 

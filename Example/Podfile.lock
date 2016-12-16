@@ -1,5 +1,5 @@
 PODS:
-  - EMSocialKit (1.0.0-beta.2)
+  - EMSocialKit (1.0.0-beta.4)
   - EMSpeed/Core (0.4.3)
   - EMSpeed/MSContext (0.4.3)
   - EMSpeed/UIKit/Core (0.4.3):
@@ -15,7 +15,7 @@ PODS:
     - Masonry
   - JLRoutes (2.0.1)
   - Masonry (1.0.2)
-  - MSAppModuleKit (1.1.0):
+  - MSAppModuleKit (1.1.1):
     - MSRoutes (~> 1.2)
   - MSAppModuleShare (1.0.0-beta.1):
     - EMSocialKit (~> 1.0.0-beta.2)
@@ -23,19 +23,19 @@ PODS:
     - MSAppModuleKit (~> 1.0)
     - SDWebImage
   - MSAppModuleWebApp (1.0.0-beta.1):
-    - MSAppModuleWebApp/EMStock (= 1.0.0-beta.1)
+    - MSAppModuleWebApp/EMStockJSModules (= 1.0.0-beta.1)
     - MSAppModuleWebApp/WebViewController (= 1.0.0-beta.1)
-  - MSAppModuleWebApp/EMStock (1.0.0-beta.1):
-    - MSAppModuleWebApp/WebBridgeCore
+  - MSAppModuleWebApp/EMStockJSModules (1.0.0-beta.1):
+    - MSAppModuleWebApp/WebAppBaseJSModule
+  - MSAppModuleWebApp/WebAppBaseJSModule (1.0.0-beta.1):
     - MSAppModuleWebApp/WebViewController
   - MSAppModuleWebApp/WebBridgeCore (1.0.0-beta.1):
     - MSAppModuleWebApp/WebView
-    - WebViewJavascriptBridge
+    - WebViewJavascriptBridge (~> 5.0)
   - MSAppModuleWebApp/WebControllerTheme (1.0.0-beta.1):
     - MSThemeKit (~> 1.0.0.beta.3)
   - MSAppModuleWebApp/WebView (1.0.0-beta.1)
   - MSAppModuleWebApp/WebViewController (1.0.0-beta.1):
-    - EMSocialKit (~> 1.0-beta.2)
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
     - EMSpeed/UIKit/UIKitCollections
@@ -49,21 +49,21 @@ PODS:
     - SDWebImage
     - UIColor-HexString (~> 1.1.0)
     - UIImage+RTTint (~> 1.0.0)
-  - MSRoutes (1.2.0):
+  - MSRoutes (1.2.1):
     - JLRoutes
-  - MSThemeKit (1.0.0-beta.4):
-    - MSThemeKit/Core (= 1.0.0-beta.4)
-    - MSThemeKit/UIKit (= 1.0.0-beta.4)
-  - MSThemeKit/Core (1.0.0-beta.4)
-  - MSThemeKit/UIKit (1.0.0-beta.4):
+  - MSThemeKit (1.0.0-beta.6):
+    - MSThemeKit/Core (= 1.0.0-beta.6)
+    - MSThemeKit/UIKit (= 1.0.0-beta.6)
+  - MSThemeKit/Core (1.0.0-beta.6)
+  - MSThemeKit/UIKit (1.0.0-beta.6):
     - MSThemeKit/Core
-  - RDVTabBarController (1.1.9)
+  - RDVTabBarController (1.2)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - UIColor-HexString (1.1.0)
   - UIImage+RTTint (1.0.0)
-  - WebViewJavascriptBridge (5.0.5)
+  - WebViewJavascriptBridge (5.0.7)
 
 DEPENDENCIES:
   - MSAppModuleWebApp (from `../`)
@@ -73,21 +73,21 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  EMSocialKit: 2e13d4500e6c48efe01245c1cb5932a7165cd5e6
+  EMSocialKit: 511e92b15f75af7b183bcc61379face3fa99e740
   EMSpeed: 1113769c61bef0c5bac214781dda0111521ce437
   JLRoutes: 3652abe3b4ac51bc93ec3a371353d762e8566092
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  MSAppModuleKit: c1f94eef67239dbdca8ba695fe5167df44836541
+  MSAppModuleKit: 18fd80ea6a456a47878ce460841b3016d269707d
   MSAppModuleShare: dbc8c66afe9d8a75060488019a4c73f203a08b06
-  MSAppModuleWebApp: e9f7aba2c512f0efd64e6663dcfb454d51afebf7
-  MSRoutes: 175360dea2d43d29b7b9bba2094066c52fc9c8ff
-  MSThemeKit: d544de997df713fc9c589e0fd4b10a2145d444af
-  RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
+  MSAppModuleWebApp: 451ed9d48d3b850812e368c09047e46ec0273ddf
+  MSRoutes: 5d0b51981715397fd815dab2f9bc7790b5c07f44
+  MSThemeKit: 764b2c9293b93d36b8320cf41acf2ad76f3d36c9
+  RDVTabBarController: 9033d0d7cb69319c76fb672679cbf41b1bc8ef4d
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51
-  WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
+  WebViewJavascriptBridge: e4302f8c3988a447ae6e144656eac51f3f0f04c8
 
 PODFILE CHECKSUM: 5b7576140e67065456da16599f0350c3ec89c4b6
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0.beta.1

@@ -13,3 +13,10 @@
 + (UIImage *)webAppImageNamed:(NSString *)name;
 
 @end
+
+
+@interface UIImage (WebAppResourceBundle)
+
++ (UIImage *)webAppResourceImageNamed:(NSString *)name;
+
+@end

@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.subspec 'WebBridgeCore' do |ss|
     ss.source_files = 'Pod/WebBridgeCore/**/*.{h,c,m,mm,swift}'
     ss.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore', 'WebKit'
-    ss.dependency 'WebViewJavascriptBridge'
+    ss.dependency 'WebViewJavascriptBridge', '~> 5.0'
     ss.dependency 'MSAppModuleWebApp/WebView'
   end
 
@@ -43,36 +43,39 @@ Pod::Spec.new do |s|
 
   s.subspec  'WebViewController' do |ss|
     ss.source_files = 'Pod/WebApp/Class/**/*.{h,c,m,mm,swift}'
-    ss.resource     = 'Pod/WebApp/Assets/**/*.png'
+    ss.resource     = ['Pod/WebApp/Assets/**/*.{png.xib}','Pod/WebApp/Class/**/*.{xib}']
 
     ss.dependency 'UIColor-HexString', '~> 1.1.0'
     ss.dependency 'MSAppModuleShare', '~> 1.0-beta.1'
     ss.dependency 'MSAppModuleKit', '~> 1.0'
     ss.dependency 'EMSpeed/UIKit/Core'
+    ss.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
     ss.dependency 'EMSpeed/UIKit/UIKitCollections'
     ss.dependency 'SDWebImage'
     ss.dependency 'UIImage+RTTint', '~> 1.0.0'
     ss.dependency 'RDVTabBarController'
+    ss.dependency 'Masonry'
 
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
     ss.dependency 'MSAppModuleWebApp/WebView'
-
-    ss.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
-    ss.dependency 'Masonry'
-    ss.dependency 'EMSocialKit' , '~> 1.0-beta.2'
-
     ss.dependency 'MSAppModuleWebApp/WebControllerTheme'
-
   end
 
-  s.subspec 'EMStock' do |ss|
-    ss.source_files = 'Pod/EMStock/WebAppBridgeModules/**/*'
-    ss.resource     = 'Pod/EMStock/Assets/**/*.js'
-    ss.dependency   'MSAppModuleWebApp/WebBridgeCore'
+  # 加载goods
+  s.subspec 'WebAppBaseJSModule' do |ss|
+    ss.source_files = 'Pod/WebAppBaseJSModule/**/*.{h,m}'
+    ss.resource     = 'Pod/WebAppBaseJSModule/Assets/**/*.js'
     ss.dependency 'MSAppModuleWebApp/WebViewController'
   end
 
-  s.default_subspec = 'EMStock', 'WebViewController'
+  # 加载加强版的goods方法
+  s.subspec 'EMStockJSModules' do |ss|
+    ss.source_files = 'Pod/EMStockJSModules/WebAppBridgeModules/**/*'
+    ss.resource     = 'Pod/EMStockJSModules/Assets/**/*.js'
+    ss.dependency   'MSAppModuleWebApp/WebAppBaseJSModule'
+  end
+
+  s.default_subspec = 'EMStockJSModules', 'WebViewController'
 
 
 

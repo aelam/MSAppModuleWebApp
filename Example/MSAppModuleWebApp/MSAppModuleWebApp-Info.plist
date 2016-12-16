@@ -30,9 +30,7 @@
 		<true/>
 	</dict>
 	<key>UIAppFonts</key>
-	<array>
-		<string>FontAwesome.ttf</string>
-	</array>
+	<array/>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

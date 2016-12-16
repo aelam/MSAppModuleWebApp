@@ -11,6 +11,7 @@
 #import "EMAppSettings.h"
 #import <MSAppModuleWebApp/MSAppModuleWebApp.h>
 #import <MSThemeKit/MSThemeKit.h>
+#import <MSAppModuleShare/MSAppModuleShare.h>
 
 BOOL User_hasStockAtZXG(int a) {
     return 1;
@@ -30,6 +31,7 @@ BOOL User_hasStockAtZXG(int a) {
     };
     
     [MSAppModuleController appModuleControllerWithSettings:appSettings];
+    [appModuleManager addModule:[EMAppModuleShare new]];
     [appModuleManager addModule:[MSAppModuleWebApp new]];
     
     [MSThemeManager registerThemes:@[@"white", @"black"]

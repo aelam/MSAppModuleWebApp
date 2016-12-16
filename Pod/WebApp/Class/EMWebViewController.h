@@ -18,15 +18,23 @@
 #import <MSRoutes/MSRoutes.h>
 #import "UIViewController+EMShare.h"
 #import "UIViewController+SearchStock.h"
+#import "WebFontSizeChangeSupport.h"
+
+typedef NS_ENUM (NSInteger, EMFontSizeType) {
+    EMFontSizeTypeSmall,
+    EMFontSizeTypeMiddle,
+    EMFontSizeTypeBig
+};
 
 @class MSMenuItemData;
 @class EMWebBackView;
 @class EMShareEntity;
+
 @protocol UIViewControllerRoutable;
 @protocol XWebView;
 @protocol MSAppSettingsWebApp;
 
-@interface EMWebViewController : UIViewController<UIWebViewDelegate, UIViewControllerRoutable, UIViewControllerShareSupport, UIViewControllerSearchSupport>
+@interface EMWebViewController : UIViewController <UIWebViewDelegate, UIViewControllerRoutable, UIViewControllerShareSupport, UIViewControllerSearchSupport, WebFontSizeChangeSupport>
 
 @property (nonatomic, assign) BOOL synchronizeDocumentTitle; // navbar同步页面document的title，default is `YES`
 
@@ -40,10 +48,21 @@
 // Search Supports
 @property (nonatomic, assign) BOOL isSearchItemEnabled;
 
+// Font Change Supports
+@property (nonatomic, assign) BOOL supportsFontChange;
+@property (nonatomic, assign) BOOL isFontChangeItemEnabled;
+@property (nonatomic, strong) NSNumber *fontSize;
+@property (nonatomic, copy) void (^fontSizeSelection) (NSInteger fontSize);
+
+- (void)showChangeFontSizeViewWithSelection:(void (^)(NSInteger))selection;
+
+// JSMenuItems
 @property (nonatomic, strong) NSArray <MSMenuItemData *> *menuItems;
 
+// WebAppSettings
 + (void)setModuleSettings:(id<MSAppSettingsWebApp>)moduleSettings;
 + (id<MSAppSettingsWebApp>)moduleSettings;
+
 
 
 - (instancetype)initWithURL:(NSURL *)URL;

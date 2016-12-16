@@ -23,6 +23,8 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		944A714C1E014ECA0017296B /* EMSocialEMStockConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 944A714B1E014ECA0017296B /* EMSocialEMStockConfigurator.m */; };
+		944C6C4F1E03EAD8000D0A32 /* MSThemeColor+WebColorOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = 944C6C4E1E03EAD8000D0A32 /* MSThemeColor+WebColorOverride.m */; };
 		94AD64F61CDE498100B2D803 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94AD64F51CDE498100B2D803 /* WebKit.framework */; };
 		94BE18DC1CD1EAC10067E818 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 94BE18DB1CD1EAC10067E818 /* index.html */; };
 		94BE18DE1CD1EBB60067E818 /* 2.html in Resources */ = {isa = PBXBuildFile; fileRef = 94BE18DD1CD1EBB60067E818 /* 2.html */; };
@@ -64,6 +66,10 @@
 		67EF9F7A356123E2FF34EDE9 /* Pods-MSAppModuleWebApp_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Example/Pods-MSAppModuleWebApp_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		6BB173763DBF6556E125DAF7 /* Pods_MSAppModuleWebApp_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MSAppModuleWebApp_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		944A714A1E014ECA0017296B /* EMSocialEMStockConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMSocialEMStockConfigurator.h; sourceTree = "<group>"; };
+		944A714B1E014ECA0017296B /* EMSocialEMStockConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMSocialEMStockConfigurator.m; sourceTree = "<group>"; };
+		944C6C4D1E03EAD8000D0A32 /* MSThemeColor+WebColorOverride.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSThemeColor+WebColorOverride.h"; sourceTree = "<group>"; };
+		944C6C4E1E03EAD8000D0A32 /* MSThemeColor+WebColorOverride.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSThemeColor+WebColorOverride.m"; sourceTree = "<group>"; };
 		94AD64F51CDE498100B2D803 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		94BE18DB1CD1EAC10067E818 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		94BE18DD1CD1EBB60067E818 /* 2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = 2.html; sourceTree = "<group>"; };
@@ -158,6 +164,8 @@
 				94BE18DD1CD1EBB60067E818 /* 2.html */,
 				94BE18DB1CD1EAC10067E818 /* index.html */,
 				6003F59C195388D20070C39A /* MSAppDelegate.h */,
+				944C6C4D1E03EAD8000D0A32 /* MSThemeColor+WebColorOverride.h */,
+				944C6C4E1E03EAD8000D0A32 /* MSThemeColor+WebColorOverride.m */,
 				6003F59D195388D20070C39A /* MSAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* MSViewController2.h */,
@@ -216,6 +224,8 @@
 				94BE18FA1CD2F99D0067E818 /* EMAppSettings.h */,
 				94BE18FB1CD2F99D0067E818 /* EMAppSettings.m */,
 				94BE18FC1CD2F99D0067E818 /* EMSettingsCondition.h */,
+				944A714A1E014ECA0017296B /* EMSocialEMStockConfigurator.h */,
+				944A714B1E014ECA0017296B /* EMSocialEMStockConfigurator.m */,
 			);
 			path = AppSettings;
 			sourceTree = "<group>";
@@ -419,10 +429,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				944C6C4F1E03EAD8000D0A32 /* MSThemeColor+WebColorOverride.m in Sources */,
 				6003F59E195388D20070C39A /* MSAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* MSViewController2.m in Sources */,
 				94BE18FD1CD2F99D0067E818 /* EMAppSettings.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				944A714C1E014ECA0017296B /* EMSocialEMStockConfigurator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

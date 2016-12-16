@@ -19,4 +19,14 @@
     }
 }
 
++ (UIImage *)webAppResourceImageNamed:(NSString *)name {
+    if ([[UIImage class] respondsToSelector:@selector(imageNamed:inBundle:compatibleWithTraitCollection:)]) {
+        return [UIImage imageNamed:name inBundle:[NSBundle webAppResourceBundle] compatibleWithTraitCollection:nil];
+    } else {
+        return [UIImage imageNamed:name];
+    }
+}
+
+
 @end
+

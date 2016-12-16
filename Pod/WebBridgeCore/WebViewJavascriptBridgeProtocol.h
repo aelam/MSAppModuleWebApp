@@ -13,10 +13,6 @@
 @import WebViewJavascriptBridge;
 #endif
 
-
-
-
-
 @protocol WebViewJavascriptBridgeProtocol <NSObject>
 
 + (instancetype)bridgeForWebView:(id)webView;

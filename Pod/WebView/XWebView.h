@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol XWebView <NSObject>
 
 // UIWebView, WKWebView实现相同的方法
-@property (nonatomic, readonly, strong) UIScrollView *scrollView NS_AVAILABLE_IOS(5_0);
+@property (nonatomic, readonly) UIScrollView *scrollView NS_AVAILABLE_IOS(5_0);
 
 - (BOOL)canGoBack;
 - (BOOL)canGoForward;

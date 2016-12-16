@@ -13,5 +13,6 @@ typedef void(^EMWebErrorViewTapBlock)(void);
 @interface EMWebErrorView : UIView
 
 @property (nonatomic, copy) EMWebErrorViewTapBlock tapBlock;
+@property (nonatomic, strong) UIImage *errorImage; // [UIImage webAppImageNamed:@"web_icon_logo"] TODO
 
 @end

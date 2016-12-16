@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="EMFontChangeView">
+            <rect key="frame" x="0.0" y="0.0" width="223" height="74"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="字体设置:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsY-W8-pw0">
+                    <rect key="frame" x="11" y="10" width="86" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="idr-6c-J6H">
+                    <rect key="frame" x="86" y="35" width="52" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="Ob6-UJ-GN8"/>
+                        <constraint firstAttribute="width" constant="52" id="Q4S-FJ-OEE"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="web_font_middle.png"/>
+                </button>
+                <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vde-xe-zLm">
+                    <rect key="frame" x="160" y="35" width="52" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="7Bu-ds-d4O"/>
+                        <constraint firstAttribute="width" constant="52" id="dvb-0s-hOq"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="web_font_big.png"/>
+                </button>
+                <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ig-Ty-HRf">
+                    <rect key="frame" x="11" y="35" width="52" height="29"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="Fbi-8S-WCL"/>
+                        <constraint firstAttribute="width" constant="52" id="atd-xq-QKW"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="web_font_small.png"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="8Ig-Ty-HRf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="11" id="ARW-JX-fzW"/>
+                <constraint firstItem="idr-6c-J6H" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="GgQ-dr-X7T"/>
+                <constraint firstAttribute="trailing" secondItem="Vde-xe-zLm" secondAttribute="trailing" constant="11" id="cm4-Dg-v3t"/>
+                <constraint firstAttribute="bottom" secondItem="idr-6c-J6H" secondAttribute="bottom" constant="10" id="lg7-dI-h2R"/>
+                <constraint firstAttribute="bottom" secondItem="Vde-xe-zLm" secondAttribute="bottom" constant="10" id="mJR-9T-1eM"/>
+                <constraint firstAttribute="bottom" secondItem="8Ig-Ty-HRf" secondAttribute="bottom" constant="10" id="syY-bD-eK2"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="bigFontButton" destination="Vde-xe-zLm" id="gkm-D8-Zek"/>
+                <outlet property="fontChangeTitleLabel" destination="zsY-W8-pw0" id="MLe-1f-hNT"/>
+                <outlet property="middleFontButton" destination="idr-6c-J6H" id="Ka8-wq-dmN"/>
+                <outlet property="smallFontButton" destination="8Ig-Ty-HRf" id="Bna-VD-JY8"/>
+                <outletCollection property="buttons" destination="8Ig-Ty-HRf" id="gu2-bx-hBT"/>
+                <outletCollection property="buttons" destination="idr-6c-J6H" id="bKx-W4-zIE"/>
+                <outletCollection property="buttons" destination="Vde-xe-zLm" id="sZa-L4-oug"/>
+            </connections>
+            <point key="canvasLocation" x="-281" y="-102.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="web_font_big.png" width="51" height="28"/>
+        <image name="web_font_middle.png" width="51" height="28"/>
+        <image name="web_font_small.png" width="51" height="28"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>

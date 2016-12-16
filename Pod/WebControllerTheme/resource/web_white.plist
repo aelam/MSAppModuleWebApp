@@ -8,5 +8,11 @@
 	<string>4690ef</string>
 	<key>web_statusBarColor</key>
 	<string>e9e9e9</string>
+	<key>web_fontSizeChangeViewBgColor</key>
+	<string>efeff4</string>
+	<key>web_fontSizeChangeViewBorderColor</key>
+	<string>dddddd</string>
+	<key>web_fontSizeChangeViewTextColor</key>
+	<string>0079ff</string>
 </dict>
 </plist>

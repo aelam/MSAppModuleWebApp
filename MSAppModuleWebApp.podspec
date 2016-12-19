@@ -42,8 +42,11 @@ Pod::Spec.new do |s|
   end
 
   s.subspec  'WebViewController' do |ss|
-    ss.source_files = 'Pod/WebApp/Class/**/*.{h,c,m,mm,swift}'
-    ss.resource     = ['Pod/WebApp/Assets/**/*.{png.xib}','Pod/WebApp/Class/**/*.{xib}']
+    ss.source_files = 'Pod/WebViewController/Class/**/*.{h,c,m,mm,swift}'
+    ss.resource     = ['Pod/WebViewController/Assets/**/*.{xib}','Pod/WebViewController/Class/**/*.{xib}']
+    s.resource_bundles = {
+      'WebAppImageResouceBundle' => ['Pod/WebViewController/Assets/**/*.png']
+    }
 
     ss.dependency 'UIColor-HexString', '~> 1.1.0'
     ss.dependency 'MSAppModuleShare', '~> 1.0-beta.1'

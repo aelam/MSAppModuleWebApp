@@ -1,5 +1,5 @@
 //
-//  UIViewController+EMShare.h
+//  WebShareSupport.h
 //  EMStock
 //
 //  Created by jenkins on 15/6/11.
@@ -10,7 +10,7 @@
 
 @class EMShareEntity;
 
-@protocol UIViewControllerShareSupport <NSObject>
+@protocol WebShareSupport <NSObject>
 
 @property (nonatomic, readonly) EMShareEntity *shareEntity;
 @property (nonatomic, readonly) BOOL isShareItemEnabled;
@@ -23,10 +23,3 @@
 
 @end
 
-//@interface UIViewController (EMShare) <UIViewControllerShareSupport>
-//
-//@property (nonatomic, readonly) EMShareEntity *shareEntity;
-//@property (nonatomic, readwrite) BOOL isShareItemEnabled;
-//- (void)share:(EMShareEntity *)shareEntity;
-//
-//@end

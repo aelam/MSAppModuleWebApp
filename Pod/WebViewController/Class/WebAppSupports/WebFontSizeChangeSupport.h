@@ -12,6 +12,6 @@
 
 @property (nonatomic, strong) NSNumber *fontSize;
 
-- (void)showChangeFontSizeViewWithSelection:(void (^)(NSInteger newFontSize))selection;
+- (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *newFontSize))selection;
 
 @end

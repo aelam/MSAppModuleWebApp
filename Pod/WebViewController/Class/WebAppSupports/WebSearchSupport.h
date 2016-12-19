@@ -1,5 +1,5 @@
 //
-//  UIViewController+searchStock.h
+//  WebSearchSupport
 //  EMStock
 //
 //  Created by flora on 14-9-28.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol UIViewControllerSearchSupport <NSObject>
+@protocol WebSearchSupport <NSObject>
 
 @property (nonatomic, readonly) BOOL isSearchItemEnabled;
 - (UIBarButtonItem *)searchItem;
@@ -17,9 +17,9 @@
 
 @end
 
-@interface UIViewController (searchStock) <UIViewControllerSearchSupport>
-
-- (UIBarButtonItem *)searchItem;
-- (void)doSearch; // TODO: 增加search
-
-@end
+//@interface UIViewController (searchStock) <WebSearchSupport>
+//
+//- (UIBarButtonItem *)searchItem;
+//- (void)doSearch; // TODO: 增加search
+//
+//@end

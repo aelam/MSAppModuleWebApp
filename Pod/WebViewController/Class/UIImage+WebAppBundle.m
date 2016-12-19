@@ -20,11 +20,24 @@
 }
 
 + (UIImage *)webAppResourceImageNamed:(NSString *)name {
+
+    UIImage *image = nil;
     if ([[UIImage class] respondsToSelector:@selector(imageNamed:inBundle:compatibleWithTraitCollection:)]) {
-        return [UIImage imageNamed:name inBundle:[NSBundle webAppResourceBundle] compatibleWithTraitCollection:nil];
+        NSBundle *highPriorityBundle = [NSBundle overrideWebAppImageResouceBundle];
+        NSBundle *lowPriorityBundle = [NSBundle webAppImageResouceBundle];
+        if (highPriorityBundle) {
+            image = [UIImage imageNamed:name inBundle:highPriorityBundle compatibleWithTraitCollection:nil];
+            if (!image) {
+                image = [UIImage imageNamed:name inBundle:lowPriorityBundle compatibleWithTraitCollection:nil];
+            }
+        } else {
+            image = [UIImage imageNamed:name inBundle:lowPriorityBundle compatibleWithTraitCollection:nil];
+        }
+        return image;
     } else {
-        return [UIImage imageNamed:name];
+        image = [UIImage imageNamed:name];
     }
+    return image;
 }
 
 

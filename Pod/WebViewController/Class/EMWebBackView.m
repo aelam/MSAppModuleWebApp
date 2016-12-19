@@ -12,7 +12,7 @@
 
 @interface EMWebBackView ()
 
-@property (nonatomic, strong) UIImage *backImage;
+//@property (nonatomic, strong) UIImage *backImage;
 
 @end
 
@@ -104,19 +104,19 @@
     }
 }
 
-- (UIImage *)backImage {
-    UIColor *titleColor = self.titleColor;
-    if (!titleColor) {
-        titleColor = [UIColor lightGrayColor];
-    }
-
-    UIImage *image = [UIImage imageWithIcon:@"em-icon-back"
-                            backgroundColor:[UIColor clearColor]
-                                  iconColor:titleColor
-                                  iconScale:1//NIScreenScale()
-                                    andSize:CGSizeMake(23, 23)];
-    return image;
-}
+//- (UIImage *)backImage {
+//    UIColor *titleColor = self.titleColor;
+//    if (!titleColor) {
+//        titleColor = [UIColor lightGrayColor];
+//    }
+//
+//    UIImage *image = [UIImage imageWithIcon:@"em-icon-back"
+//                            backgroundColor:[UIColor clearColor]
+//                                  iconColor:titleColor
+//                                  iconScale:1//NIScreenScale()
+//                                    andSize:CGSizeMake(23, 23)];
+//    return image;
+//}
 
 - (void)_updateUI {
     

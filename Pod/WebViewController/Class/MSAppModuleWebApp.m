@@ -12,6 +12,7 @@
 #import <MSRoutes/MSRoutes.h>
 #import "EMWebViewController.h"
 #import "JLRoutes+WebApp.h"
+#import "NSBundle+WebApp.h"
 
 @implementation MSAppModuleWebApp
 
@@ -23,6 +24,10 @@
 //    NSAssert([info userHasZXGHandler], @"需要配置`userHasZXGHandler`");
 
     [EMWebViewController setModuleSettings:info];
+    
+    if ([info respondsToSelector:@selector(overrideWebAppImageResouceBundle)]) {
+        [NSBundle setOverrideWebAppImageResouceBundle:[info overrideWebAppImageResouceBundle]];
+    }
 }
 
 - (void)moduleDidUnload:(id<MSAppSettings>)info {
@@ -34,7 +39,7 @@
 }
 
 - (void)moduleUnregisterRoutes:(JLRoutes *)route {
-//    [route registerRoutesForWebApp];
+    [route unregisterRoutesForWebApp];
 }
 
 @end

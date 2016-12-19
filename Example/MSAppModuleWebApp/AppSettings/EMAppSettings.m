@@ -93,6 +93,12 @@ NSString *DefaultVendorConfig();
     return YES;
 }
 
+
+- (NSBundle *)overrideWebAppImageResouceBundle {
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"OverrideWebAppImageResouceBundle" ofType:@"bundle"];
+    return [NSBundle bundleWithPath:bundlePath];
+}
+
 + (BOOL)isAppStoreVersion
 {
     return [[self appSettings] vendorID] == kAppStoreVendorID;

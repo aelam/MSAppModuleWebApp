@@ -12,6 +12,7 @@
 #import <MSAppModuleWebApp/MSAppModuleWebApp.h>
 #import <MSThemeKit/MSThemeKit.h>
 #import <MSAppModuleShare/MSAppModuleShare.h>
+#import <UIImage_Helpers/UIImage+ImageWithColor.h>
 
 BOOL User_hasStockAtZXG(int a) {
     return 1;
@@ -22,6 +23,8 @@ BOOL User_hasStockAtZXG(int a) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+    [[UINavigationBar appearance]setBackgroundImage:[UIImage imageWithColor:[UIColor blueColor]] forBarMetrics:UIBarMetricsDefault];
+    
     EMAppSettings *appSettings = [EMAppSettings appSettings];
     appSettings.userHasZXGHandler = ^BOOL(NSInteger code) {
         return (BOOL)User_hasStockAtZXG((int)code);
@@ -37,7 +40,7 @@ BOOL User_hasStockAtZXG(int a) {
     [MSThemeManager registerThemes:@[@"white", @"black"]
                            modules:@[@"showgoods",@"info"]];
     
-    [MSThemeManager changeTheme:@"white"];
+    [MSThemeManager changeTheme:@"black"];
     
     return YES;
 }

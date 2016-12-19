@@ -8,14 +8,17 @@
 
 #import "JSBridgeModuleBase.h"
 #import "JSBridge.h"
+#import "JSBridgeModule.h"
+
 #import "MSAppSettingsWebApp.h"
-#import "EMShareEntity.h"
 #import "EMWebViewController.h"
 #import "BDKNotifyHUD.h"
-#import "JSBridgeModule.h"
 #import <JLRoutes/JLRoutes.h>
 #import "MSCustomMenuItem.h"
+
+#import "EMShareEntity.h"
 #import "EMShareEntity+Parameters.h"
+
 #import "WebFontSizeChangeSupport.h"
 
 @implementation JSBridgeModuleBase
@@ -102,7 +105,17 @@ JS_EXPORT_MODULE();
     }];
 }
 
+
 - (void)registerShareWithBridge:(JSBridge *)bridge {
+    // "title": title,
+    // "url": url,
+    // "id": id,
+    // "imageurl": imageurl,
+    // "iconUrl": iconUrl,
+    // "content": content,
+    // "type": type,
+    // "callback": callback
+    
     __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
     
     [self registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -247,10 +260,10 @@ JS_EXPORT_MODULE();
     __weak UIViewController <WebFontSizeChangeSupport> *viewController = bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         
-        [viewController showChangeFontSizeViewWithSelection:^(NSInteger newFontSize) {
-            
+        [viewController showChangeFontSizeViewWithSelection:^(NSString *newFontSize) {
+            responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess),
+                               @"fontSize":newFontSize});
         }];
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     };
     
     [self registerHandler:@"showChangeFontSizeView" handler:handler];

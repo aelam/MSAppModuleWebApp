@@ -20,7 +20,7 @@
 #import <RDVTabBarController/RDVTabBarController.h>
 #import <MSAppModuleShare/MSAppModuleShare.h>
 
-#import "NSURL+AuthedURL.h"
+//#import "NSURL+AuthedURL.h"
 
 // Bridge
 #if __has_include(<WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>)
@@ -44,6 +44,7 @@
 // Custom Views
 #import "EMWebErrorView.h"
 #import "EMWebBackView.h"
+#import "UIImage+WebAppBundle.h"
 
 // ThemeColors
 #import "MSThemeColor+WebApp.h"
@@ -62,8 +63,10 @@ static const BOOL kNavigationBarHidden = YES;
 
 static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
+static NSDictionary const* kFontSizeMapping;
 
-@interface EMWebViewController () <UIViewControllerRouter, WKUIDelegate, WKNavigationDelegate>
+
+@interface EMWebViewController () <WKUIDelegate, WKNavigationDelegate>
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;
@@ -106,6 +109,15 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     return [UIWebView class];
 }
 
++ (NSDictionary *)fontSizeMapping {
+    if (kFontSizeMapping == nil) {
+        kFontSizeMapping = @{@0:@"small",
+                             @1:@"medium",
+                             @2:@"big"};
+    }
+    return kFontSizeMapping;
+}
+
 - (void)dealloc {
     [self.jsBridge reset];
     
@@ -143,15 +155,13 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 - (instancetype)initWithURL:(NSURL *)URL {
-    NSURL *url = [NSURL authedURLWithURL:URL];
+    [self _initFontSize];
+    NSURL *url = [self _addAdditionInfoToOriginURL:URL];
     return [self initWithRequest:[NSURLRequest requestWithURL:url]];
 }
 
 - (instancetype)init {
-    self = [self initWithRequest:nil];
-    if (self) {
-    }
-    return self;
+    return [self initWithRequest:nil];
 }
 
 - (instancetype)initWithRequest:(NSURLRequest *)request {
@@ -159,14 +169,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (self) {
         self.hidesBottomBarWhenPushed = YES;
         self.synchronizeDocumentTitle = YES;
-        
+        [self setShowsCloseButton:YES];
         self.isFontChangeItemEnabled = YES;
+        
         
         if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
             self.edgesForExtendedLayout = UIRectEdgeAll;
         }
         
-        [self setShowsCloseButton:YES];
         
         if (request) {
             [self openRequest:request];
@@ -175,6 +185,13 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     
     return self;
+}
+
+- (void)_initFontSize {
+    NSNumber *fontSize = [[NSUserDefaults standardUserDefaults] objectForKey:WebFontSizeKey];
+    if (fontSize) {
+        self.fontSize = fontSize;
+    }
 }
 
 #pragma mark - Life Cycle
@@ -246,9 +263,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         
         WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
         configuration.userContentController = userContentController;
+//        configurat/ion.preferences.setValue(true, forKey: "developerExtrasEnabled")
         
         // 显示WKWebView
         WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
+        [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
         wkWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         wkWebView.UIDelegate = self; // 设置WKUIDelegate代理
         wkWebView.navigationDelegate = self; // 设置WKNavigationDelegate代理
@@ -320,6 +339,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     //生成导航条返回按键
     self.backView = [[EMWebBackView alloc] initWithParamSupportClose:YES];
     self.backView.titleColor = [MSThemeColor web_navbarItemTextColor];
+    self.backView.backImage = [[UIImage webAppResourceImageNamed:@"web_back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.backView.tintColor = [MSThemeColor web_navbarItemTextColor];
     
     [self.backView addTarget:self backAction:@selector(doBack) closeAction:@selector(doClose) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.backView];
@@ -460,6 +481,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 #pragma mark -
 #pragma mark - WKWebView Delegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    [self.jsBridge attachToBridge:self.bridge];
+
     BOOL allow = [self _webViewShouldLoadRequest:navigationAction.request];
     if (allow) {
         decisionHandler(WKNavigationActionPolicyAllow);
@@ -490,6 +513,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
     completionHandler(YES);
 }
+
 
 
 #pragma mark - WebView Delegate
@@ -640,6 +664,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)updateRightItemsShareAndSearch {
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:2];
+
+    if (_isFontChangeItemEnabled) {
+        [items addObject:[self fontChangeItem]];
+    }
+    
     if (_isSearchItemEnabled) {
         [items addObject:[self searchItem]];
     }
@@ -648,9 +677,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [items addObject:[self shareItem]];
     }
     
-    if (_isFontChangeItemEnabled) {
-        [items addObject:[self fontChangeItem]];
-    }
     
     self.navigationItem.rightBarButtonItems = items;
 }
@@ -734,7 +760,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 #pragma mark - 
 #pragma mark - Font Change
-- (void)showChangeFontSizeViewWithSelection:(void (^)(NSInteger newFontSize))selection {
+- (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *newFontSize))selection {
     self.fontSizeSelection = selection;
     [self showChangeFontSizeView];
 }
@@ -753,14 +779,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     CGRect buttonFrame = [_selectedMenuItem.superview convertRect:_selectedMenuItem.frame toView:self.navigationController.view];
     changeViewContentView.frame = CGRectMake(0, 0, 223, 74);
     changeViewContentView.titleColor = [MSThemeColor web_fontSizeChangeViewTextColor];
-    
     if (_selectedMenuItem) {
         fromRect = _selectedMenuItem.frame;
         fromRect.origin.y += 27;
     } else {
         
     }
-    
+
+    // 设置字体UI
     NSInteger fontSize = [[NSUserDefaults standardUserDefaults] integerForKey:WebFontSizeKey];
     changeViewContentView.selectedIndex = fontSize;
     
@@ -774,7 +800,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (void)MSArtPopView:(MSArtPopupView *)popupView didPressed:(EMFontChangeView *)sender {
     NSInteger fontSize = sender.selectedIndex;
     if (self.fontSizeSelection) {
-        self.fontSizeSelection(fontSize);
+        NSString *fontSizeString =  [[self class] fontSizeMapping][@(fontSize)];
+        self.fontSizeSelection(fontSizeString);
         [self updateFontSize:fontSize];
 
     }
@@ -874,7 +901,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (void)doSearch {
     [self event:@"web:search" attributes:self.eventAttributes];
     if ([super respondsToSelector:_cmd]) {
-        [super doSearch];
+        [super performSelector:_cmd];
     }
 }
 
@@ -889,26 +916,12 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [self event:@"web:share" attributes:self.eventAttributes];
     
     NSString *callback = shareEntity.callback;
+    EMSocialType socialType = shareEntity.socialType;
     
     [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
-        EMSocialType socialType = 0;
         NSInteger statusCode = 0;
         NSNumber *errorCode;
-        
         NSString *message = nil;
-        if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
-            message = returnedInfo[EMActivityWeiboStatusMessageKey];
-            socialType = EMSocialTypeSinaWeibo;
-        } else if ([activityType isEqualToString:UIActivityTypePostToWeChatSession]) {
-            message = returnedInfo[EMActivityWeChatStatusMessageKey];
-            socialType = EMSocialTypeWeChat;
-        } else if ([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
-            message = returnedInfo[EMActivityWeChatStatusMessageKey];
-            socialType = EMSocialTypeMoments;
-        } else if ([activityType isEqualToString:UIActivityTypePostToQQ]) {
-            message = returnedInfo[EMActivityQQStatusMessageKey];
-            socialType = EMSocialTypeQQ;
-        }
         
         errorCode = returnedInfo[EMActivityGeneralStatusCodeKey];
         message = returnedInfo[EMActivityGeneralMessageKey];
@@ -922,7 +935,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
                 statusCode = -2;
             }
         }
-        
         
         if (callback.length > 0) {
             NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
@@ -938,6 +950,39 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
             }
         }
     }];
+}
+
+#pragma mark - 
+#pragma mark - URL 
+- (NSURL *)_addAdditionInfoToOriginURL:(NSURL *)plainURL {
+    
+    NSMutableDictionary *additionInfo = [NSMutableDictionary dictionary];
+    NSDictionary *authInfo = nil;
+    if(kModuleSettings.webAppAuthInfo) {
+        [additionInfo addEntriesFromDictionary:kModuleSettings.webAppAuthInfo()];
+    }
+    
+    if (self.fontSize) {
+        additionInfo[@"fontSize"] = self.fontSize;
+    }
+
+    NSString *urlString = [plainURL absoluteString];
+    
+    if ([additionInfo count] > 0) {
+        urlString = [urlString stringByAppendingParameters:additionInfo];
+    }
+    
+    if ([kModuleSettings.theme isEqualToString:@"black"]) {
+        urlString = [urlString stringByAppendingString:@"&css=b"];
+        NSRange range = [urlString rangeOfString: @"platform/html/"];
+        if (range.location != NSNotFound) {
+            urlString = [urlString stringByReplacingOccurrencesOfString: @"platform/html/" withString: @"platform/blackhtml/"];
+        }
+    }
+    
+    NSURL *authedURL = [NSURL URLWithString:urlString];
+
+    return authedURL;
 }
 
 

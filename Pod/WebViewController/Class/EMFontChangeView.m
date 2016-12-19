@@ -50,8 +50,8 @@ static NSInteger const kButtonOffset = 100;
 }
 
 - (void)updateButton:(UIButton *)button withImageName:(NSString *)name {
-    UIImage *normalImage = [UIImage webAppImageNamed:name];
-    UIImage *selectedImage = [UIImage webAppImageNamed:[name stringByAppendingString:@"_selected"]];
+    UIImage *normalImage = [UIImage webAppResourceImageNamed:name];
+    UIImage *selectedImage = [UIImage webAppResourceImageNamed:[name stringByAppendingString:@"_selected"]];
     [button setBackgroundImage:normalImage forState:UIControlStateNormal];
     [button setBackgroundImage:selectedImage forState:UIControlStateSelected];
     [button setBackgroundImage:selectedImage forState:(UIControlStateHighlighted|UIControlStateSelected)];

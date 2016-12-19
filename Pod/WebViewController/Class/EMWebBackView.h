@@ -15,6 +15,7 @@
 @interface EMWebBackView : UIButton
 
 @property (nonatomic, strong) UIColor *titleColor;  //`[UIColor colorForKey:@"common_navbarItemTextColor"]`
+@property (nonatomic, strong) UIImage *backImage;
 @property (nonatomic, readonly, strong) UIButton *closeButton;  //关闭按键
 
 /**是否支持关闭功能

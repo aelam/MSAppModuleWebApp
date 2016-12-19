@@ -7,7 +7,7 @@ target 'MSAppModuleWebApp_Example' do
     #  pod 'MSAppModuleWebApp/WebViewController', :path => '../'
     #pod 'EMSpeed', :path => '../../../components/emspeed'
     pod 'MSAppModuleWebApp', :path => '../'
-
+    pod 'UIImage-Helpers'
 end
 
 target 'MSAppModuleWebApp_Tests' do

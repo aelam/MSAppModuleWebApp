@@ -7,8 +7,8 @@
 //
 
 // 查找_webViewDelegate 并转发`-[delegate webView:didCreateJavaScriptContext:]`
-#import <WebViewJavascriptBridge/WebViewJavascriptBridgeBase.h>
+#import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
 
-@interface WebViewJavascriptBridgeBase (JSContext)
+@interface WebViewJavascriptBridge (JSContext)
 
 @end

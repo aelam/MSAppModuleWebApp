@@ -5,19 +5,40 @@
     <title>Test</title>
 
     <script type="text/javascript">
-        function showMessage() {
-            var a = goods.getAppInfo();
-            alert(a);
+        function loadSuccess() {
+<!--            alert("loadSuccess");-->
+<!--            alert(goods);-->
         };
+<!--    goods.ready(function(bridge) {-->
+                goods.showMenuItems({"menuItems":[{
+                                                  "title":"web_font_switch",
+                                                  "callback":"showChangeFontSizeView"
+                                                  }]});
+<!--    });-->
 
-        document.addEventListener("DOMContentLoaded",function() {
-            showMessage();
-        });
+
+<!--  goods.ready(function(bridge) {-->
+<!--            goods.showMenuItems({"menuItems":[{-->
+<!--                                              "title":"web_font_switch",-->
+<!--                                              "callback":"showChangeFontSizeView"-->
+<!--                                              }]});-->
+<!--  };-->
+
+    window.showChangeFontSizeView = function () {
+        goods.showChangeFontSizeView({"callback":"setFontSize"});
+    };
+
+    window.setFontSize = function (response) {
+        alert("fontSize = " + response["fontSize"]);
+    };
+
+
+    window.onload = loadSuccess;
     </script>
 
 </head>
-<body onload="showMessage()">
-    
+<wino onload="loadSuccess()">
+
     INDEX 22222
 <a href="2.html">2.html</a>
 </body>

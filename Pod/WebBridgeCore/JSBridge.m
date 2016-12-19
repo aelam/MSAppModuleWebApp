@@ -150,7 +150,7 @@ static JSBridge *JSCurrentBridgeInstance = nil;
                 if ([self.webView isKindOfClass:[WKWebView class]]) {
                     WKWebView *wkWebView = (WKWebView *)self.webView;
                     WKUserContentController *userContentController = wkWebView.configuration.userContentController;
-                    WKUserScript *script = [[WKUserScript alloc] initWithSource:source injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+                    WKUserScript *script = [[WKUserScript alloc] initWithSource:source injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
                     [userContentController addUserScript:script];
                 } else {
                     [self.webView x_evaluateJavaScript:source];

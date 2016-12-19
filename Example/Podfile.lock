@@ -63,10 +63,12 @@ PODS:
   - SDWebImage/Core (3.8.2)
   - UIColor-HexString (1.1.0)
   - UIImage+RTTint (1.0.0)
+  - UIImage-Helpers (0.0.3)
   - WebViewJavascriptBridge (5.0.7)
 
 DEPENDENCIES:
   - MSAppModuleWebApp (from `../`)
+  - UIImage-Helpers
 
 EXTERNAL SOURCES:
   MSAppModuleWebApp:
@@ -79,15 +81,16 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MSAppModuleKit: 18fd80ea6a456a47878ce460841b3016d269707d
   MSAppModuleShare: dbc8c66afe9d8a75060488019a4c73f203a08b06
-  MSAppModuleWebApp: 451ed9d48d3b850812e368c09047e46ec0273ddf
+  MSAppModuleWebApp: bcc1e702429c95333cff3bb7e051695ecc2a26f4
   MSRoutes: 5d0b51981715397fd815dab2f9bc7790b5c07f44
   MSThemeKit: 764b2c9293b93d36b8320cf41acf2ad76f3d36c9
   RDVTabBarController: 9033d0d7cb69319c76fb672679cbf41b1bc8ef4d
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51
+  UIImage-Helpers: 06b04a42bdd222844035602e87e936765c80f620
   WebViewJavascriptBridge: e4302f8c3988a447ae6e144656eac51f3f0f04c8
 
-PODFILE CHECKSUM: 5b7576140e67065456da16599f0350c3ec89c4b6
+PODFILE CHECKSUM: 386234de8423488ded3abd6de7e7e463833b00b8
 
 COCOAPODS: 1.2.0.beta.1

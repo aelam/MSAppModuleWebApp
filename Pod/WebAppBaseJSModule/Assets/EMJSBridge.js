@@ -41,7 +41,7 @@
     window.WVJBCallbacks = [callback];
     var WVJBIframe = document.createElement('iframe');
     WVJBIframe.style.display = 'none';
-    WVJBIframe.src = 'http://__bridge_loaded__';
+    WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
     document.documentElement.appendChild(WVJBIframe);
     setTimeout(function () {
       document.documentElement.removeChild(WVJBIframe)
@@ -56,33 +56,33 @@
   // 如果不支持WebViewJavascriptBridge 则使用老的方式
   window.GoodsBridge = {
     callHandler: function (handlerName, data, responseCallback) {
-      prepareWebViewJavascriptBridge(function () { });
+      prepareWebViewJavascriptBridge(function (bridge) {
+        if (bridge) {
+          var parameters = data;
+          if (typeof (data) === "string") {
+            parameters = JSON.parse(data);
+          }
 
-      if (window.WebViewJavascriptBridge) {
-        var parameters = data;
-        if (typeof (data) === "string") {
-          parameters = JSON.parse(data);
-        }
-
-        if (responseCallback) {
-          window.WebViewJavascriptBridge.callHandler(handlerName, parameters, responseCallback);
+          if (responseCallback) {
+            window.WebViewJavascriptBridge.callHandler(handlerName, parameters, responseCallback);
+          } else {
+            window.WebViewJavascriptBridge.callHandler(handlerName, parameters, function (result) {
+              var callback = parameters["callback"];
+              if (callback) {
+                eval(callback)(result);
+              }
+            });
+          }
         } else {
-          window.WebViewJavascriptBridge.callHandler(handlerName, parameters, function (result) {
-            var callback = parameters["callback"];
-            if (callback) {
-              eval(callback)(result);
-            }
-          });
+          openPath(handlerName, data);
         }
-      } else {
-        openPath(handlerName, data);
-      }
+      });
     }
   };
 
   window.goods = {
-    ready: function (callback) {
-      prepareWebViewJavascriptBridge(callback);
+    ready: function (bridge) {
+      prepareWebViewJavascriptBridge(bridge);
     },
 
     goback: function () {
@@ -106,7 +106,6 @@
       };
       GoodsBridge.callHandler('copy', params, function (response) { })
     },
-
 
     // 2.9.0
     route: function (path, params) {
@@ -136,6 +135,9 @@
       GoodsBridge.callHandler('share', params, function (response) { })
     },
 
+    share2: function (params) {
+      GoodsBridge.callHandler('share', params, function (response) { })
+    },
 
     showNotify: function (message) {
       var params = {
@@ -144,6 +146,7 @@
       GoodsBridge.callHandler('showNotify', params, null);
     },
 
+    // `showMenuItems`替代`shareConfig`,`searchConfig`的配置
     shareConfig: function (shareToggle, title, url, imageurl, content) {
       var params = {
         "shareToggle": shareToggle,
@@ -182,14 +185,15 @@
         responseCallback);
     },
 
+    // EMMPStock 新增
     showChangeFontSizeView: function (params, responseCallback) {
       GoodsBridge.callHandler('showChangeFontSizeView', params,
-        responseCallback);      
+        responseCallback);
     },
 
     changeFontSize: function (params, responseCallback) {
       GoodsBridge.callHandler('changeFontSize', params,
-        responseCallback);      
+        responseCallback);
     },
 
 

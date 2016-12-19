@@ -20,6 +20,9 @@
 
 - (void)x_evaluateJavaScript:(NSString *)javaScriptString {
     [self evaluateJavaScript:javaScriptString completionHandler:^(id _Nullable rs, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"error : %@", [error localizedDescription]);
+        }
     }];
 }
 

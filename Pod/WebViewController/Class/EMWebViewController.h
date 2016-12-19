@@ -16,8 +16,8 @@
 
 #import <UIKit/UIKit.h>
 #import <MSRoutes/MSRoutes.h>
-#import "UIViewController+EMShare.h"
-#import "UIViewController+SearchStock.h"
+#import "WebShareSupport.h"
+#import "WebSearchSupport.h"
 #import "WebFontSizeChangeSupport.h"
 
 typedef NS_ENUM (NSInteger, EMFontSizeType) {
@@ -25,6 +25,7 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
     EMFontSizeTypeMiddle,
     EMFontSizeTypeBig
 };
+
 
 @class MSMenuItemData;
 @class EMWebBackView;
@@ -34,7 +35,7 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 @protocol XWebView;
 @protocol MSAppSettingsWebApp;
 
-@interface EMWebViewController : UIViewController <UIWebViewDelegate, UIViewControllerRoutable, UIViewControllerShareSupport, UIViewControllerSearchSupport, WebFontSizeChangeSupport>
+@interface EMWebViewController : UIViewController <UIWebViewDelegate, UIViewControllerRoutable, WebShareSupport, WebSearchSupport, WebFontSizeChangeSupport>
 
 @property (nonatomic, assign) BOOL synchronizeDocumentTitle; // navbar同步页面document的title，default is `YES`
 
@@ -52,7 +53,7 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 @property (nonatomic, assign) BOOL supportsFontChange;
 @property (nonatomic, assign) BOOL isFontChangeItemEnabled;
 @property (nonatomic, strong) NSNumber *fontSize;
-@property (nonatomic, copy) void (^fontSizeSelection) (NSInteger fontSize);
+@property (nonatomic, copy) void (^fontSizeSelection) (NSString *fontSize);
 
 - (void)showChangeFontSizeViewWithSelection:(void (^)(NSInteger))selection;
 

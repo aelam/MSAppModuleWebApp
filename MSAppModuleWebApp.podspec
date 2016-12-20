@@ -44,7 +44,7 @@ Pod::Spec.new do |s|
   s.subspec  'WebViewController' do |ss|
     ss.source_files = 'Pod/WebViewController/Class/**/*.{h,c,m,mm,swift}'
     ss.resource     = ['Pod/WebViewController/Assets/**/*.{xib}','Pod/WebViewController/Class/**/*.{xib}']
-    s.resource_bundles = {
+    ss.resource_bundles = {
       'WebAppImageResouceBundle' => ['Pod/WebViewController/Assets/**/*.png']
     }
 

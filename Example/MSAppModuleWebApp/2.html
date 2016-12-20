@@ -6,31 +6,20 @@
 
     <script type="text/javascript">
         function loadSuccess() {
-<!--            alert("loadSuccess");-->
-<!--            alert(goods);-->
         };
-<!--    goods.ready(function(bridge) {-->
-                goods.showMenuItems({"menuItems":[{
-                                                  "title":"web_font_switch",
-                                                  "callback":"showChangeFontSizeView"
-                                                  }]});
-<!--    });-->
+    
+        goods.showMenuItems({"menuItems":[{
+                                          "title":"web_font_switch",
+                                           "callback":"showChangeFontSizeView"
+                                          }]});
 
+        window.showChangeFontSizeView = function () {
+            goods.showChangeFontSizeView({"callback":"setFontSize"});
+        };
 
-<!--  goods.ready(function(bridge) {-->
-<!--            goods.showMenuItems({"menuItems":[{-->
-<!--                                              "title":"web_font_switch",-->
-<!--                                              "callback":"showChangeFontSizeView"-->
-<!--                                              }]});-->
-<!--  };-->
-
-    window.showChangeFontSizeView = function () {
-        goods.showChangeFontSizeView({"callback":"setFontSize"});
-    };
-
-    window.setFontSize = function (response) {
-        alert("fontSize = " + response["fontSize"]);
-    };
+        window.setFontSize = function (response) {
+            alert("fontSize = " + response["fontSize"]);
+        };
 
 
     window.onload = loadSuccess;

@@ -66,7 +66,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 static NSDictionary const* kFontSizeMapping;
 
 
-@interface EMWebViewController () <WKUIDelegate, WKNavigationDelegate>
+@interface EMWebViewController () <UIWebViewDelegate, WKUIDelegate, WKNavigationDelegate>
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;

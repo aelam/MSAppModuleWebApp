@@ -29,7 +29,6 @@
                         <constraint firstAttribute="height" constant="29" id="Ob6-UJ-GN8"/>
                         <constraint firstAttribute="width" constant="52" id="Q4S-FJ-OEE"/>
                     </constraints>
-                    <state key="normal" backgroundImage="web_font_middle.png"/>
                 </button>
                 <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vde-xe-zLm">
                     <rect key="frame" x="160" y="35" width="52" height="29"/>
@@ -37,7 +36,6 @@
                         <constraint firstAttribute="height" constant="29" id="7Bu-ds-d4O"/>
                         <constraint firstAttribute="width" constant="52" id="dvb-0s-hOq"/>
                     </constraints>
-                    <state key="normal" backgroundImage="web_font_big.png"/>
                 </button>
                 <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ig-Ty-HRf">
                     <rect key="frame" x="11" y="35" width="52" height="29"/>
@@ -45,7 +43,6 @@
                         <constraint firstAttribute="height" constant="29" id="Fbi-8S-WCL"/>
                         <constraint firstAttribute="width" constant="52" id="atd-xq-QKW"/>
                     </constraints>
-                    <state key="normal" backgroundImage="web_font_small.png"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -71,11 +68,6 @@
             <point key="canvasLocation" x="-281" y="-102.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="web_font_big.png" width="51" height="28"/>
-        <image name="web_font_middle.png" width="51" height="28"/>
-        <image name="web_font_small.png" width="51" height="28"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

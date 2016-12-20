@@ -51,7 +51,7 @@
                 }];
             } else {
                 icon = [icon stringByReplacingOccurrencesOfString:@".png" withString:@""];
-                UIImage *image = [UIImage webAppImageNamed:icon];
+                UIImage *image = [UIImage webAppResourceImageNamed:icon];
                 [weakSelf _setImage:image withTintColor:color];
             }
         } else {

@@ -135,7 +135,7 @@
       GoodsBridge.callHandler('share', params, function (response) { })
     },
 
-    share2: function (params) {
+    shareMessage: function (params) {
       GoodsBridge.callHandler('share', params, function (response) { })
     },
 
@@ -190,12 +190,6 @@
       GoodsBridge.callHandler('showChangeFontSizeView', params,
         responseCallback);
     },
-
-    changeFontSize: function (params, responseCallback) {
-      GoodsBridge.callHandler('changeFontSize', params,
-        responseCallback);
-    },
-
 
     installPlugin: function (plugin) {
       for (var item in plugin) {

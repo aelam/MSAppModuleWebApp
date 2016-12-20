@@ -35,7 +35,7 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 @protocol XWebView;
 @protocol MSAppSettingsWebApp;
 
-@interface EMWebViewController : UIViewController <UIWebViewDelegate, UIViewControllerRoutable, WebShareSupport, WebSearchSupport, WebFontSizeChangeSupport>
+@interface EMWebViewController : UIViewController <UIViewControllerRoutable, WebShareSupport, WebSearchSupport, WebFontSizeChangeSupport>
 
 @property (nonatomic, assign) BOOL synchronizeDocumentTitle; // navbar同步页面document的title，default is `YES`
 

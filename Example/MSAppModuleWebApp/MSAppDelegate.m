@@ -23,6 +23,10 @@ BOOL User_hasStockAtZXG(int a) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+#ifdef __MODULE_WEB_APP__
+    NSLog(@"HELLO __MODULE_WEB_APP__");
+#endif
+    
     [[UINavigationBar appearance]setBackgroundImage:[UIImage imageWithColor:[UIColor blueColor]] forBarMetrics:UIBarMetricsDefault];
     
     EMAppSettings *appSettings = [EMAppSettings appSettings];

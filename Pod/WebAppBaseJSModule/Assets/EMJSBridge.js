@@ -120,23 +120,23 @@
     },
 
     // 分享模块
-    share: function (title, url, id, imageurl, iconUrl, content, type,
+    share: function (title, url, platformId, imageUrl, iconUrl, content, mediaType,
       callback) {
       var params = {
         "title": title,
         "url": url,
-        "id": id,
-        "imageurl": imageurl,
+        "platformId": platformId,
+        "imageUrl": imageUrl,
         "iconUrl": iconUrl,
         "content": content,
-        "type": type,
+        "mediaType":mediaType,
         "callback": callback
       };
-      GoodsBridge.callHandler('share', params, function (response) { })
+      GoodsBridge.callHandler('share', params, null)
     },
 
     shareMessage: function (params) {
-      GoodsBridge.callHandler('share', params, function (response) { })
+      GoodsBridge.callHandler('share', params, null)
     },
 
     showNotify: function (message) {
@@ -159,6 +159,7 @@
         response) { })
     },
 
+    // 仅加强版旧版使用
     searchConfig: function (searchToggle) {
       var params = {
         "searchToggle": searchToggle,

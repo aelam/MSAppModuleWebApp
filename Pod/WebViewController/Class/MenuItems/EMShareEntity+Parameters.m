@@ -19,8 +19,8 @@
     NSString *title = parameters[@"title"];
     NSString *content = parameters[@"content"];
     NSString *postUrl = parameters[@"url"];
-    NSString *imageUrl = parameters[@"imageurl"];
-    NSInteger socialType = [parameters[@"id"] integerValue];
+    NSString *imageUrl = parameters[@"imageUrl"];
+    NSInteger socialType = [parameters[@"platformId"] integerValue];
     NSString *callback = parameters[@"callback"];
     NSString *iconUrl = parameters[@"iconUrl"];
     

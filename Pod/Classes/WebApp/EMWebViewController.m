@@ -820,7 +820,7 @@ static const BOOL kNavigationBarHidden = YES;
             NSNumber *errorCode = returnedInfo[EMActivityQQStatusCodeKey];
             
             if(activityError){
-                statusCode = 0;
+                statusCode = -1;
                 [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装QQ，请先安装"];
             }else if (errorCode) {
                 if ([errorCode integerValue] == EMActivityQQStatusCodeSuccess) {

@@ -407,7 +407,7 @@ static const BOOL kNavigationBarHidden = YES;
     
     NSURL *url = request.URL;
     NSString *lowercaseScheme = [[url scheme] lowercaseString];
-                                 
+    
     if ([lowercaseScheme isEqualToString:@"tel"] ||
         [lowercaseScheme isEqualToString:@"telprompt"] ||
         [lowercaseScheme isEqualToString:@"sms"]) {
@@ -416,8 +416,8 @@ static const BOOL kNavigationBarHidden = YES;
         [JLRoutes routeURL:url];
         return NO;
     } else if ([lowercaseScheme hasPrefix:@"http"] ||
-        [lowercaseScheme hasPrefix:@"file"]
-        ) {
+               [lowercaseScheme hasPrefix:@"file"]
+               ) {
         self.loadRequest = request;
     }
     
@@ -600,14 +600,14 @@ static const BOOL kNavigationBarHidden = YES;
     
     [button addTarget:self action:@selector(doShare) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-
+    
     return buttonItem;
 }
 
 - (UIBarButtonItem *)searchItem {
     MSCustomMenuItem *customMenuItem = [MSCustomMenuItem new];
     customMenuItem.icon = @"web_search";
-
+    
     JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
     button.tintColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
     button.menuItem = customMenuItem;
@@ -786,7 +786,12 @@ static const BOOL kNavigationBarHidden = YES;
             message = returnedInfo[EMActivityWeChatStatusMessageKey];
             socialType = EMSocialTypeWeChat;
             NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
-            if (errorCode) {
+            
+            if (activityError) {
+                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
+                
+                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
+            }else if (errorCode) {
                 if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
                     statusCode = 0;
                 } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
@@ -798,7 +803,11 @@ static const BOOL kNavigationBarHidden = YES;
             message = returnedInfo[EMActivityWeChatStatusMessageKey];
             socialType = EMSocialTypeMoments;
             NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
-            if (errorCode) {
+            
+            if(activityError){
+                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
+                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
+            } else  if (errorCode) {
                 if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
                     statusCode = 0;
                 } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
@@ -809,7 +818,11 @@ static const BOOL kNavigationBarHidden = YES;
             message = returnedInfo[EMActivityQQStatusMessageKey];
             socialType = EMSocialTypeQQ;
             NSNumber *errorCode = returnedInfo[EMActivityQQStatusCodeKey];
-            if (errorCode) {
+            
+            if(activityError){
+                statusCode = 0;
+                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装QQ，请先安装"];
+            }else if (errorCode) {
                 if ([errorCode integerValue] == EMActivityQQStatusCodeSuccess) {
                     statusCode = 0;
                 } else if ([errorCode integerValue] == EMActivityQQStatusCodeUserCancel) {
@@ -817,6 +830,8 @@ static const BOOL kNavigationBarHidden = YES;
                 }
             }
         }
+        
+        
         
         if (callback.length > 0) {
             NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
@@ -826,6 +841,9 @@ static const BOOL kNavigationBarHidden = YES;
             } else {
                 [_webView x_evaluateJavaScript:script];
             }
+            
+            
+            
         } else {
             if (message.length > 0) {
                 [BDKNotifyHUD showNotifHUDWithText:message];
@@ -852,7 +870,7 @@ static const BOOL kNavigationBarHidden = YES;
     NSString *relativePath = url.relativePath;
     
     NSString *urlString = [NSString stringWithFormat:@"%@://%@%@",scheme,host,relativePath];
-
+    
     _currentURLString = urlString;
     
     [EMClick beginLogPageView:@"web"];

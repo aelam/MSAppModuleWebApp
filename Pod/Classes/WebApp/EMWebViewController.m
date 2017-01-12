@@ -797,6 +797,9 @@ static const BOOL kNavigationBarHidden = YES;
                 } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
                     statusCode = -1;
                 }
+            }else if (!returnedInfo) {
+                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
+                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
             }
             
         } else if ([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
@@ -813,6 +816,9 @@ static const BOOL kNavigationBarHidden = YES;
                 } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
                     statusCode = -1;
                 }
+            }else if (!returnedInfo) {
+                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
+                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
             }
         } else if ([activityType isEqualToString:UIActivityTypePostToQQ]) {
             message = returnedInfo[EMActivityQQStatusMessageKey];
@@ -828,6 +834,9 @@ static const BOOL kNavigationBarHidden = YES;
                 } else if ([errorCode integerValue] == EMActivityQQStatusCodeUserCancel) {
                     statusCode = -1;
                 }
+            }else if (!returnedInfo) {
+                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
+                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装QQ，请先安装"];
             }
         }
         

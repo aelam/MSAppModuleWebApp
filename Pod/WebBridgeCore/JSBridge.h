@@ -27,7 +27,7 @@
 
 @end
 
-
+JS_EXTERN void JSRegisterModule(Class);
 JS_EXTERN NSArray<Class> *JSGetModuleClasses(void);
 
 @protocol JSBridgeModule;

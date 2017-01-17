@@ -778,6 +778,7 @@ static const BOOL kNavigationBarHidden = YES;
             if (errorCode) {
                 if ([errorCode integerValue] == EMActivityWeiboStatusCodeSuccess) {
                     statusCode = 0;
+                    [BDKNotifyHUD showNotifHUDWithText:@"分享成功"];
                 } else if ([errorCode integerValue] == EMActivityWeiboStatusCodeUserCancel) {
                     statusCode = -1;
                 }
@@ -794,6 +795,7 @@ static const BOOL kNavigationBarHidden = YES;
             }else if (errorCode) {
                 if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
                     statusCode = 0;
+                    [BDKNotifyHUD showNotifHUDWithText:returnedInfo[EMActivityWeChatStatusMessageKey]];
                 } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
                     statusCode = -1;
                 }
@@ -813,6 +815,7 @@ static const BOOL kNavigationBarHidden = YES;
             } else  if (errorCode) {
                 if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
                     statusCode = 0;
+                    [BDKNotifyHUD showNotifHUDWithText:returnedInfo[EMActivityWeChatStatusMessageKey]];
                 } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
                     statusCode = -1;
                 }
@@ -831,6 +834,7 @@ static const BOOL kNavigationBarHidden = YES;
             }else if (errorCode) {
                 if ([errorCode integerValue] == EMActivityQQStatusCodeSuccess) {
                     statusCode = 0;
+                    [BDKNotifyHUD showNotifHUDWithText:@"分享成功"];
                 } else if ([errorCode integerValue] == EMActivityQQStatusCodeUserCancel) {
                     statusCode = -1;
                 }
@@ -874,11 +878,11 @@ static const BOOL kNavigationBarHidden = YES;
 - (void)beginTrackingEventsWithURL:(NSURL *)url {
     [self endTrackingLastPage];
     
-//    NSString *scheme = url.scheme;
-//    NSString *host = url.host;
-//    NSString *relativePath = url.relativePath;
-//    
-//    NSString *urlString = [NSString stringWithFormat:@"%@://%@%@",scheme,host,relativePath];
+    //    NSString *scheme = url.scheme;
+    //    NSString *host = url.host;
+    //    NSString *relativePath = url.relativePath;
+    //
+    //    NSString *urlString = [NSString stringWithFormat:@"%@://%@%@",scheme,host,relativePath];
     
     _currentURLString = url.absoluteString;
     

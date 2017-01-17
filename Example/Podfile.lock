@@ -54,12 +54,12 @@ PODS:
     - EMSpeed/Core
     - MSAppModuleKit
     - SDWebImage
-  - MSAppModuleWebApp (0.2.4):
-    - MSAppModuleWebApp/WebBridgeCore (= 0.2.4)
-    - MSAppModuleWebApp/WebViewController (= 0.2.4)
-  - MSAppModuleWebApp/WebBridgeCore (0.2.4):
+  - MSAppModuleWebApp (0.2.6):
+    - MSAppModuleWebApp/WebBridgeCore (= 0.2.6)
+    - MSAppModuleWebApp/WebViewController (= 0.2.6)
+  - MSAppModuleWebApp/WebBridgeCore (0.2.6):
     - WebViewJavascriptBridge
-  - MSAppModuleWebApp/WebViewController (0.2.4):
+  - MSAppModuleWebApp/WebViewController (0.2.6):
     - EMClick
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -99,7 +99,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MSAppModuleWebApp:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -113,11 +113,11 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MSAppModuleKit: 16d6966564e0ca29748b762ba334319df811f1ac
   MSAppModuleShare: 24f48f18e6684d01e39e7235b9f9857775a384bf
-  MSAppModuleWebApp: 1160d954c7ae35cb71c5fa8f9ce0469771adaa20
+  MSAppModuleWebApp: fac876e72e6acd34be58d6e67d3097964d5eb934
   MSRoutes: b0b7654bf2e1b61145da7c7eaea5cd4def86286a
   MSThemeKit: 4c23a62794faace8be56c2dc53fa16d2daece39b
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SDWebImage: '098e97e6176540799c27e804c96653ee0833d13c'
   Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
   TencentOpenApiSDK: a0d7716edd6eb438d65828168e8e5137301b436d
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
@@ -129,4 +129,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b9947d21f0c888eb918fd22a6e74733b0c52c6cb
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0.beta.3

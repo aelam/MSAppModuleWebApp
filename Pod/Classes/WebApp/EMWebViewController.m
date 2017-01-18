@@ -201,7 +201,7 @@ static const BOOL kNavigationBarHidden = YES;
     [self changeTabbarStatus];
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
-    
+    [self.webView x_evaluateJavaScript:@"onResume()"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -218,7 +218,7 @@ static const BOOL kNavigationBarHidden = YES;
     
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
-    
+    [self.webView x_evaluateJavaScript:@"onPause()"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

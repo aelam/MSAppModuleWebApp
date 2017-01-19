@@ -269,6 +269,7 @@ static const BOOL kNavigationBarHidden = YES;
         webView.scrollView.clipsToBounds = YES;
         webView.delegate = self;
         webView.scalesPageToFit = YES;
+        webView.allowsInlineMediaPlayback = YES;
         [self.view addSubview:webView];
         _webView = (UIView<XWebView> *)webView;
         

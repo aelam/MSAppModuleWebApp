@@ -55,7 +55,6 @@ static const BOOL kNavigationBarHidden = YES;
 @interface EMWebViewController () <UIViewControllerRouter, WKUIDelegate, WKNavigationDelegate>
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
-    UILongPressGestureRecognizer *_longPress;
     
     NSString *_currentURLString;
     BOOL _isPushBack;
@@ -454,13 +453,6 @@ static const BOOL kNavigationBarHidden = YES;
     
     self.backView.showGoBack = self.webView.canGoBack;
     [self updateNavigationBarByMeta];
-    
-    if (!_longPress) {
-        _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(coverWebviewAction:)];
-        _longPress.minimumPressDuration = 0.4;
-        _longPress.numberOfTouchesRequired = 1;
-        [webView.scrollView addGestureRecognizer:_longPress];
-    }
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
@@ -488,10 +480,6 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
     completionHandler(YES);
-}
-
-- (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
-    
 }
 
 #pragma mark -

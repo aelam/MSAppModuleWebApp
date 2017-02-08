@@ -19,6 +19,8 @@
 #import "WebShareSupport.h"
 #import "WebSearchSupport.h"
 #import "WebFontSizeChangeSupport.h"
+// Bridge
+#import "WebBridgeCore.h"
 
 typedef NS_ENUM (NSInteger, EMFontSizeType) {
     EMFontSizeTypeSmall,
@@ -85,5 +87,8 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 
 // 通过JLRoutes跳转的时候 可附加eventAttributes 会传入统计中去
 @property (nonatomic, strong) NSDictionary *eventAttributes;
+
+//bridge
+@property (nonatomic, strong, readonly) id<WebViewJavascriptBridgeProtocol>bridge;
 
 @end

@@ -377,6 +377,11 @@
       GoodsBridge.callHandler('heightChange', params, function (
         response) { })
     },
+ 
+    joinQQGroup: function (params) {
+ 
+    GoodsBridge.callHandler('joinQQGroup', params, function ( response) { })
+    },
 
     // 2.9.0
     // @params: {appurl:"emstock://"}

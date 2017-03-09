@@ -186,6 +186,12 @@
         responseCallback);
     },
 
+   // EMAPP+
+    onHeightChange: function (params, responseCallback) {
+        GoodsBridge.callHandler('onHeightChange', params,
+                         responseCallback);
+    },
+
     // EMMPStock 新增
     showChangeFontSizeView: function (params, responseCallback) {
       GoodsBridge.callHandler('showChangeFontSizeView', params,

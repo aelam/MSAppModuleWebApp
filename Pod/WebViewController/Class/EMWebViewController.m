@@ -170,8 +170,7 @@ static NSDictionary const* kFontSizeMapping;
         self.hidesBottomBarWhenPushed = YES;
         self.synchronizeDocumentTitle = YES;
         [self setShowsCloseButton:YES];
-        self.isFontChangeItemEnabled = YES;
-        
+//        self.isFontChangeItemEnabled = YES;
         
         if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
             self.edgesForExtendedLayout = UIRectEdgeAll;

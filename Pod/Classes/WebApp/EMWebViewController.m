@@ -201,6 +201,7 @@ static const BOOL kNavigationBarHidden = YES;
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
     [self.webView x_evaluateJavaScript:@"onResume()"];
+    [self addObservers];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -218,6 +219,7 @@ static const BOOL kNavigationBarHidden = YES;
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
     [self.webView x_evaluateJavaScript:@"onPause()"];
+    [self removeObservers];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -229,6 +231,20 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Notification
+- (void)addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+}
+
+- (void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)didBecomeActive{
+    [self.webView x_evaluateJavaScript:@"onResume()"];
 }
 
 #pragma mark - WebView

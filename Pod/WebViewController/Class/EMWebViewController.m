@@ -63,10 +63,8 @@ static const BOOL kNavigationBarHidden = YES;
 
 static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
-static NSDictionary const* kFontSizeMapping;
 
-
-@interface EMWebViewController () <UIWebViewDelegate, WKUIDelegate, WKNavigationDelegate>
+@interface EMWebViewController () <UIWebViewDelegate, WKUIDelegate, WKNavigationDelegate, MSArtPopupViewDelegate>
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;
@@ -110,12 +108,9 @@ static NSDictionary const* kFontSizeMapping;
 }
 
 + (NSDictionary *)fontSizeMapping {
-    if (kFontSizeMapping == nil) {
-        kFontSizeMapping = @{@0:@"small",
-                             @1:@"medium",
-                             @2:@"big"};
-    }
-    return kFontSizeMapping;
+    return @{@0:@"small",
+             @1:@"medium",
+             @2:@"big"};
 }
 
 - (void)dealloc {
@@ -775,14 +770,12 @@ static NSDictionary const* kFontSizeMapping;
     
     UINib *viewNib = [UINib nibWithNibName:@"EMFontChangeView" bundle:[NSBundle bundleForClass:[self class]]];
     EMFontChangeView *changeViewContentView = [[viewNib instantiateWithOwner:nil options:nil] lastObject];
-    CGRect buttonFrame = [_selectedMenuItem.superview convertRect:_selectedMenuItem.frame toView:self.navigationController.view];
+//    CGRect buttonFrame = [_selectedMenuItem.superview convertRect:_selectedMenuItem.frame toView:self.navigationController.view];
     changeViewContentView.frame = CGRectMake(0, 0, 223, 74);
     changeViewContentView.titleColor = [MSThemeColor web_fontSizeChangeViewTextColor];
-    if (_selectedMenuItem) {
+    {
         fromRect = _selectedMenuItem.frame;
         fromRect.origin.y += 27;
-    } else {
-        
     }
 
     // 设置字体UI
@@ -899,9 +892,12 @@ static NSDictionary const* kFontSizeMapping;
 
 - (void)doSearch {
     [self event:@"web:search" attributes:self.eventAttributes];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     if ([super respondsToSelector:_cmd]) {
         [super performSelector:_cmd];
     }
+#pragma clang diagnostic pop
 }
 
 - (void)doShare {
@@ -956,7 +952,6 @@ static NSDictionary const* kFontSizeMapping;
 - (NSURL *)_addAdditionInfoToOriginURL:(NSURL *)plainURL {
     
     NSMutableDictionary *additionInfo = [NSMutableDictionary dictionary];
-    NSDictionary *authInfo = nil;
     if(kModuleSettings.webAppAuthInfo) {
         [additionInfo addEntriesFromDictionary:kModuleSettings.webAppAuthInfo()];
     }

@@ -57,7 +57,7 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 @property (nonatomic, strong) NSNumber *fontSize;
 @property (nonatomic, copy) void (^fontSizeSelection) (NSString *fontSize);
 
-- (void)showChangeFontSizeViewWithSelection:(void (^)(NSInteger))selection;
+- (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *))selection;
 
 // JSMenuItems
 @property (nonatomic, strong) NSArray <MSMenuItemData *> *menuItems;

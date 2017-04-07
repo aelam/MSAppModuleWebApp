@@ -11,10 +11,8 @@
 
 @interface EMFontChangeView : MSArtPopupContentView
 
-@property (nonatomic, weak) id<MSArtPopupViewDelegate> actionDelegate;
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, strong) UIColor *titleColor;
-
-@property (nonatomic, readonly) IBOutlet UILabel *fontChangeTitleLabel;
+@property (nonatomic, readwrite) IBOutlet UILabel *fontChangeTitleLabel;
 
 @end

@@ -76,7 +76,7 @@ static NSInteger const kButtonOffset = 100;
         [self updateButtons];
 
         if ([self.actionDelegate respondsToSelector:@selector(MSArtPopView:didPressed:)]) {
-            [self.actionDelegate MSArtPopView:self.superview didPressed:self];
+            [self.actionDelegate MSArtPopView:(MSArtPopupView *)self.superview didPressed:self];
         }
     }
 

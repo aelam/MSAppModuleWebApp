@@ -257,7 +257,7 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerShowChangeFontSizeViewWithBridge:(JSBridge *)bridge {
-    __weak UIViewController <WebFontSizeChangeSupport> *viewController = bridge.viewController;
+    __weak UIViewController <WebFontSizeChangeSupport> *viewController = (UIViewController <WebFontSizeChangeSupport> *)bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         
         [viewController showChangeFontSizeViewWithSelection:^(NSString *newFontSize) {

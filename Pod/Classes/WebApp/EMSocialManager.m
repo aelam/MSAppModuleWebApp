@@ -130,7 +130,7 @@ typedef NS_ENUM(NSUInteger, EMShareType) {
                         status:(BOOL )completed
                   returnedInfo:(NSDictionary *)returnedInfo
                  activityError:(NSError *)activityError
-                      callBack:(NSString *)callBack
+                      callBack:(NSString *)callback
                 viewController:(EMWebViewController *)webViewController
                       jsbridge:(JSBridge *)bridge {
     EMSocialType socialType = 0;
@@ -211,7 +211,6 @@ typedef NS_ENUM(NSUInteger, EMShareType) {
     }
     
     
-    NSString *callback;
     if (callback.length > 0) {
         NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
         // FIXME: 在callback指明却不实现的情况直接使用webview会卡死

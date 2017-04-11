@@ -406,6 +406,11 @@
       GoodsBridge.callHandler('post', params,
         responseCallback);
     },
+ 
+    shareWithJSON: function (params, responseCallback) {
+        GoodsBridge.callHandler('shareWithJSON', params,
+                         responseCallback);
+    },
 
     installPlugin: function (plugin) {
       for (var item in plugin) {

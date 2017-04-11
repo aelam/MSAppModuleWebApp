@@ -17,6 +17,7 @@
 #import <JLRoutes/JLRoutes.h>
 #import "MSCustomMenuItem.h"
 #import "EMShareEntity+Parameters.h"
+#import "EMSocialManager.h"
 
 @implementation JSBridgeModuleBase
 
@@ -63,6 +64,7 @@ JS_EXPORT_MODULE();
     
     [self registerOpenURLWithBridge:bridge];
 
+    [self registerShare1WithBridge:bridge];
 
 }
 
@@ -183,7 +185,6 @@ JS_EXPORT_MODULE();
     
     [self registerHandler:@"close" handler:handler];
     [self registerHandler:@"back" handler:handler];
-    
 }
 
 - (void)registerGoBackWithBridge:(JSBridge *)bridge {
@@ -199,7 +200,6 @@ JS_EXPORT_MODULE();
     
     [self registerHandler:@"goback" handler:handler];
     [self registerHandler:@"goBack" handler:handler];
-    
 }
 
 - (void)registerSearchToggleWithBridge:(JSBridge *)bridge {
@@ -322,6 +322,26 @@ JS_EXPORT_MODULE();
     };
     
     [self registerHandler:@"web" handler:handler];
+}
+
+- (void)registerShare1WithBridge:(JSBridge *)bridge {
+    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
+    
+    [self registerHandler:@"shareWithJSON" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"share called: %@", data);
+        NSDictionary *parameters = (NSDictionary *)data;
+        
+        EMShareEntity *shareEntity = [EMShareEntity shareEntityWithParameters:parameters];
+        if (shareEntity.socialType != EMSocialTypeAll) {
+            if ([webViewController respondsToSelector:@selector(share:)]) {
+                [webViewController share:shareEntity];
+            }
+        } else {
+            [EMSocialManager share:parameters viewController:webViewController jsbridge:bridge];
+        }
+        
+        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
+    }];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "JLRoutes+WebApp.h"
 #import "NSBundle+WebApp.h"
 
+
 @implementation MSAppModuleWebApp
 
 - (void)moduleDidLoad:(id<MSAppSettingsWebApp>)info {
@@ -22,7 +23,7 @@
     NSAssert([[info supportsURLSchemes] count] >= 1, @"需要配置`supportsURLSchemes`");
     NSAssert([info mainURLScheme], @"需要配置`mainURLScheme`");
 //    NSAssert([info userHasZXGHandler], @"需要配置`userHasZXGHandler`");
-
+    
     [EMWebViewController setModuleSettings:info];
     
     if ([info respondsToSelector:@selector(overrideWebAppImageResouceBundle)]) {
@@ -35,11 +36,11 @@
 }
 
 - (void)moduleRegisterRoutes:(JLRoutes *)route {
-    [route registerRoutesForWebApp];
+    [route registerWebRoutesWithAppSettings:self.moduleSettings];
 }
 
 - (void)moduleUnregisterRoutes:(JLRoutes *)route {
-    [route unregisterRoutesForWebApp];
+    [route unregisterWebRoutesWithAppSettings:self.moduleSettings];
 }
 
 @end

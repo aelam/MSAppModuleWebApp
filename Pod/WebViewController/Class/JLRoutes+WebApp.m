@@ -14,13 +14,29 @@
 
 @implementation JLRoutes (WebApp)
 
-- (void)registerRoutesForWebApp {
-    [self registerWeb];
+- (void)registerWebRoutesWithAppSettings:(id<MSAppSettings>)settings {
+    [self registerWebWithAppSettings:(id<MSAppSettings>)settings];
     [self registerGoBack];
 }
 
-- (void)registerWeb {
-    [self registerRoute:@"web" pushingControllerName:@"EMWebViewController"];
+- (void)registerWebWithAppSettings:(id<MSAppSettings>)settings {
+    [self addRoute:@"web" handler:^BOOL(NSDictionary<NSString *,id> * _Nonnull parameters) {
+        NSURL *URL = [NSURL URLWithString:parameters[@"url"]];
+        NSString *scheme = [URL scheme];
+        NSString *lowerScheme = [scheme lowercaseString];
+        if ([settings.supportsURLSchemes containsObject:scheme]) {
+            return [JLRoutes routeURL:URL];
+        } else if ([lowerScheme isEqualToString:@"http"] ||
+                   [lowerScheme isEqualToString:@"https"] ||
+                   [lowerScheme hasPrefix:@"file"]) {
+            [MSActiveControllerFinder sharedFinder].resetStatus();
+            UINavigationController *navigator = [MSActiveControllerFinder sharedFinder].activeNavigationController();
+            [navigator pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:parameters];
+            return true;
+        } else {
+            return false;
+        }
+    }];
 }
 
 /**
@@ -41,7 +57,7 @@
 }
 
 
-- (void)unregisterRoutesForWebApp {
+- (void)unregisterWebRoutesWithAppSettings:(id<MSAppSettings>)settings {
     [self removeRoute:@"web"];
     [self removeRoute:@"goBack"];
     [self removeRoute:@"goback"];

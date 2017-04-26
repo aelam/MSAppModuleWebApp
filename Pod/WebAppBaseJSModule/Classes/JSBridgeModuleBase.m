@@ -243,13 +243,9 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerOpenURLWithBridge:(JSBridge *)bridge {
-    __weak UIViewController *viewController = bridge.viewController;
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
+    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary *parameters = (NSDictionary *)data;
-        
-        EMWebViewController *webViewController = [[EMWebViewController alloc] initWithRouterParams:parameters];
-        
-        [viewController.navigationController pushViewController:webViewController animated:YES];
+        [JLRoutes routeURL:[NSURL URLWithString:@"web"] withParameters:parameters];
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     };
     

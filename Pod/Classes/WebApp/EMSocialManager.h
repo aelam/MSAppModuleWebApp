@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <MSAppModuleWebApp/JSBridge.h>
+#import "EMShareEntity+Parameters.h"
+
+@class EMWebViewController;
 
 @interface EMSocialManager : NSObject
 
-+ (void)share:(NSDictionary *)parameters viewController:(UIViewController *)viewController jsbridge:(JSBridge *)bridge;
++ (void)share:(NSDictionary *)parameters viewController:(EMWebViewController *)viewController jsbridge:(JSBridge *)bridge;
 
 @end

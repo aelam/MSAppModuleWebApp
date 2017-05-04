@@ -3,6 +3,7 @@ source 'http://ph.benemind.com/diffusion/SPEC/emspecs.git'
 
 target 'MSAppModuleWebApp_Example' do
   pod 'MSAppModuleWebApp', :path => '../'
+  pod 'EMSocialKit', :git => 'http://ph.benemind.com/diffusion/EMSK/emsocialkit-ios.git'
 end
 
 target 'MSAppModuleWebApp_Tests' do

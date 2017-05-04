@@ -19,7 +19,7 @@
 #import <MSThemeKit/MSThemeKit.h>
 #import <EMClick/EMClick.h>
 #import <RDVTabBarController/RDVTabBarController.h>
-#import <EMSocialKit/EMSocialSDK.h>
+#import <EMSocialKit/EMSocialKit.h>
 #import <BDKNotifyHUD.h>
 
 #import "EMSocialSDK+URLBind.h"
@@ -46,6 +46,7 @@
 
 // ErrorView
 #import "EMWebErrorView.h"
+#import "EMSocialManager.h"
 
 static BOOL kEnableWKWebView = NO;
 
@@ -771,85 +772,46 @@ static const BOOL kNavigationBarHidden = YES;
     [EMClick event:@"web:share" attributes:self.eventAttributes];
     NSString *callback = shareEntity.callback;
     
+    [EMSocialManager share:nil viewController:self jsbridge:self.jsBridge];
+    
     [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
-        EMSocialType socialType = 0;
-        NSInteger statusCode = 0;
         
+        EMSocialType socialType = 0;
         NSString *message = nil;
-        if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
-            message = returnedInfo[EMActivityWeiboStatusMessageKey];
-            socialType = EMSocialTypeSinaWeibo;
-            NSNumber *errorCode = returnedInfo[EMActivityWeiboStatusCodeKey];
-            if (errorCode) {
-                if ([errorCode integerValue] == EMActivityWeiboStatusCodeSuccess) {
-                    statusCode = 0;
-                    [BDKNotifyHUD showNotifHUDWithText:@"分享成功"];
-                } else if ([errorCode integerValue] == EMActivityWeiboStatusCodeUserCancel) {
-                    statusCode = -1;
-                }
-            }
-        } else if ([activityType isEqualToString:UIActivityTypePostToWeChatSession]) {
-            message = returnedInfo[EMActivityWeChatStatusMessageKey];
-            socialType = EMSocialTypeWeChat;
-            NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
-            
-            if (activityError) {
-                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-                
-                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-            }else if (errorCode) {
-                if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
-                    statusCode = 0;
-                    [BDKNotifyHUD showNotifHUDWithText:returnedInfo[EMActivityWeChatStatusMessageKey]];
-                } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
-                    statusCode = -1;
-                }
-            }else if (!returnedInfo) {
-                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-            }
-            
-        } else if ([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
-            message = returnedInfo[EMActivityWeChatStatusMessageKey];
-            socialType = EMSocialTypeMoments;
-            NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
-            
-            if(activityError){
-                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-            } else  if (errorCode) {
-                if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
-                    statusCode = 0;
-                    [BDKNotifyHUD showNotifHUDWithText:returnedInfo[EMActivityWeChatStatusMessageKey]];
-                } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
-                    statusCode = -1;
-                }
-            }else if (!returnedInfo) {
-                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-            }
-        } else if ([activityType isEqualToString:UIActivityTypePostToQQ]) {
-            message = returnedInfo[EMActivityQQStatusMessageKey];
-            socialType = EMSocialTypeQQ;
-            NSNumber *errorCode = returnedInfo[EMActivityQQStatusCodeKey];
-            
-            if(activityError){
-                statusCode = -1;
-                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装QQ，请先安装"];
-            }else if (errorCode) {
-                if ([errorCode integerValue] == EMActivityQQStatusCodeSuccess) {
-                    statusCode = 0;
-                    [BDKNotifyHUD showNotifHUDWithText:@"分享成功"];
-                } else if ([errorCode integerValue] == EMActivityQQStatusCodeUserCancel) {
-                    statusCode = -1;
-                }
-            }else if (!returnedInfo) {
-                statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-                [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装QQ，请先安装"];
-            }
+        NSInteger statusCode = [returnedInfo[EMActivityGeneralStatusCodeKey] integerValue];
+        if (statusCode == EMActivityGeneralStatusCodeSuccess) {
+            message = @"分享成功";
+        } else if (statusCode == EMActivityGeneralStatusCodeUserCancel) {
+            message = @"用户取消分享";
+        } else {
+            message = [activityError localizedDescription];
         }
         
-        
+        if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
+            socialType = EMSocialTypeSinaWeibo;
+            if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+                message = @"您还没有安装微博，请先安装";
+            }
+            
+        } else if ([activityType isEqualToString:UIActivityTypePostToWeChatSession]) {
+            socialType = EMSocialTypeWeChat;
+            if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+                message = @"您还没有安装微信，请先安装";
+            }
+        } else if ([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
+            socialType = EMSocialTypeMoments;
+            if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+                message = @"您还没有安装微信，请先安装";
+            }
+        } else if ([activityType isEqualToString:UIActivityTypePostToQQ]) {
+            socialType = EMSocialTypeQQ;
+            if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+                message = @"您还没有安装QQ，请先安装";
+            }
+        }
+        if (message.length > 0) {
+            [BDKNotifyHUD showNotifHUDWithText:message];
+        }
         
         if (callback.length > 0) {
             NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
@@ -858,13 +820,6 @@ static const BOOL kNavigationBarHidden = YES;
                 [self.jsBridge.javascriptContext evaluateScript:script];
             } else {
                 [_webView x_evaluateJavaScript:script];
-            }
-            
-            
-            
-        } else {
-            if (message.length > 0) {
-                [BDKNotifyHUD showNotifHUDWithText:message];
             }
         }
     }];

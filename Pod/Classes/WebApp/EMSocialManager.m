@@ -10,6 +10,7 @@
 #import <EMSocialKit/EMSocialKit.h>
 #import <MSAppModuleShare/EMShareEntity.h>
 #import <MSAppModuleWebApp/EMShareEntity+Parameters.h>
+#import <SDWebImage/SDWebImageDownloader.h>
 #import <SDWebImage/SDWebImageManager.h>
 #import <EMSocialKit/EMActivityQQ.h>
 #import <EMSocialKit/EMActivityWeibo.h>
@@ -28,55 +29,52 @@ typedef NS_ENUM(NSUInteger, EMShareType) {
 
 @implementation EMSocialManager
 
-+ (void)share:(NSDictionary *)parameters viewController:(UIViewController *)viewController jsbridge:(JSBridge *)bridge {
++ (void)share:(NSDictionary *)parameters viewController:(EMWebViewController *)viewController jsbridge:(JSBridge *)bridge {
     if(![parameters isKindOfClass:[NSDictionary class]]) {
         return;
     }
     
     NSInteger socialType = [parameters[@"id"] integerValue];
     
-    if (socialType != EMSocialTypeAll) {
-        if ([viewController respondsToSelector:@selector(share:)]) {
-            EMShareEntity *shareEntity = [EMShareEntity shareEntityWithParameters:parameters];
-                [viewController share:shareEntity];
-        }
-    } else {
-        
-        NSInteger showItem = [parameters[@"showItem"] integerValue];
-        NSArray *activies = [[self class] activies:showItem];
-        
-        UIImage *appIcon = [UIImage imageNamed:@"AppIcon60x60"];
-        NSString *title = parameters[@"title"];
-        NSString *content = parameters[@"content"];
-        NSString *postUrl = parameters[@"url"];
-        NSString *callback = parameters[@"callback"];
-        NSString *iconUrl = parameters[@"iconUrl"];
-        NSString *imageUrl = parameters[@"imageurl"];
-        
-        if (imageUrl && imageUrl.length) {
-            [[SDWebImageManager sharedManager] downloadImageWithURL: [NSURL URLWithString: iconUrl] options: SDWebImageHighPriority progress: nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
-             {
-                 NSArray *contents = [self activityItemTitle:title content:content postUrl:postUrl shareImage:image];
+    NSInteger showItem = [parameters[@"showItem"] integerValue];
+    NSArray *activies = [[self class] activies:showItem type:socialType];
+    
+    NSString *title = parameters[@"title"];
+    NSString *content = parameters[@"content"];
+    NSString *postUrl = parameters[@"url"];
+    NSString *callback = parameters[@"callback"];
+    NSString *iconUrl = parameters[@"iconUrl"];
+    NSString *imageUrl = parameters[@"imageurl"];
+    
+    if (imageUrl && imageUrl.length) {
 
-                 [[EMSocialSDK sharedSDK] shareActivies:activies withItems:contents rootViewController:viewController completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
-                     [self shareCompletionHandler:activityType status:completed returnedInfo:returnedInfo activityError:activityError callBack:callback viewController:viewController jsbridge:bridge];
-                 }];
+        [[[SDWebImageManager sharedManager] imageDownloader] downloadImageWithURL:[NSURL URLWithString: iconUrl] options: SDWebImageDownloaderHighPriority progress: nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished)
+         {
+             NSArray *contents = [self activityItemTitle:title content:content postUrl:postUrl shareImage:image];
+             
+             [[EMSocialSDK sharedSDK] shareActivies:activies withItems:contents rootViewController:viewController completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
+                 [self shareCompletionHandler:activityType status:completed returnedInfo:returnedInfo activityError:activityError callBack:callback viewController:viewController jsbridge:bridge];
              }];
-        } else {
-            NSArray *contents = [self activityItemTitle:title content:content postUrl:postUrl shareImage:nil];
-            
-            [[EMSocialSDK sharedSDK] shareActivies:activies withItems:contents rootViewController:viewController completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
-                [self shareCompletionHandler:activityType status:completed returnedInfo:returnedInfo activityError:activityError callBack:callback viewController:viewController jsbridge:bridge];
-            }];
-        }
+         }];
+    } else {
+        NSArray *contents = [self activityItemTitle:title content:content postUrl:postUrl shareImage:nil];
+        
+        [[EMSocialSDK sharedSDK] shareActivies:activies withItems:contents rootViewController:viewController completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
+            [self shareCompletionHandler:activityType status:completed returnedInfo:returnedInfo activityError:activityError callBack:callback viewController:viewController jsbridge:bridge];
+        }];
     }
+    //    }s
+}
+
++ (void)shareEntity:(EMShareEntity *)shareEntity viewController:(EMWebViewController *)viewController jsbridge:(JSBridge *)bridge {
+    
 }
 
 + (NSArray *)activityItemTitle:(NSString *)title
                        content:(NSString *)content
                        postUrl:(NSString *)postUrl
                     shareImage:(UIImage *)shareImage {
-
+    
     UIImage *icon = [UIImage imageNamed:@"AppIcon60x60"];
     NSMutableArray *items = [NSMutableArray array];
     if (title) {
@@ -85,11 +83,11 @@ typedef NS_ENUM(NSUInteger, EMShareType) {
     if (content) {
         [items addObject:content];
     }
-//    
+    //
     if (shareImage) {
         [items addObject:shareImage];
     }
-
+    
     NSMutableDictionary *appendInfo = [NSMutableDictionary dictionary];
     if (icon) {
         [appendInfo setObject:icon forKey:EMActivityWeChatThumbImageKey];
@@ -107,25 +105,6 @@ typedef NS_ENUM(NSUInteger, EMShareType) {
     return items;
 }
 
-+ (NSArray *)activies:(NSInteger)showItem {
-    NSMutableArray *activies = [NSMutableArray array];
-    
-    if (EMShareTypeWechat == (EMShareTypeWechat & showItem)) {
-        [activies addObject:[[EMActivityWeChatSession alloc] init]];
-    }
-    if (EMShareTypeMoments == (EMShareTypeMoments & showItem)) {
-        [activies addObject:[[EMActivityWeChatTimeline alloc] init]];
-    }
-    if (EMShareTypeSina == (EMShareTypeSina & showItem)) {
-        [activies addObject:[[EMActivityWeibo alloc] init]];
-    }
-    if (EMShareTypeQQ == (EMShareTypeQQ & showItem)) {
-        [activies addObject:[[EMActivityQQ alloc] init]];
-    }
-    
-    return activies;
-}
-
 + (void)shareCompletionHandler:(NSString *)activityType
                         status:(BOOL )completed
                   returnedInfo:(NSDictionary *)returnedInfo
@@ -134,97 +113,88 @@ typedef NS_ENUM(NSUInteger, EMShareType) {
                 viewController:(EMWebViewController *)webViewController
                       jsbridge:(JSBridge *)bridge {
     EMSocialType socialType = 0;
-    NSInteger statusCode = 0;
-    
     NSString *message = nil;
-    if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
-        message = returnedInfo[EMActivityWeiboStatusMessageKey];
-        socialType = EMSocialTypeSinaWeibo;
-        NSNumber *errorCode = returnedInfo[EMActivityWeiboStatusCodeKey];
-        if (errorCode) {
-            if ([errorCode integerValue] == EMActivityWeiboStatusCodeSuccess) {
-                statusCode = 0;
-                [BDKNotifyHUD showNotifHUDWithText:@"分享成功"];
-            } else if ([errorCode integerValue] == EMActivityWeiboStatusCodeUserCancel) {
-                statusCode = -1;
-            }
-        }
-    } else if ([activityType isEqualToString:UIActivityTypePostToWeChatSession]) {
-        message = returnedInfo[EMActivityWeChatStatusMessageKey];
-        socialType = EMSocialTypeWeChat;
-        NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
-        
-        if (activityError) {
-            statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-            
-            [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-        }else if (errorCode) {
-            if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
-                statusCode = 0;
-                [BDKNotifyHUD showNotifHUDWithText:returnedInfo[EMActivityWeChatStatusMessageKey]];
-            } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
-                statusCode = -1;
-            }
-        }else if (!returnedInfo) {
-            statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-            [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-        }
-        
-    } else if ([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
-        message = returnedInfo[EMActivityWeChatStatusMessageKey];
-        socialType = EMSocialTypeMoments;
-        NSNumber *errorCode = returnedInfo[EMActivityWeChatStatusCodeKey];
-        
-        if(activityError){
-            statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-            [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-        } else  if (errorCode) {
-            if ([errorCode integerValue] == EMActivityWeChatStatusCodeSuccess) {
-                statusCode = 0;
-                [BDKNotifyHUD showNotifHUDWithText:returnedInfo[EMActivityWeChatStatusMessageKey]];
-            } else if ([errorCode integerValue] == EMActivityWeChatStatusCodeUserCancel) {
-                statusCode = -1;
-            }
-        }else if (!returnedInfo) {
-            statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-            [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装微信，请先安装"];
-        }
-    } else if ([activityType isEqualToString:UIActivityTypePostToQQ]) {
-        message = returnedInfo[EMActivityQQStatusMessageKey];
-        socialType = EMSocialTypeQQ;
-        NSNumber *errorCode = returnedInfo[EMActivityQQStatusCodeKey];
-        
-        if(activityError){
-            statusCode = -1;
-            [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装QQ，请先安装"];
-        }else if (errorCode) {
-            if ([errorCode integerValue] == EMActivityQQStatusCodeSuccess) {
-                statusCode = 0;
-                [BDKNotifyHUD showNotifHUDWithText:@"分享成功"];
-            } else if ([errorCode integerValue] == EMActivityQQStatusCodeUserCancel) {
-                statusCode = -1;
-            }
-        }else if (!returnedInfo) {
-            statusCode = EMActivityWeChatStatusCodeAppNotInstall;
-            [BDKNotifyHUD showNotifHUDWithText:@"您还没有安装QQ，请先安装"];
-        }
+    NSInteger statusCode = [returnedInfo[EMActivityGeneralStatusCodeKey] integerValue];
+    if (statusCode == EMActivityGeneralStatusCodeSuccess) {
+        message = @"分享成功";
+    } else if (statusCode == EMActivityGeneralStatusCodeUserCancel) {
+        message = @"用户取消分享";
+    } else {
+        message = [activityError localizedDescription];
     }
     
+    if ([activityType isEqualToString:UIActivityTypePostToSinaWeibo]) {
+        socialType = EMSocialTypeSinaWeibo;
+        if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+            message = @"您还没有安装微博，请先安装";
+        }
+        
+    } else if ([activityType isEqualToString:UIActivityTypePostToWeChatSession]) {
+        socialType = EMSocialTypeWeChat;
+        if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+            message = @"您还没有安装微信，请先安装";
+        }
+    } else if ([activityType isEqualToString:UIActivityTypePostToWeChatTimeline]) {
+        socialType = EMSocialTypeMoments;
+        if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+            message = @"您还没有安装微信，请先安装";
+        }
+    } else if ([activityType isEqualToString:UIActivityTypePostToQQ]) {
+        socialType = EMSocialTypeQQ;
+        if (statusCode == EMActivityGeneralStatusCodeNotInstall) {
+            message = @"您还没有安装QQ，请先安装";
+        }
+    }
+    if (message.length > 0) {
+        [BDKNotifyHUD showNotifHUDWithText:message];
+    }
     
     if (callback.length > 0) {
         NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
-        // FIXME: 在callback指明却不实现的情况直接使用webview会卡死
         if (bridge.javascriptContext) {
             [bridge.javascriptContext evaluateScript:script];
         } else {
             [webViewController.webView x_evaluateJavaScript:script];
         }
-        
+    }
+}
+
++ (NSArray *)activies:(NSInteger)showItem type:(NSInteger)type{
+    
+    NSMutableArray *activies = [NSMutableArray array];
+    
+    if (type != EMSocialTypeAll) {
+        switch (type) {
+            case EMSocialTypeQQ:
+                [activies addObject:[[EMActivityQQ alloc] init]];
+                break;
+            case EMShareTypeWechat:
+                [activies addObject:[[EMActivityWeChatSession alloc] init]];
+                break;
+            case EMShareTypeMoments:
+                [activies addObject:[[EMActivityWeChatTimeline alloc] init]];
+                break;
+            case EMShareTypeSina:
+                [activies addObject:[[EMActivityQQ alloc] init]];
+                break;
+            default:
+                break;
+        }
     } else {
-        if (message.length > 0) {
-            [BDKNotifyHUD showNotifHUDWithText:message];
+        if (EMShareTypeWechat == (EMShareTypeWechat & showItem)) {
+            [activies addObject:[[EMActivityWeChatSession alloc] init]];
+        }
+        if (EMShareTypeMoments == (EMShareTypeMoments & showItem)) {
+            [activies addObject:[[EMActivityWeChatTimeline alloc] init]];
+        }
+        if (EMShareTypeSina == (EMShareTypeSina & showItem)) {
+            [activies addObject:[[EMActivityWeibo alloc] init]];
+        }
+        if (EMShareTypeQQ == (EMShareTypeQQ & showItem)) {
+            [activies addObject:[[EMActivityQQ alloc] init]];
         }
     }
+    return activies;
 }
 
 @end

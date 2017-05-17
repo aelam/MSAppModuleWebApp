@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "JSDefines.h"
-#import <WebViewJavaScriptBridge/WebViewJavascriptBridgeBase.h>
+#import <WebViewJavascriptBridge/WebViewJavascriptBridgeBase.h>
 
 typedef NS_ENUM(NSInteger, JSResponseErrorCode)  {
     JSResponseErrorCodeSuccess  = 0,

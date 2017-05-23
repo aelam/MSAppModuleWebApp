@@ -63,6 +63,14 @@
     }
 }
 
+- (void)setTitleColor:(UIColor *)titleColor {
+    if (_titleColor == titleColor) return;
+        
+    _titleColor = titleColor;
+    [_closeButton setTitleColor:_titleColor forState:UIControlStateNormal];
+}
+
+
 - (void)layoutSubviews 
 {
     [super layoutSubviews];

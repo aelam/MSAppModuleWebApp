@@ -14,6 +14,10 @@
 #import "EMWebViewController.h"
 #import "XWebView.h"
 
+#import "MSAppModuleWebApp.h"
+#import "MSAppSettingsWebApp.h"
+#import <MSAppModuleKit/MSAppModuleController.h>
+
 @implementation JLRoutes (WebApp)
 
 - (void)registerRoutesForWebApp {
@@ -55,7 +59,21 @@
     [self addRoute:@"web" handler:^BOOL(NSDictionary *parameters) {
         UINavigationController *navController = [MSActiveControllerFinder finder].activeNavigationController();
         [MSActiveControllerFinder finder].resetStatus();
-        [navController pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:parameters];
+        if (parameters && [parameters isKindOfClass:[NSDictionary class]]) {
+            
+            NSString *urlString = parameters[@"url"];
+            NSURL *url = [NSURL URLWithString:urlString];
+            
+            MSAppModuleWebApp *webApp = [appModuleManager appModuleWithModuleName:NSStringFromClass([MSAppModuleWebApp class])];
+            id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[webApp moduleSettings];
+            if ([[settings supportsURLSchemes] containsObject:url.scheme]) {
+                [JLRoutes routeURL:url];
+            } else {
+                [navController pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:parameters];
+            }
+        } else {
+            [navController pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:parameters];
+        }
         
         return YES;
     }];

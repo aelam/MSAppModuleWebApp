@@ -178,6 +178,7 @@
     },
 
     homepage: function () {
+      var params = {};
       goods.route('home', params);
     },
 

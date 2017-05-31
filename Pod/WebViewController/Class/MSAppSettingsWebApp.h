@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <MSAppModuleKit/MSAppModuleKit.h>
 
+@protocol WebViewLoading
+
+- (void)startLoading;
+- (void)stopLoading;
+
+@end
+
+
 @protocol EMClickAdapter;
 
 typedef NSDictionary * (^MSWebAppAuthInfo)(void);
@@ -29,5 +37,7 @@ typedef BOOL (^MSUserHasZXGHandler)(NSInteger);
 @property (nonatomic, assign) NSInteger platformID;
 @property (nonatomic, assign) NSInteger vendorID;
 @property (nonatomic, strong) NSString *theme;
+
+@property (nonatomic, strong) Class<WebViewLoading> WebViewLoadingClass;
 
 @end

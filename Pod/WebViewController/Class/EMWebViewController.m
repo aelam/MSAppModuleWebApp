@@ -73,6 +73,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     BOOL _isPopping;
     
     JSMenuItemButton *_selectedMenuItem;
+    
+    UIView<WebViewLoading> *_loadingView;
 }
 
 @property (nonatomic, strong) UIView *statusBarBackView;
@@ -192,6 +194,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUpWebView];
+    [self setUpLoadingView];
     
     _isPopping = NO;
     
@@ -294,6 +297,15 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     self.webView.backgroundColor = bgColor;
     self.webView.scrollView.backgroundColor = bgColor;
 
+}
+
+- (void)setUpLoadingView {
+    if ([kModuleSettings respondsToSelector:@selector(WebViewLoadingClass)]) {
+        Class clazz = kModuleSettings.WebViewLoadingClass;
+        _loadingView = [[clazz alloc] init];
+        [self.view addSubview:_loadingView];
+        _loadingView.center = self.view.center;
+    }
 }
 
 - (void)bridgeWithWebView {
@@ -878,6 +890,13 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)showNetworkActivityIndicator:(BOOL)visible {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:visible];
+    
+    if (visible) {
+        [_loadingView startLoading];
+    } else {
+        [_loadingView stopLoading];
+    }
+    
 }
 
 - (void)doRefresh {

@@ -491,6 +491,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
     BOOL allow = [self _webViewShouldLoadRequest:navigationAction.request];
     if (allow) {
+        [self showNetworkActivityIndicator:YES];
         decisionHandler(WKNavigationActionPolicyAllow);
     } else {
         decisionHandler(WKNavigationActionPolicyCancel);

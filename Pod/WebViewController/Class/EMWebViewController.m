@@ -304,7 +304,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         Class clazz = kModuleSettings.WebViewLoadingClass;
         _loadingView = [[clazz alloc] init];
         [self.view addSubview:_loadingView];
-        _loadingView.center = self.view.center;
+        if (self.navigationController) {
+            _loadingView.center = self.navigationController.view.center;
+        } else {
+            _loadingView.center = self.view.center;
+        }
     }
 }
 
@@ -491,7 +495,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
     BOOL allow = [self _webViewShouldLoadRequest:navigationAction.request];
     if (allow) {
-        [self showNetworkActivityIndicator:YES];
         decisionHandler(WKNavigationActionPolicyAllow);
     } else {
         decisionHandler(WKNavigationActionPolicyCancel);
@@ -541,6 +544,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
                [lowercaseScheme hasPrefix:@"file"]
                ) {
         self.loadRequest = request;
+        [self _showLoadingViewIfNeeded];
     }
 
     return YES;
@@ -574,6 +578,16 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
+- (void)_showLoadingViewIfNeeded {
+    NSURL *url = [self.loadRequest URL];
+    
+    if ([[[url scheme] lowercaseString] hasPrefix:@"http"] ||
+        [[[url scheme] lowercaseString] hasPrefix:@"file"]
+        ) {
+        [self showNetworkActivityIndicator:YES];
+        [self beginTrackingEventsWithURL:url];
+    }
+}
 
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
     

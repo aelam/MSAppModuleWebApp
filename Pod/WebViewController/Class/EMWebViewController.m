@@ -16,6 +16,7 @@
 #import <EMSpeed/UIKitCollections.h>
 #import <MSThemeKit/MSThemeKit.h>
 #import <EMSocialKit/EMSocialKit.h>
+#import <Masonry/Masonry.h>
 
 #import <RDVTabBarController/RDVTabBarController.h>
 #import <MSAppModuleShare/MSAppModuleShare.h>
@@ -304,11 +305,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         Class clazz = kModuleSettings.WebViewLoadingClass;
         _loadingView = [[clazz alloc] init];
         [self.view addSubview:_loadingView];
-        if (self.navigationController) {
-            _loadingView.center = self.navigationController.view.center;
-        } else {
-            _loadingView.center = self.view.center;
-        }
+        CGSize size = _loadingView.frame.size;
+        [_loadingView mas_makeConstraints: ^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(size);
+            make.center.equalTo(self.view);
+        }];
     }
 }
 

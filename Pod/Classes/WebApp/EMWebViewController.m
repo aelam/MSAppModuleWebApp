@@ -712,7 +712,7 @@ static const BOOL kNavigationBarHidden = YES;
 }
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

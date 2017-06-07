@@ -216,6 +216,7 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self endTrackingLastPage];
     
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
@@ -225,7 +226,9 @@ static const BOOL kNavigationBarHidden = YES;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self endTrackingLastPage];
+    
+    /// ios 8闪退，搬到viewWillDisappear
+    //[self endTrackingLastPage];
     
     _isPushBack = YES;
 }

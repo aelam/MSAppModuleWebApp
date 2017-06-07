@@ -229,6 +229,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self endTrackingLastPage];
     
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
@@ -237,7 +238,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self endTrackingLastPage];
+    
+    /// 解决ios 8闪退问题，搬到viewWillDisappear
+    //[self endTrackingLastPage];
     
     _isPopping = YES;
 }

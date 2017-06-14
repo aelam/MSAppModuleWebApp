@@ -18,6 +18,7 @@
 #import "MSCustomMenuItem.h"
 #import "EMShareEntity+Parameters.h"
 #import "EMSocialManager.h"
+#import <MSRoutes/MSRoutes.h>
 
 @implementation JSBridgeModuleBase
 
@@ -314,10 +315,11 @@ JS_EXPORT_MODULE();
     __weak UIViewController *viewController = bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
-        
         EMWebViewController *webViewController = [[EMWebViewController alloc] initWithRouterParams:parameters];
         
-        [viewController.navigationController pushViewController:webViewController animated:YES];
+        [MSActiveControllerFinder sharedFinder].resetStatus();
+        UINavigationController *navigationController = viewController.navigationController ?:[MSActiveControllerFinder sharedFinder].activeNavigationController();
+        [navigationController pushViewController:webViewController animated:YES];
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     };
     

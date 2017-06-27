@@ -57,6 +57,9 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 @property (nonatomic, strong) NSNumber *fontSize;
 @property (nonatomic, copy) void (^fontSizeSelection) (NSString *fontSize);
 
+// long press envent
+@property (nonatomic, assign) BOOL supportLongPress;
+
 - (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *))selection;
 
 // JSMenuItems

@@ -165,6 +165,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (instancetype)initWithRequest:(NSURLRequest *)request {
     self = [super init];
     if (self) {
+        self.supportLongPress = NO;
         self.hidesBottomBarWhenPushed = YES;
         self.synchronizeDocumentTitle = YES;
         [self setShowsCloseButton:YES];
@@ -579,6 +580,15 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         _longPress.minimumPressDuration = 0.4;
         _longPress.numberOfTouchesRequired = 1;
         [self.webView.scrollView addGestureRecognizer:_longPress];
+    }
+    
+    if (!self.supportLongPress) {
+        
+        NSString *js = @"document.documentElement.style.webkitUserSelect='none'; \
+                         document.documentElement.style.webkitTouchCallout='none';";
+        [self.webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            
+        }];
     }
 }
 

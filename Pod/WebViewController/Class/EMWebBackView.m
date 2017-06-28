@@ -24,7 +24,7 @@
     if (self) {
 
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        self.imageEdgeInsets = UIEdgeInsetsMake(0, -6, 0, 0);
+//        self.imageEdgeInsets = UIEdgeInsetsMake(0, -6, 0, 0);// 图片自带偏移
         [self setImage:[self backImage] forState:UIControlStateNormal];
         [self setSupportClose:supportClose];
     }

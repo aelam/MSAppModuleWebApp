@@ -169,7 +169,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.hidesBottomBarWhenPushed = YES;
         self.synchronizeDocumentTitle = YES;
         [self setShowsCloseButton:YES];
-//        self.isFontChangeItemEnabled = YES;
+        //        self.isFontChangeItemEnabled = YES;
         
         if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
             self.edgesForExtendedLayout = UIRectEdgeAll;
@@ -226,6 +226,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [self trackBackFromViewDidAppear];
         _isPopping = NO;
     }
+    
+    if (self.synchronizeDocumentTitle) {
+        [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -235,6 +239,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
     
+    if (self.synchronizeDocumentTitle) {
+        [self.webView removeObserver:self forKeyPath:@"title"];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -248,6 +255,20 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - observe WebView title
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"title"]) {
+        if (object == self.webView) {
+            WKWebView *tempWebView = (WKWebView *)self.webView;
+            self.title = tempWebView.title;
+        } else {
+            [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark - WebView Setup
@@ -265,7 +286,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         
         WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
         configuration.userContentController = userContentController;
-//        configurat/ion.preferences.setValue(true, forKey: "developerExtrasEnabled")
+        //        configurat/ion.preferences.setValue(true, forKey: "developerExtrasEnabled")
         
         // 显示WKWebView
         WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
@@ -301,7 +322,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     self.webView.backgroundColor = bgColor;
     self.webView.scrollView.backgroundColor = bgColor;
-
+    
 }
 
 - (void)setUpLoadingView {
@@ -366,7 +387,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     self.navigationItem.leftBarButtonItem = nil;
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark - Error View
 - (void)showErrorView {
     if (!self.errorView) {
@@ -497,7 +518,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 #pragma mark - WKWebView Delegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     [self.jsBridge attachToBridge:self.bridge];
-
+    
     BOOL allow = [self _webViewShouldLoadRequest:navigationAction.request];
     if (allow) {
         decisionHandler(WKNavigationActionPolicyAllow);
@@ -551,7 +572,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.loadRequest = request;
         [self _showLoadingViewIfNeeded];
     }
-
+    
     return YES;
 }
 
@@ -585,7 +606,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (!self.supportLongPress) {
         
         NSString *js = @"document.documentElement.style.webkitUserSelect='none'; \
-                         document.documentElement.style.webkitTouchCallout='none';";
+        document.documentElement.style.webkitTouchCallout='none';";
         [self.webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
             
         }];
@@ -694,12 +715,12 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         _isFontChangeItemEnabled = isFontChangeItemEnabled;
         [self updateRightItemsShareAndSearch];
     }
-
+    
 }
 
 - (void)updateRightItemsShareAndSearch {
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:2];
-
+    
     if (_isFontChangeItemEnabled) {
         [items addObject:[self fontChangeItem]];
     }
@@ -726,14 +747,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     [button addTarget:self action:@selector(doShare) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-
+    
     return buttonItem;
 }
 
 - (UIBarButtonItem *)searchItem {
     MSCustomMenuItem *customMenuItem = [MSCustomMenuItem new];
     customMenuItem.icon = @"web_search";
-
+    
     JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
     button.tintColor = [MSThemeColor web_navbarItemTextColor];
     button.menuItem = customMenuItem;
@@ -793,7 +814,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 
-#pragma mark - 
+#pragma mark -
 #pragma mark - Font Change
 - (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *newFontSize))selection {
     self.fontSizeSelection = selection;
@@ -811,14 +832,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     UINib *viewNib = [UINib nibWithNibName:@"EMFontChangeView" bundle:[NSBundle bundleForClass:[self class]]];
     EMFontChangeView *changeViewContentView = [[viewNib instantiateWithOwner:nil options:nil] lastObject];
-//    CGRect buttonFrame = [_selectedMenuItem.superview convertRect:_selectedMenuItem.frame toView:self.navigationController.view];
+    //    CGRect buttonFrame = [_selectedMenuItem.superview convertRect:_selectedMenuItem.frame toView:self.navigationController.view];
     changeViewContentView.frame = CGRectMake(0, 0, 223, 74);
     changeViewContentView.titleColor = [MSThemeColor web_fontSizeChangeViewTextColor];
     {
         fromRect = _selectedMenuItem.frame;
         fromRect.origin.y += 27;
     }
-
+    
     // 设置字体UI
     NSInteger fontSize = [[NSUserDefaults standardUserDefaults] integerForKey:WebFontSizeKey];
     changeViewContentView.selectedIndex = fontSize;
@@ -827,7 +848,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     popupView.fillBackgroundColor =  [MSThemeColor web_fontSizeChangeViewBgColor];
     popupView.borderColor =  [MSThemeColor web_fontSizeChangeViewBorderColor];
-
+    
 }
 
 - (void)MSArtPopView:(MSArtPopupView *)popupView didPressed:(EMFontChangeView *)sender {
@@ -836,7 +857,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         NSString *fontSizeString =  [[self class] fontSizeMapping][@(fontSize)];
         self.fontSizeSelection(fontSizeString);
         [self updateFontSize:fontSize];
-
+        
     }
     [popupView dismiss:YES];
 }
@@ -995,8 +1016,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }];
 }
 
-#pragma mark - 
-#pragma mark - URL 
+#pragma mark -
+#pragma mark - URL
 - (NSURL *)_addAdditionInfoToOriginURL:(NSURL *)plainURL {
     
     NSMutableDictionary *additionInfo = [NSMutableDictionary dictionary];
@@ -1007,7 +1028,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (self.fontSize) {
         additionInfo[@"fontSize"] = self.fontSize;
     }
-
+    
     NSString *urlString = [plainURL absoluteString];
     
     if ([additionInfo count] > 0) {
@@ -1023,7 +1044,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
     
     NSURL *authedURL = [NSURL URLWithString:urlString];
-
+    
     return authedURL;
 }
 
@@ -1046,7 +1067,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     NSString *relativePath = url.relativePath;
     
     NSString *urlString = [NSString stringWithFormat:@"%@://%@%@",scheme,host,relativePath];
-
+    
     _currentURLString = urlString;
     
     [self beginLogPageView:@"web"];
@@ -1115,7 +1136,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if ([[self EMClickClass] respondsToSelector:@selector(endLogPageView:attributes:)]) {
         [[self EMClickClass] endLogPageView:pageId attributes:attributes];
     }
-
+    
 }
 
 @end

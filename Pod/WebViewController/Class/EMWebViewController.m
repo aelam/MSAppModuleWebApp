@@ -217,6 +217,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
     
+    if (self.synchronizeDocumentTitle) {
+        [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -225,10 +228,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (_isPopping) {
         [self trackBackFromViewDidAppear];
         _isPopping = NO;
-    }
-    
-    if (self.synchronizeDocumentTitle) {
-        [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
     }
 }
 
@@ -537,10 +536,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
     [self _webViewDidFinishLoad];
-}
-
-- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-    [self showNetworkActivityIndicator:NO];
 }
 
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {

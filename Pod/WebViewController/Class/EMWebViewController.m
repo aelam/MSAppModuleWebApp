@@ -527,11 +527,20 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
+{
+    [self _showLoadingViewIfNeeded];
+}
+
 - (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
     [self _webViewDidFinishLoad];
+}
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    [self showNetworkActivityIndicator:NO];
 }
 
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
@@ -570,7 +579,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
                [lowercaseScheme hasPrefix:@"file"]
                ) {
         self.loadRequest = request;
-        [self _showLoadingViewIfNeeded];
     }
     
     return YES;

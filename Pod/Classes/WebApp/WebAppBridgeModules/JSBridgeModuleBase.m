@@ -312,7 +312,6 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerOpenURLWithBridge:(JSBridge *)bridge {
-    __weak UIViewController *viewController = bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
         [JLRoutes routeURL:[NSURL URLWithString:@"web"] withParameters:parameters];

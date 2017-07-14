@@ -315,11 +315,7 @@ JS_EXPORT_MODULE();
     __weak UIViewController *viewController = bridge.viewController;
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
         NSDictionary *parameters = (NSDictionary *)data;
-        EMWebViewController *webViewController = [[EMWebViewController alloc] initWithRouterParams:parameters];
-        
-        [MSActiveControllerFinder sharedFinder].resetStatus();
-        UINavigationController *navigationController = viewController.navigationController ?:[MSActiveControllerFinder sharedFinder].activeNavigationController();
-        [navigationController pushViewController:webViewController animated:YES];
+        [JLRoutes routeURL:[NSURL URLWithString:@"web"] withParameters:parameters];
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
     };
     

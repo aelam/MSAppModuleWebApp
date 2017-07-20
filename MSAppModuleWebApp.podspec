@@ -58,6 +58,7 @@ Pod::Spec.new do |s|
     ss.dependency 'UIImage+RTTint', '~> 1.0.0'
     ss.dependency 'RDVTabBarController'
     ss.dependency 'Masonry'
+    ss.dependency 'AFNetworking', '~> 3.1.0'
 
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
     ss.dependency 'MSAppModuleWebApp/WebView'

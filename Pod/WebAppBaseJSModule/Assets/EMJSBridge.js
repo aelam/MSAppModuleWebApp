@@ -89,11 +89,12 @@
       GoodsBridge.callHandler("back");
     },
 
-    openurl: function (url) {
-      var params = {
-        "url": url
-      };
-      GoodsBridge.callHandler('web', params, function (response) { })
+    openurl: function (url, json) {
+        var params = {
+            "url": url,
+            "json": json
+        };
+        GoodsBridge.callHandler('web', params, function (response) { })
     },
 
     close: function () {

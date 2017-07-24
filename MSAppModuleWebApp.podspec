@@ -60,6 +60,7 @@ Pod::Spec.new do |s|
     ss.dependency 'Masonry'
     ss.dependency 'AFNetworking', '~> 3.1.0'
     ss.dependency 'LGAlertView', '~> 2.4.0'
+    ss.dependency 'MSThemeModuleCommon'
 
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
     ss.dependency 'MSAppModuleWebApp/WebView'

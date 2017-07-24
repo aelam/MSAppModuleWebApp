@@ -262,6 +262,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [self.webView removeObserver:self forKeyPath:@"title"];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unsupportFullScreen" object:nil];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [self.webView x_loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -944,14 +946,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
-#pragma mark - Rotate
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
-}
+//#pragma mark - Rotate
+//- (BOOL)shouldAutorotate {
+//    return NO;
+//}
+//
+//- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+//    return UIInterfaceOrientationMaskPortrait;
+//}
 
 #pragma mark - KeyCommands
 - (BOOL)canBecomeFirstResponder {

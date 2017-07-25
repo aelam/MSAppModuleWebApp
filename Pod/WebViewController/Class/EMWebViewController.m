@@ -273,7 +273,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unsupportFullScreen" object:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    [self.webView x_loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+    if (self.isVideo) {
+        [self.webView x_loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

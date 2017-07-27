@@ -217,7 +217,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
             alertView.destructiveButtonBackgroundColorHighlighted = [MSThemeColor B2Color];
             [alertView show];
         }
-
+        
         self.synchronizeDocumentTitle = NO;
     }
 }
@@ -625,14 +625,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
+- (void)statusChange {
+    [BDKNotifyHUD showNotifHUDWithText:@"正在使用非wifi网络播放将产生流量费用"];
+}
+
 - (void)_webViewDidFinishLoad {
     [self showNetworkActivityIndicator:NO];
     if (self.isVideo) {
-        [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            if ([[AFNetworkReachabilityManager sharedManager] isReachableViaWWAN] && self.isVideo) {
-                [BDKNotifyHUD showNotifHUDWithText:@"正在使用非wifi网络播放将产生流量费用"];
-            }
-        }];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusChange) name:@"ReachabilityStatusChange" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"supportFullScreen" object:nil];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"unsupportFullScreen" object:nil];

@@ -7,8 +7,8 @@
 //
 
 #import "JLRoutes+WebApp.h"
-#import <BDKNotifyHUD.h>
-#import <UIViewController+Routes.h>
+#import <EMSpeed/BDKNotifyHUD.h>
+#import <MSRoutes/MSRoutes.h>
 
 #import "MSActiveControllerFinder.h"
 #import "EMWebViewController.h"

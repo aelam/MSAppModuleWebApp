@@ -8,7 +8,7 @@
 
 #import "EMWebBackView.h"
 #import <MSThemeKit/MSThemeKit.h>
-#import <FontAwesome.h>
+#import <EMSpeed/FontAwesome.h>
 
 @implementation EMWebBackView
 

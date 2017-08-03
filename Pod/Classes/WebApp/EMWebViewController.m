@@ -20,7 +20,7 @@
 #import <EMClick/EMClick.h>
 #import <RDVTabBarController/RDVTabBarController.h>
 #import <EMSocialKit/EMSocialKit.h>
-#import <BDKNotifyHUD.h>
+#import <EMSpeed/BDKNotifyHUD.h>
 
 #import "EMSocialSDK+URLBind.h"
 #import "NSURL+AuthedURL.h"
@@ -474,6 +474,13 @@ static const BOOL kNavigationBarHidden = YES;
     
     self.backView.showGoBack = self.webView.canGoBack;
     [self updateNavigationBarByMeta];
+    
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 9.0)
+    {
+        //修改服务器页面的meta的值
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", self.webView.frame.size.width];
+        [(UIWebView *)self.webView stringByEvaluatingJavaScriptFromString:meta];
+    }
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {

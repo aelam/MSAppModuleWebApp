@@ -8,7 +8,7 @@
 //
 //#import "UIViewController+EMShare.h"
 //#import "EMSocialSDK+URLBind.h"
-//#import <BDKNotifyHUD.h>
+//#import <EMSpeed/BDKNotifyHUD.h>
 //#import <EMSpeed/MSUIKitCore.h>
 //
 //@implementation UIViewController (EMShare)

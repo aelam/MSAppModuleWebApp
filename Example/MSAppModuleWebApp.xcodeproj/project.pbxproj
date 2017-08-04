@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0609BC50BDCA894889E1F81F /* Pods_MSAppModuleWebApp_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EA2AF98B2453B84C7BCF86A /* Pods_MSAppModuleWebApp_Example.framework */; };
+		1EBE90FAA32678B465EBB60C /* Pods_MSAppModuleWebApp_Example_MSAppModuleWebApp_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F74193449D9D713DFF4444D1 /* Pods_MSAppModuleWebApp_Example_MSAppModuleWebApp_Tests.framework */; };
 		5917BECE0D34A788625705A2 /* Pods_MSAppModuleWebApp_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BB173763DBF6556E125DAF7 /* Pods_MSAppModuleWebApp_Tests.framework */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D3143361C764FD24DA79434 /* Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3EA2AF98B2453B84C7BCF86A /* Pods_MSAppModuleWebApp_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MSAppModuleWebApp_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D228C1F6990A6F1578F2367 /* MSAppModuleWebApp.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = MSAppModuleWebApp.podspec; path = ../MSAppModuleWebApp.podspec; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* MSAppModuleWebApp_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MSAppModuleWebApp_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,10 +81,12 @@
 		94BE18FA1CD2F99D0067E818 /* EMAppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAppSettings.h; sourceTree = "<group>"; };
 		94BE18FB1CD2F99D0067E818 /* EMAppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMAppSettings.m; sourceTree = "<group>"; };
 		94BE18FC1CD2F99D0067E818 /* EMSettingsCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMSettingsCondition.h; sourceTree = "<group>"; };
+		9642516802334D357249A079 /* Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AD5D084605EC21D5382A7024 /* Pods-MSAppModuleWebApp_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		CFA4BBFEEFE39E8833E841D1 /* Pods-MSAppModuleWebApp_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		EB68F5E4D4745F55AB203DB9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		EEAF5F507A3B5AE5BAD9F616 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		F74193449D9D713DFF4444D1 /* Pods_MSAppModuleWebApp_Example_MSAppModuleWebApp_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MSAppModuleWebApp_Example_MSAppModuleWebApp_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA27BF11CFE75C328F86C013 /* Pods-MSAppModuleWebApp_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MSAppModuleWebApp_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-MSAppModuleWebApp_Example/Pods-MSAppModuleWebApp_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +111,7 @@
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
 				5917BECE0D34A788625705A2 /* Pods_MSAppModuleWebApp_Tests.framework in Frameworks */,
+				1EBE90FAA32678B465EBB60C /* Pods_MSAppModuleWebApp_Example_MSAppModuleWebApp_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +125,8 @@
 				FA27BF11CFE75C328F86C013 /* Pods-MSAppModuleWebApp_Example.release.xcconfig */,
 				AD5D084605EC21D5382A7024 /* Pods-MSAppModuleWebApp_Tests.debug.xcconfig */,
 				CFA4BBFEEFE39E8833E841D1 /* Pods-MSAppModuleWebApp_Tests.release.xcconfig */,
+				1D3143361C764FD24DA79434 /* Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.debug.xcconfig */,
+				9642516802334D357249A079 /* Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -155,6 +162,7 @@
 				6003F5AF195388D20070C39A /* XCTest.framework */,
 				3EA2AF98B2453B84C7BCF86A /* Pods_MSAppModuleWebApp_Example.framework */,
 				6BB173763DBF6556E125DAF7 /* Pods_MSAppModuleWebApp_Tests.framework */,
+				F74193449D9D713DFF4444D1 /* Pods_MSAppModuleWebApp_Example_MSAppModuleWebApp_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -396,7 +404,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Tests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A7B9D3412486E3F99D69C44A /* [CP] Embed Pods Frameworks */ = {
@@ -411,7 +419,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Tests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests/Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C5FEF6DC67B7D8E6E1A6F317 /* [CP] Check Pods Manifest.lock */ = {
@@ -602,7 +610,7 @@
 		};
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD5D084605EC21D5382A7024 /* Pods-MSAppModuleWebApp_Tests.debug.xcconfig */;
+			baseConfigurationReference = 1D3143361C764FD24DA79434 /* Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -626,7 +634,7 @@
 		};
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFA4BBFEEFE39E8833E841D1 /* Pods-MSAppModuleWebApp_Tests.release.xcconfig */;
+			baseConfigurationReference = 9642516802334D357249A079 /* Pods-MSAppModuleWebApp_Example-MSAppModuleWebApp_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

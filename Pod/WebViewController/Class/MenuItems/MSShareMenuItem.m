@@ -7,13 +7,9 @@
 //
 
 #import "MSShareMenuItem.h"
-#import "EMShareEntity+Parameters.h"
 
 @implementation MSShareMenuItem
 
-//+ (void)load {
-//    MSMenuItemDataClasses(self);
-//}
 
 + (NSString *)key {
     return @"Share";
@@ -21,8 +17,7 @@
 
 + (instancetype)itemWithData:(NSDictionary *)itemData {
     MSShareMenuItem *item = [[self alloc] init];
-    
-    item.shareEntity = [EMShareEntity shareEntityWithParameters:itemData];
+    item.shareInfo = itemData;
     
     return item;
 }

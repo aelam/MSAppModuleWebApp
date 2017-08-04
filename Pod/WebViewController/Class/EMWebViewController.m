@@ -15,13 +15,9 @@
 #import <EMSpeed/MSUIKitCore.h>
 #import <EMSpeed/UIKitCollections.h>
 #import <MSThemeKit/MSThemeKit.h>
-#import <EMSocialKit/EMSocialKit.h>
 #import <Masonry/Masonry.h>
-
 #import <RDVTabBarController/RDVTabBarController.h>
-#import <MSAppModuleShare/MSAppModuleShare.h>
 
-//#import "NSURL+AuthedURL.h"
 
 // Bridge
 #if __has_include(<WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>)
@@ -55,9 +51,8 @@
 
 // Font Change Views
 #import "EMFontChangeView.h"
+
 @import AFNetworking;
-@import LGAlertView;
-@import MSThemeModuleCommon;
 
 static id <MSAppSettingsWebApp> kModuleSettings = nil;
 static NSString *const JSURLScheme = @"jsbridge";
@@ -139,9 +134,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     NSURL *url = [NSURL URLWithString:urlString];
     self = [self initWithURL:url];
     
-    NSString *jsonString = params[@"json"];
-    [self parseJsonString:jsonString];
-    
     if (self) {
         self.eventAttributes = [self eventAttributesFromJLRoutesParams:params];
         
@@ -195,30 +187,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     NSNumber *fontSize = [[NSUserDefaults standardUserDefaults] objectForKey:WebFontSizeKey];
     if (fontSize) {
         self.fontSize = fontSize;
-    }
-}
-
-/// 解析openurl方式携带的json参数
-- (void)parseJsonString:(NSString *)jsonString {
-    if (jsonString.length == 0) {
-        return;
-    }
-    
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error = nil;
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-    if (error == nil) {
-        self.title = dic[@"title"];
-        self.isVideo = [dic[@"isVideo"] boolValue];
-        if (self.isVideo && [AFNetworkReachabilityManager sharedManager].isReachableViaWWAN) {
-            LGAlertView *alertView = [[LGAlertView alloc]initWithTitle:@"提示" message:@"正在使用非wifi网络，播放将产生流量费用" style:LGAlertViewStyleAlert buttonTitles:nil cancelButtonTitle:nil destructiveButtonTitle:@"确定"];
-            alertView.destructiveButtonTitleColor = [MSThemeColor C4Color];
-            alertView.destructiveButtonTitleColorHighlighted = [MSThemeColor C4Color];
-            alertView.destructiveButtonBackgroundColorHighlighted = [MSThemeColor B2Color];
-            [alertView show];
-        }
-        
-        self.synchronizeDocumentTitle = NO;
     }
 }
 
@@ -744,61 +712,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [_webView x_loadHTMLString:htmlString baseURL:baseUrl];
 }
 
-#pragma mark - Menu Items
-- (void)setIsShareItemEnabled:(BOOL)isShareItemEnabled {
-    if (_isShareItemEnabled != isShareItemEnabled) {
-        _isShareItemEnabled = isShareItemEnabled;
-        [self updateRightItemsShareAndSearch];
-    }
-}
-
-- (void)setIsSearchItemEnabled:(BOOL)isSearchItemEnabled {
-    if (_isSearchItemEnabled != isSearchItemEnabled) {
-        _isSearchItemEnabled = isSearchItemEnabled;
-        [self updateRightItemsShareAndSearch];
-    }
-}
-
-- (void)setIsFontChangeItemEnabled:(BOOL)isFontChangeItemEnabled {
-    if (_isFontChangeItemEnabled != isFontChangeItemEnabled) {
-        _isFontChangeItemEnabled = isFontChangeItemEnabled;
-        [self updateRightItemsShareAndSearch];
-    }
-    
-}
-
-- (void)updateRightItemsShareAndSearch {
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:2];
-    
-    if (_isFontChangeItemEnabled) {
-        [items addObject:[self fontChangeItem]];
-    }
-    
-    if (_isSearchItemEnabled) {
-        [items addObject:[self searchItem]];
-    }
-    
-    if (_isShareItemEnabled) {
-        [items addObject:[self shareItem]];
-    }
-    
-    
-    self.navigationItem.rightBarButtonItems = items;
-}
-
-- (UIBarButtonItem *)shareItem {
-    MSCustomMenuItem *customMenuItem = [MSCustomMenuItem new];
-    customMenuItem.icon = @"web_share";
-    
-    JSMenuItemButton *button = [[JSMenuItemButton alloc] init];
-    button.tintColor = [MSThemeColor web_navbarItemTextColor];
-    button.menuItem = customMenuItem;
-    
-    [button addTarget:self action:@selector(doShare) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
-    return buttonItem;
-}
 
 - (UIBarButtonItem *)searchItem {
     MSCustomMenuItem *customMenuItem = [MSCustomMenuItem new];
@@ -1008,62 +921,47 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
-- (void)doSearch {
-    [self event:@"web:search" attributes:self.eventAttributes];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    if ([super respondsToSelector:_cmd]) {
-        [super performSelector:_cmd];
-    }
-#pragma clang diagnostic pop
-}
 
-- (void)doShare {
-    if (self.shareEntity) {
-        [self share:self.shareEntity];
-    }
-}
-
-#pragma mark - Share
-- (void)share:(EMShareEntity *)shareEntity {
-    [self event:@"web:share" attributes:self.eventAttributes];
-    
-    NSString *callback = shareEntity.callback;
-    EMSocialType socialType = shareEntity.socialType;
-    
-    [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
-        NSInteger statusCode = 0;
-        NSNumber *errorCode;
-        NSString *message = nil;
-        
-        errorCode = returnedInfo[EMActivityGeneralStatusCodeKey];
-        message = returnedInfo[EMActivityGeneralMessageKey];
-        if (errorCode) {
-            NSInteger code = [errorCode integerValue];
-            if (code == EMActivityGeneralStatusCodeSuccess) {
-                statusCode = 0;
-            } else if (code == EMActivityGeneralStatusCodeUserCancel) {
-                statusCode = -1;
-            } else {
-                statusCode = -2;
-            }
-        }
-        
-        if (callback.length > 0) {
-            NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
-            // FIXME: 在callback指明却不实现的情况直接使用webview会卡死
-            if (self.jsBridge.javascriptContext) {
-                [self.jsBridge.javascriptContext evaluateScript:script];
-            } else {
-                [_webView x_evaluateJavaScript:script];
-            }
-        } else {
-            if (message.length > 0) {
-                [BDKNotifyHUD showNotifHUDWithText:message];
-            }
-        }
-    }];
-}
+//#pragma mark - Share
+//- (void)share:(EMShareEntity *)shareEntity {
+//    [self event:@"web:share" attributes:self.eventAttributes];
+//    
+//    NSString *callback = shareEntity.callback;
+//    EMSocialType socialType = shareEntity.socialType;
+//    
+//    [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
+//        NSInteger statusCode = 0;
+//        NSNumber *errorCode;
+//        NSString *message = nil;
+//        
+//        errorCode = returnedInfo[EMActivityGeneralStatusCodeKey];
+//        message = returnedInfo[EMActivityGeneralMessageKey];
+//        if (errorCode) {
+//            NSInteger code = [errorCode integerValue];
+//            if (code == EMActivityGeneralStatusCodeSuccess) {
+//                statusCode = 0;
+//            } else if (code == EMActivityGeneralStatusCodeUserCancel) {
+//                statusCode = -1;
+//            } else {
+//                statusCode = -2;
+//            }
+//        }
+//        
+//        if (callback.length > 0) {
+//            NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
+//            // FIXME: 在callback指明却不实现的情况直接使用webview会卡死
+//            if (self.jsBridge.javascriptContext) {
+//                [self.jsBridge.javascriptContext evaluateScript:script];
+//            } else {
+//                [_webView x_evaluateJavaScript:script];
+//            }
+//        } else {
+//            if (message.length > 0) {
+//                [BDKNotifyHUD showNotifHUDWithText:message];
+//            }
+//        }
+//    }];
+//}
 
 #pragma mark -
 #pragma mark - URL

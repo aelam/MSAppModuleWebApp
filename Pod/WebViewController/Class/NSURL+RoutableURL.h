@@ -11,10 +11,10 @@
 @interface NSURL (RoutableURL)
 
 /**
- * @param: "http://www.baidu.com"
- * @return: @"web?url=url_encoded(url)"
+ * @param URL "http://www.baidu.com"
+ * @return @"web?url=url_encoded(url)"
  */
 
-+ (NSURL *)routableURLWithURL:(NSURL *)httpUrl;
++ (NSURL *)routableURLWithURL:(NSURL *)URL;
 
 @end

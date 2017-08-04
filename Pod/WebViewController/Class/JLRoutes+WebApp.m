@@ -9,8 +9,8 @@
 #import "JLRoutes+WebApp.h"
 #import <EMSpeed/UIKitCollections.h>
 #import <MSRoutes/MSRoutes.h>
-#import "EMWebViewController.h"
-#import "WebView.h"
+#import <MSAppModuleWebApp/EMWebViewController.h>
+#import <MSAppModuleWebApp/WebView.h>
 
 @implementation JLRoutes (WebApp)
 

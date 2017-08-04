@@ -9,13 +9,11 @@
 #import "JSBridgeModuleEMStock.h"
 #import "JSBridge.h"
 #import "MSAppSettingsWebApp.h"
-#import "EMShareEntity.h"
 #import "EMWebViewController.h"
 #import "BDKNotifyHUD.h"
 #import "JSBridgeModule.h"
 #import <JLRoutes/JLRoutes.h>
 #import "MSCustomMenuItem.h"
-#import "EMShareEntity+Parameters.h"
 
 @implementation JSBridgeModuleEMStock
 
@@ -104,6 +102,8 @@ JS_EXPORT_MODULE();
     
     [self registerHandler:@"search" handler:handler];
 }
+
+
 
 - (void)registerCanOpenURL2WithBridge:(JSBridge *)bridge {
     [self registerHandler:@"canOpenURL2" handler:^(id data, WVJBResponseCallback responseCallback) {

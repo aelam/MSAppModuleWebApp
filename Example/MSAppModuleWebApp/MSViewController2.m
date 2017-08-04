@@ -6,8 +6,9 @@
 //  Copyright (c) 2016 Ryan Wang. All rights reserved.
 //
 
+@import MSAppModuleWebApp;
+
 #import "MSViewController2.h"
-#import "EMWebViewController.h"
 
 static NSString *kURL = @"http://mt.emoney.cn/html/emstock/bbs/Index.html?topicId=4330969&&css=b&userId=10010144225&pd=15&vd=100&webAuthToken=ib4Wr4FQEFz%2Fr0Mm0K7YFEJabXV7CjHW7OJGPI7ryqMdx291zeKhSA7GUlJxSyIX4%2BE2J%2BwEo1%2FHFifT%2BKgdOQEG8kfXwxDvxFHW%2FB4zZ1hElJW96KuqrpHw03ifNUbiYiBNBc1MzFLsBicjFotFKPHSIiI2ufs3jBBYC59APZ0%3D&mv=2.8.4&systemVersion=9.3&guid=70962978-EAC3-40D8-BE97-85D4AB7C6590&ar=9&loginType=0";
 
@@ -39,6 +40,7 @@ static NSString *kURL = @"http://mt.emoney.cn/html/emstock/bbs/Index.html?topicI
     if (!URL) {
         URL = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html"];
     }
+    URL = [NSURL URLWithString:kURL];
     EMWebViewController *webViewController = [[EMWebViewController alloc] initWithURL:URL];
     [self.navigationController pushViewController:webViewController animated:YES];
 }

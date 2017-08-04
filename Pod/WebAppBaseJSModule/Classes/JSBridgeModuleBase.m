@@ -16,9 +16,7 @@
 #import <JLRoutes/JLRoutes.h>
 #import "MSCustomMenuItem.h"
 
-#import "EMShareEntity.h"
-#import "EMShareEntity+Parameters.h"
-
+#import "WebShareSupport.h"
 #import "WebFontSizeChangeSupport.h"
 
 @implementation JSBridgeModuleBase
@@ -47,14 +45,9 @@ JS_EXPORT_MODULE();
     [self registerPopWithBridge:bridge];
     [self registerGoBackWithBridge:bridge];
 
-    [self registerShareConfigWithBridge:bridge];
-    [self registerShareWithBridge:bridge];
-    [self registerSearchToggleWithBridge:bridge];
-
     [self registerRouteWithBridge:bridge];
     [self registerUpdateTitleWithBridge:bridge];
     [self registerOpenURLWithBridge:bridge];
-
 
     [self registerShowChangeFontSizeViewWithBridge:bridge];
 }
@@ -106,52 +99,6 @@ JS_EXPORT_MODULE();
 }
 
 
-- (void)registerShareWithBridge:(JSBridge *)bridge {
-    // "title": title,
-    // "url": url,
-    // "id": id,
-    // "imageurl": imageurl,
-    // "iconUrl": iconUrl,
-    // "content": content,
-    // "type": type,
-    // "callback": callback
-    
-    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
-    
-    [self registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"share called: %@", data);
-        NSDictionary *parameters = (NSDictionary *)data;
-        
-        if ([webViewController respondsToSelector:@selector(share:)]) {
-            EMShareEntity *shareEntity = [EMShareEntity shareEntityWithParameters:parameters];
-            [webViewController share:shareEntity];
-        }
-        
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    }];
-}
-
-- (void)registerShareConfigWithBridge:(JSBridge *)bridge {
-    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
-    [self registerHandler:@"shareConfig" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"shareConfig called: %@", data);
-        NSDictionary *parameters = (NSDictionary *)data;
-        if ([webViewController respondsToSelector:@selector(setIsShareItemEnabled:)]) {
-            BOOL showsShare = [parameters[@"shareToggle"] boolValue];
-            if ([webViewController respondsToSelector:@selector(setIsShareItemEnabled:)]) {
-                [webViewController setIsShareItemEnabled:showsShare];
-            }
-        }
-        
-        if ([webViewController respondsToSelector:@selector(setShareEntity:)]) {
-            EMShareEntity *shareEntity = [EMShareEntity shareEntityWithParameters:parameters];
-            [webViewController setShareEntity:shareEntity];
-        }
-        
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    }];
-}
-
 - (void)registerShowNotifyWithBridge:(JSBridge *)bridge {
     [self registerHandler:@"showNotify" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *message = data[@"message"];
@@ -195,22 +142,6 @@ JS_EXPORT_MODULE();
     [self registerHandler:@"goback" handler:handler];
     [self registerHandler:@"goBack" handler:handler];
 }
-
-- (void)registerSearchToggleWithBridge:(JSBridge *)bridge {
-    __weak EMWebViewController *webViewController = (EMWebViewController *)bridge.viewController;
-    void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){
-        NSDictionary *parameters = (NSDictionary *)data;
-        BOOL showsSearch = [parameters[@"searchToggle"] boolValue];
-        if ([webViewController respondsToSelector:@selector(setIsSearchItemEnabled:)]) {
-            [webViewController setIsSearchItemEnabled:showsSearch];
-        }
-        
-        responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
-    };
-    
-    [self registerHandler:@"searchConfig" handler:handler];
-}
-
 
 - (void)registerRouteWithBridge:(JSBridge *)bridge {
     void (^handler)(id, WVJBResponseCallback) = ^(id data, WVJBResponseCallback responseCallback){

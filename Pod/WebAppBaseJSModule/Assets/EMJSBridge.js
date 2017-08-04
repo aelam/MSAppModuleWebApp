@@ -120,25 +120,6 @@
         response) { })
     },
 
-    // 分享模块
-    share: function (title, url, platformId, imageUrl, iconUrl, content, mediaType,
-      callback) {
-      var params = {
-        "title": title,
-        "url": url,
-        "platformId": platformId,
-        "imageUrl": imageUrl,
-        "iconUrl": iconUrl,
-        "content": content,
-        "mediaType":mediaType,
-        "callback": callback
-      };
-      GoodsBridge.callHandler('share', params, null)
-    },
-
-    shareMessage: function (params) {
-      GoodsBridge.callHandler('share', params, null)
-    },
 
     showNotify: function (message) {
       var params = {

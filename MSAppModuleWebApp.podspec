@@ -49,7 +49,6 @@ Pod::Spec.new do |s|
     }
 
     ss.dependency 'UIColor-HexString', '~> 1.1.0'
-    ss.dependency 'MSAppModuleShare', '~> 1.0-beta.1'
     ss.dependency 'MSAppModuleKit', '~> 1.0'
     ss.dependency 'EMSpeed/UIKit/Core'
     ss.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
@@ -59,8 +58,6 @@ Pod::Spec.new do |s|
     ss.dependency 'RDVTabBarController'
     ss.dependency 'Masonry'
     ss.dependency 'AFNetworking', '~> 3.1.0'
-    ss.dependency 'LGAlertView', '~> 2.4.0'
-    ss.dependency 'MSThemeModuleCommon'
 
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
     ss.dependency 'MSAppModuleWebApp/WebView'

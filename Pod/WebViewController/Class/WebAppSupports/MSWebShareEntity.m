@@ -1,32 +1,37 @@
 //
-//  EMShareEntity+Parameters.m
+//  MSWebShareEntity.m
 //  Pods
 //
-//  Created by ryan on 5/17/16.
+//  Created by ryan on 03/08/2017.
 //
 //
 
-#import "EMShareEntity+Parameters.h"
+#import "MSWebShareEntity.h"
 
-@implementation EMShareEntity (Parameters)
+@implementation MSWebShareEntity
 
 + (instancetype)shareEntityWithParameters:(NSDictionary *)parameters {
     if(![parameters isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
     
-    UIImage *appIcon = [UIImage imageNamed:@"AppIcon60x60"];
     NSString *title = parameters[@"title"];
     NSString *content = parameters[@"content"];
     NSString *postUrl = parameters[@"url"];
     NSString *imageUrl = parameters[@"imageUrl"];
-    NSInteger socialType = [parameters[@"platformId"] integerValue];
+    NSInteger socialType = [parameters[@"socialType"] integerValue];
     NSString *callback = parameters[@"callback"];
     NSString *iconUrl = parameters[@"iconUrl"];
     
-    EMShareEntity *shareEntity = [[EMShareEntity alloc] initShareEntityTitle:title Description:content Image:appIcon Url:postUrl ImageUrl:imageUrl];
+    MSWebShareEntity *shareEntity = [[MSWebShareEntity alloc] init];
+    
+    shareEntity.shareTitle = title;
+    shareEntity.shareDescription = content;
+    shareEntity.shareUrl = postUrl;
+    shareEntity.shareImageUrl = imageUrl;
+    shareEntity.type = socialType;
+
     shareEntity.callback = callback;
-    shareEntity.socialType = socialType;
     shareEntity.iconUrl = iconUrl;
     
     return shareEntity;

@@ -8,12 +8,15 @@ target 'MSAppModuleWebApp_Example' do
     #pod 'EMSpeed', :path => '../../../components/emspeed'
     pod 'MSAppModuleWebApp', :path => '../'
     pod 'UIImage-Helpers'
+    pod 'MSThemeModuleCommon', '~> 1.0.0-beta.13'
+    pod 'MSAppModuleShare/JSBridgeModuleShare', :path => '../../msappmoduleshare/'
+
+    target 'MSAppModuleWebApp_Tests' do
+        #  pod 'MSAppModuleWebApp/WebViewController', :path => '../'
+        
+        #  pod 'Specta'
+        #  pod 'Expecta'
+    end
+
 end
 
-target 'MSAppModuleWebApp_Tests' do
-    #  pod 'MSAppModuleWebApp/WebViewController', :path => '../'
-  pod 'MSAppModuleWebApp', :path => '../'
-
-#  pod 'Specta'
-#  pod 'Expecta'
-end

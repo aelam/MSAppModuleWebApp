@@ -52,8 +52,6 @@
 // Font Change Views
 #import "EMFontChangeView.h"
 
-@import AFNetworking;
-
 static id <MSAppSettingsWebApp> kModuleSettings = nil;
 static NSString *const JSURLScheme = @"jsbridge";
 

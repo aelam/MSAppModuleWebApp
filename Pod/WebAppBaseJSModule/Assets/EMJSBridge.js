@@ -141,15 +141,6 @@
         response) { })
     },
 
-    // 仅加强版旧版使用
-    searchConfig: function (searchToggle) {
-      var params = {
-        "searchToggle": searchToggle,
-      };
-      GoodsBridge.callHandler('searchConfig', params, function (
-        response) { })
-    },
-
     // 2.9.0
     // @params: {appurl:"emstock://"}
     canOpenURL2: function (params, responseCallback) {

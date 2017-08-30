@@ -448,7 +448,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 // 显示高度为20的view盖住webview
 - (void)showTopStatusBarViewWithNavigationBarHidden:(BOOL)navigationBarHidden {
-    if (navigationBarHidden) {
+    if (navigationBarHidden && CGRectGetMinY(self.view.frame) ==0) {
         CGRect topBarRect = self.view.bounds;
         topBarRect.size.height = 20;
         if (self.statusBarBackView == nil) {

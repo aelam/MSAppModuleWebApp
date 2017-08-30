@@ -45,8 +45,6 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 
 @property (nonatomic, assign, getter = isCloseButtonShown) BOOL showsCloseButton; // Default YES
 
-@property (nonatomic, strong, readonly) UIView *statusBarBackView;
-
 // Search Supports
 @property (nonatomic, assign) BOOL isSearchItemEnabled; // Default YES
 

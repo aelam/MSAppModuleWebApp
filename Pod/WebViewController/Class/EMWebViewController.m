@@ -212,10 +212,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [self changeTabbarStatus];
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
-    
-    if (self.synchronizeDocumentTitle) {
-        [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -234,9 +230,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     navigationBarStatus = self.navigationController.navigationBarHidden;
     [self showNetworkActivityIndicator:NO];
     
-    if (self.synchronizeDocumentTitle) {
-        [self.webView removeObserver:self forKeyPath:@"title"];
-    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unsupportFullScreen" object:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     if (self.isVideo) {
@@ -255,20 +248,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-#pragma mark - observe WebView title
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"title"]) {
-        if (object == self.webView) {
-            WKWebView *tempWebView = (WKWebView *)self.webView;
-            self.title = tempWebView.title;
-        } else {
-            [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        }
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
 }
 
 #pragma mark - WebView Setup

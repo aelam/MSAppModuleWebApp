@@ -181,19 +181,6 @@
         response) { })
     },
 
-    // 视频播放
-    playVideo: function (id, videoresourcetype, videoUrl, domain, mettingid, title) {
-        var params = {
-        "id": id,
-        "videoresourcetype": videoresourcetype,
-        "videoUrl": videoUrl,
-        "domain": domain,
-        "mettingid": mettingid,
-        "title": title
-      };
-      goods.route("playVideo", params);
-    },
-
     openAccount: function () {
       goods.route("openAccount", params);
     },
@@ -235,7 +222,7 @@
   }
 
 }());
- 
+
 window.onload = function () {
     //炒盘技巧--区分是否有此任务
     if (typeof (clientGoods) != "undefined" && clientGoods != null &&
@@ -244,4 +231,3 @@ window.onload = function () {
         clientGoods.initTasks();
     }
 }
-

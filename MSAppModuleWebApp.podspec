@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.subspec 'WebBridgeCore' do |ss|
     ss.source_files = 'Pod/WebBridgeCore/**/*.{h,c,m,mm,swift}'
     ss.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore', 'WebKit'
-    ss.dependency 'WebViewJavascriptBridge', '~> 5.0'
+    ss.dependency 'WebViewJavascriptBridge'
     ss.dependency 'MSAppModuleWebApp/WebView'
   end
 
@@ -60,7 +60,7 @@ Pod::Spec.new do |s|
     ss.dependency 'Masonry'
     ss.dependency 'AFNetworking', '~> 3.1.0'
     ss.dependency 'LGAlertView', '~> 2.4.0'
-    ss.dependency 'MSThemeModuleCommon'
+    ss.dependency 'MSThemeModuleCommon', '~> 1.0.0-beta.13'
 
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
     ss.dependency 'MSAppModuleWebApp/WebView'

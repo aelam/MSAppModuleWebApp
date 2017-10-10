@@ -94,11 +94,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 @property (nonatomic, strong) Class EMClickClass;
 
 @property (nonatomic, assign) BOOL isVideo;
+//@property (nonatomic, strong) NSString *lastUrl;
 
 @end
 
 @implementation EMWebViewController
-
 
 #pragma mark - ModuleSettings
 + (void)setModuleSettings:(id<MSAppSettingsWebApp>)moduleSettings {
@@ -551,8 +551,13 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 #pragma mark -
 #pragma mark - WKWebView Delegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    [self.jsBridge attachToBridge:self.bridge];
     
+//    if ([self.lastUrl isEqualToString:webView.URL.absoluteString]) {
+//        return;
+//    }
+//    self.lastUrl = webView.URL.absoluteString;
+    
+    [self.jsBridge attachToBridge:self.bridge];
     BOOL allow = [self _webViewShouldLoadRequest:navigationAction.request];
     if (allow) {
         decisionHandler(WKNavigationActionPolicyAllow);
@@ -901,12 +906,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 - (void)MSArtPopView:(MSArtPopupView *)popupView didPressed:(EMFontChangeView *)sender {
+    
+    [self addChangeFontEvent:sender.selectedIndex];
+    
     NSInteger fontSize = sender.selectedIndex;
     if (self.fontSizeSelection) {
         NSString *fontSizeString =  [[self class] fontSizeMapping][@(fontSize)];
         self.fontSizeSelection(fontSizeString);
         [self updateFontSize:fontSize];
-        
     }
     [popupView dismiss:YES];
 }
@@ -1026,7 +1033,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 #pragma mark - Share
 - (void)share:(EMShareEntity *)shareEntity {
-    [self event:@"web:share" attributes:self.eventAttributes];
+    //    [self event:@"web:share" attributes:self.eventAttributes];
+    [self addShareEvent:shareEntity];
     
     NSString *callback = shareEntity.callback;
     EMSocialType socialType = shareEntity.socialType;
@@ -1104,7 +1112,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 // 这个时候在`-viewDidAppear`里面统计这个page
 - (void)trackBackFromViewDidAppear {
     if (_currentURLString) {
-        [self beginLogPageView:@"web"];
+        [self beginLogPageView:@"Browser:Home"];
     }
 }
 
@@ -1119,7 +1127,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     _currentURLString = urlString;
     
-    [self beginLogPageView:@"web"];
+    [self beginLogPageView:@"Browser:Home"];
 }
 
 - (void)endTrackingLastPage {
@@ -1161,6 +1169,27 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         }
     }
     return _EMClickClass;
+}
+
+// MARK: event
+- (void)addChangeFontEvent:(NSInteger)index
+{
+    NSArray *fontArray = @[@"small", @"medium", @"big"];
+    NSDictionary *tempDic = @{
+                              @"fontSize": fontArray[index],
+                              @"url": self.webView.URL.absoluteString
+                              };
+    [self event:@"WebPage:ChangeFontSize" attributes:tempDic];
+}
+
+- (void)addShareEvent:(EMShareEntity *)shareEntity
+{
+    NSString *shareType = [NSString stringWithFormat:@"%ld", (long)shareEntity.socialType];
+    NSDictionary *tempDic = @{
+                              @"shareType": shareType,
+                              @"url": self.webView.URL.absoluteString
+                              };
+    [self event:@"WebPage:Share" attributes:tempDic];
 }
 
 - (void)event:(NSString *)event {

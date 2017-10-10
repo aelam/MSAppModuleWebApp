@@ -8,6 +8,7 @@ target 'MSAppModuleWebApp_Example' do
     #pod 'EMSpeed', :path => '../../../components/emspeed'
     pod 'MSAppModuleWebApp', :path => '../'
     pod 'UIImage-Helpers'
+    pod 'WebViewJavascriptBridge', :git => 'https://github.com/Renford/WebViewJavascriptBridge.git'
 end
 
 target 'MSAppModuleWebApp_Tests' do

@@ -21,7 +21,7 @@
 #import <RDVTabBarController/RDVTabBarController.h>
 #import <MSAppModuleShare/MSAppModuleShare.h>
 
-//#import "NSURL+AuthedURL.h"
+#import "NSURL+ParseParam.h"
 
 // Bridge
 #if __has_include(<WebViewJavascriptBridge/WKWebViewJavascriptBridge.h>)
@@ -94,7 +94,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 @property (nonatomic, strong) Class EMClickClass;
 
 @property (nonatomic, assign) BOOL isVideo;
-//@property (nonatomic, strong) NSString *lastUrl;
 
 @end
 
@@ -552,11 +551,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 #pragma mark - WKWebView Delegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     
-//    if ([self.lastUrl isEqualToString:webView.URL.absoluteString]) {
-//        return;
-//    }
-//    self.lastUrl = webView.URL.absoluteString;
-    
     [self.jsBridge attachToBridge:self.bridge];
     BOOL allow = [self _webViewShouldLoadRequest:navigationAction.request];
     if (allow) {
@@ -608,7 +602,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         return YES;
     } else if ([[kModuleSettings supportsURLSchemes] containsObject:url.scheme] ||
                [JSURLScheme isEqualToString:url.scheme]) {
+        
         [JLRoutes routeURL:url];
+        [self addOpenStockEvent:url];
+        
         return NO;
     } else if ([lowercaseScheme hasPrefix:@"http"] ||
                [lowercaseScheme hasPrefix:@"file"]
@@ -1190,6 +1187,20 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
                               @"url": self.webView.URL.absoluteString
                               };
     [self event:@"WebPage:Share" attributes:tempDic];
+}
+
+- (void)addOpenStockEvent:(NSURL *)url
+{
+    NSDictionary *params = [url parseParam];
+    NSString *goodsId = params[@"codes"];
+    if ([params.allKeys containsObject:@"index"]) {
+        goodsId = [goodsId componentsSeparatedByString:@","][[params[@"index"] integerValue]];
+    }
+    
+    NSDictionary *tempDic = @{
+                              @"goodsId":goodsId
+                              };
+    [self event:@"WebPage:OpenGoods" attributes:tempDic];
 }
 
 - (void)event:(NSString *)event {

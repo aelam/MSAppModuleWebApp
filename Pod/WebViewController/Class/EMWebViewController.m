@@ -1193,6 +1193,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 {
     NSDictionary *params = [url parseParam];
     NSString *goodsId = params[@"codes"];
+    if (goodsId.length == 0) {
+        return;
+    }
+    
     if ([params.allKeys containsObject:@"index"]) {
         goodsId = [goodsId componentsSeparatedByString:@","][[params[@"index"] integerValue]];
     }

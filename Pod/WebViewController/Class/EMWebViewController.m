@@ -236,7 +236,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (self.isVideo) {
         [self.webView x_loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
     }
-    [self.webView stringByEvaluatingJavaScriptFromString:@"onPause()"];
+    [self.webView x_evaluateJavaScript:@"onPause()"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -258,7 +258,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 - (void)didBecomeActive{
-    [self.webView stringByEvaluatingJavaScriptFromString:@"onResume()"];
+    [self.webView x_evaluateJavaScript:@"onResume()"];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -115,6 +115,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 - (void)dealloc {
+    [self removeObservers];
     [self.jsBridge reset];
     
     self.bridge = nil;
@@ -193,7 +194,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [super viewDidLoad];
     [self setUpWebView];
     [self setUpLoadingView];
-    
+    [self addObservers];
     _isPopping = NO;
     
     if (nil != self.loadRequest) {
@@ -208,7 +209,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self didBecomeActive];
     [self changeTabbarStatus];
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
@@ -235,6 +236,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (self.isVideo) {
         [self.webView x_loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
     }
+    [self.webView stringByEvaluatingJavaScriptFromString:@"onPause()"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -244,6 +246,19 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     //[self endTrackingLastPage];
     
     _isPopping = YES;
+}
+
+#pragma mark - Notification
+- (void)addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)didBecomeActive{
+    [self.webView stringByEvaluatingJavaScriptFromString:@"onResume()"];
 }
 
 - (void)didReceiveMemoryWarning {

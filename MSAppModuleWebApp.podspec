@@ -74,6 +74,7 @@ Pod::Spec.new do |s|
   # 加载加强版的goods方法
   s.subspec 'EMStockJSModules' do |ss|
     ss.source_files = 'Pod/EMStockJSModules/WebAppBridgeModules/**/*'
+    ss.exclude_files = 'Pod/EMStockJSModules/WebAppBridgeModules/JSContextModule/**/*'
     ss.resource     = 'Pod/EMStockJSModules/Assets/**/*.js'
     ss.dependency   'MSAppModuleWebApp/WebAppBaseJSModule'
   end

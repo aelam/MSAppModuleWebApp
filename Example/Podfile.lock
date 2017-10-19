@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - EMSocialKit (1.0.1)
+  - EMSocialKit (1.0.2)
   - EMSpeed/Core (0.4.7)
   - EMSpeed/MSContext (0.4.7)
   - EMSpeed/UIKit/Core (0.4.7):
@@ -41,20 +41,20 @@ PODS:
     - MSAppModuleShare/Core
     - MSAppModuleWebApp/WebAppBaseJSModule
     - MSAppModuleWebApp/WebViewController
-  - MSAppModuleWebApp (1.0.0-beta.2):
-    - MSAppModuleWebApp/EMStockJSModules (= 1.0.0-beta.2)
-    - MSAppModuleWebApp/WebViewController (= 1.0.0-beta.2)
-  - MSAppModuleWebApp/EMStockJSModules (1.0.0-beta.2):
+  - MSAppModuleWebApp (0.2.6):
+    - MSAppModuleWebApp/EMStockJSModules (= 0.2.6)
+    - MSAppModuleWebApp/WebViewController (= 0.2.6)
+  - MSAppModuleWebApp/EMStockJSModules (0.2.6):
     - MSAppModuleWebApp/WebAppBaseJSModule
-  - MSAppModuleWebApp/WebAppBaseJSModule (1.0.0-beta.2):
+  - MSAppModuleWebApp/WebAppBaseJSModule (0.2.6):
     - MSAppModuleWebApp/WebViewController
-  - MSAppModuleWebApp/WebBridgeCore (1.0.0-beta.2):
+  - MSAppModuleWebApp/WebBridgeCore (0.2.6):
     - MSAppModuleWebApp/WebView
     - WebViewJavascriptBridge (~> 5.0)
-  - MSAppModuleWebApp/WebControllerTheme (1.0.0-beta.2):
+  - MSAppModuleWebApp/WebControllerTheme (0.2.6):
     - MSThemeKit (~> 1.0.0.beta.3)
-  - MSAppModuleWebApp/WebView (1.0.0-beta.2)
-  - MSAppModuleWebApp/WebViewController (1.0.0-beta.2):
+  - MSAppModuleWebApp/WebView (0.2.6)
+  - MSAppModuleWebApp/WebViewController (0.2.6):
     - AFNetworking (~> 3.1.0)
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -93,26 +93,32 @@ PODS:
   - WebViewJavascriptBridge (5.2.0)
 
 DEPENDENCIES:
-  - MSAppModuleShare/JSBridgeModuleShare (from `../../msappmoduleshare/`)
+  - MSAppModuleShare/JSBridgeModuleShare (from `http://ph.benemind.com/diffusion/MDLSHARE/msappmoduleshare.git`, branch `EmoneyDev`)
   - MSAppModuleWebApp (from `../`)
   - MSThemeModuleCommon (~> 1.0.0-beta.13)
   - UIImage-Helpers
 
 EXTERNAL SOURCES:
   MSAppModuleShare:
-    :path: "../../msappmoduleshare/"
+    :branch: EmoneyDev
+    :git: http://ph.benemind.com/diffusion/MDLSHARE/msappmoduleshare.git
   MSAppModuleWebApp:
     :path: "../"
 
+CHECKOUT OPTIONS:
+  MSAppModuleShare:
+    :commit: 903cd704f4380a87e923209c32822c2e308df6cc
+    :git: http://ph.benemind.com/diffusion/MDLSHARE/msappmoduleshare.git
+
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  EMSocialKit: a55a9db502ce93972ab11cdf7a3d380f3bdc137d
+  EMSocialKit: d92965e124f7700171425f48f94e1904ea9fe1de
   EMSpeed: 8c603020c15f9bb960d5946548862a4f52438d7c
   JLRoutes: 2a5ee61d739b51a98c9d8112bee5149a19de8854
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MSAppModuleKit: fdaec07926e261eb9e2c8e850d1ddde8b3a680c4
-  MSAppModuleShare: dd7f58e20bec9711be512c11e3a03ebdb1b1fbeb
-  MSAppModuleWebApp: 0330f7583eeb22c866f1c56413044f58e1bc2785
+  MSAppModuleShare: ce34b12ba7055a256c04d59a53254aee4f59561a
+  MSAppModuleWebApp: 5cce73b4f06937c4afa655cf8317925c02a7296f
   MSRoutes: 152fe9dde6ca63ac708cba229c06a5096c6bdfe2
   MSThemeKit: e254f898033c319eebc2aa6c045ec1b36a51e34c
   MSThemeModuleCommon: f04284f0cdd309c96de4cfd03da21b0e31e16fda
@@ -123,6 +129,6 @@ SPEC CHECKSUMS:
   UIImage-Helpers: 06b04a42bdd222844035602e87e936765c80f620
   WebViewJavascriptBridge: a00b2d61252aec5207e3263d46fd0fd3cfaf7895
 
-PODFILE CHECKSUM: 548a7f0d4bab51c0c1ffe8ce56e31fcc00ae4625
+PODFILE CHECKSUM: e6c614a164b8836e0f12bd066a09593fb4383018
 
 COCOAPODS: 1.2.1

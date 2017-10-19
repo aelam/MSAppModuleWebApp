@@ -141,6 +141,14 @@
         response) { })
     },
 
+    canOpenURL: function (appurl, callback) {
+         var params = {
+             "appurl": appurl,
+             "callback": callback
+         };
+       GoodsBridge.callHandler('canOpenURL', params)
+    },
+
     // 2.9.0
     // @params: {appurl:"emstock://"}
     canOpenURL2: function (params, responseCallback) {
@@ -148,6 +156,11 @@
     },
 
     // 2.9.0+ 改成回调方式
+     getAppInfo: function (params, responseCallback) {
+         GoodsBridge.callHandler('getAppInfo2', params,
+                         responseCallback);
+     },
+
     getAppInfo2: function (params, responseCallback) {
       GoodsBridge.callHandler('getAppInfo2', params,
         responseCallback);

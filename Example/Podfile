@@ -9,7 +9,9 @@ target 'MSAppModuleWebApp_Example' do
     pod 'MSAppModuleWebApp', :path => '../'
     pod 'UIImage-Helpers'
     pod 'MSThemeModuleCommon', '~> 1.0.0-beta.13'
-    pod 'MSAppModuleShare/JSBridgeModuleShare', :path => '../../msappmoduleshare/'
+    #pod 'MSAppModuleShare/JSBridgeModuleShare', :path => '../../msappmoduleshare/'
+    #pod 'MSAppModuleShare', :git => 'http://ph.benemind.com/diffusion/MDLSHARE/msappmoduleshare.git'
+    pod 'MSAppModuleShare/JSBridgeModuleShare', :git => 'http://ph.benemind.com/diffusion/MDLSHARE/msappmoduleshare.git' , :branch => 'EmoneyDev'
 
     target 'MSAppModuleWebApp_Tests' do
         #  pod 'MSAppModuleWebApp/WebViewController', :path => '../'

@@ -103,15 +103,38 @@ JS_EXPORT_MODULE();
     [self registerHandler:@"search" handler:handler];
 }
 
-
-
 - (void)registerCanOpenURL2WithBridge:(JSBridge *)bridge {
+    // 旧版canOpenURL支持回调方式
+    // callback按照老的返回值传回去
+    [self registerHandler:@"canOpenURL" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSDictionary *parameters = (NSDictionary *)data;
+        if (![parameters isKindOfClass:[NSDictionary class]]) {
+            // 特殊
+            responseCallback(@(0));
+            return;
+        }
+        
+        NSString *url = parameters[@"appurl"];
+        if ([url isKindOfClass:[NSNull class]]) {
+            url = @"";
+        }
+        
+        NSInteger canopen = (NSInteger )[[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
+        responseCallback(@(canopen));
+    }];
+    
+    
     [self registerHandler:@"canOpenURL2" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSDictionary *parameters = (NSDictionary *)data;
+        if (![parameters isKindOfClass:[NSDictionary class]]) {
+            // 特殊
+            responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeFailed),
+                               JSResponseErrorDataKey:@(NO)});
+            return;
+        }
         NSString *url = parameters[@"appurl"];
         
         BOOL canopen = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
-        
         responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess),
                            JSResponseErrorDataKey:@(canopen)});
     }];
@@ -119,3 +142,4 @@ JS_EXPORT_MODULE();
 
 
 @end
+

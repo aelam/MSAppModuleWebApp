@@ -58,8 +58,9 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 @property (nonatomic, strong) NSNumber *fontSize;
 @property (nonatomic, copy) void (^fontSizeSelection) (NSString *fontSize);
 
-// long press envent
-@property (nonatomic, assign) BOOL supportLongPress;
+// long press event
+@property (nonatomic, assign) BOOL supportsTouchCallout; // Default NO
+@property (nonatomic, assign) BOOL ignoresNavigationBarStatus; // Default NO
 
 - (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *))selection;
 
@@ -69,7 +70,6 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 // WebAppSettings
 + (void)setModuleSettings:(id<MSAppSettingsWebApp>)moduleSettings;
 + (id<MSAppSettingsWebApp>)moduleSettings;
-
 
 
 - (instancetype)initWithURL:(NSURL *)URL;

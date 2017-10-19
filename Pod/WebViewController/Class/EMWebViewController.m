@@ -163,7 +163,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (instancetype)initWithRequest:(NSURLRequest *)request {
     self = [super init];
     if (self) {
-        self.supportLongPress = NO;
+        self.supportsTouchCallout = NO;
         self.hidesBottomBarWhenPushed = YES;
         self.synchronizeDocumentTitle = YES;
         self.isVideo = NO;
@@ -415,6 +415,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 - (void)changeNavigationBarStatusAnimated:(BOOL)animated {
+    if (self.ignoresNavigationBarStatus) {
+        return;
+    }
+
     if (navigationBarStatus != -1) {
         [self.navigationController setNavigationBarHidden:navigationBarStatus animated:NO];
     }
@@ -585,14 +589,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
-- (void)statusChange {
+- (void)networkStatusChanged {
     [BDKNotifyHUD showNotifHUDWithText:@"正在使用非wifi网络播放将产生流量费用"];
 }
 
 - (void)_webViewDidFinishLoad {
     [self showNetworkActivityIndicator:NO];
     if (self.isVideo) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusChange) name:@"ReachabilityStatusChange" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged) name:@"ReachabilitynetworkStatusChanged" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"supportFullScreen" object:nil];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"unsupportFullScreen" object:nil];
@@ -605,21 +609,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     self.backView.showGoBack = self.webView.canGoBack;
     [self updateNavigationBarByMeta];
     
-    if (!_longPress) {
-        _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(coverWebviewAction:)];
-        _longPress.minimumPressDuration = 0.4;
-        _longPress.numberOfTouchesRequired = 1;
-        [self.webView.scrollView addGestureRecognizer:_longPress];
-    }
-    
-    if (!self.supportLongPress) {
-        
-        NSString *js = @"document.documentElement.style.webkitUserSelect='none'; \
-        document.documentElement.style.webkitTouchCallout='none';";
-        [self.webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-            
-        }];
-    }
+    [self setupTouchCallout];
 }
 
 - (void)_showLoadingViewIfNeeded {
@@ -633,12 +623,32 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
+- (void)setupTouchCallout {
+    if (!_longPress) {
+        _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(coverWebviewAction:)];
+        _longPress.minimumPressDuration = 0.4;
+        _longPress.numberOfTouchesRequired = 1;
+        [self.webView.scrollView addGestureRecognizer:_longPress];
+    }
+    
+    if (self.supportsTouchCallout) {
+        NSString *js = @"document.documentElement.style.webkitUserSelect='none'; \
+        document.documentElement.style.webkitTouchCallout='none';";
+        [self.webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            
+        }];
+    }
+}
+
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
     
 }
 
 #pragma mark - NavigationBar
 - (void)updateNavigationBarByMeta {
+    if (self.ignoresNavigationBarStatus) {
+        return;
+    }
     NSString *js = kNavigaionBarHiddenMetaJS;
     
     __block BOOL hide = NO;
@@ -650,6 +660,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 - (void)_hideNavigationBar:(BOOL)hide {
+    if (self.ignoresNavigationBarStatus) {
+        return;
+    }
+    
     BOOL changed = NO;
     if (hide
         ) {
@@ -913,48 +927,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
-
-//#pragma mark - Share
-//- (void)share:(EMShareEntity *)shareEntity {
-//    [self event:@"web:share" attributes:self.eventAttributes];
-//    
-//    NSString *callback = shareEntity.callback;
-//    EMSocialType socialType = shareEntity.socialType;
-//    
-//    [[EMSocialSDK sharedSDK] shareEntity:shareEntity rootViewController:self completionHandler:^(NSString *activityType, BOOL completed, NSDictionary *returnedInfo, NSError *activityError) {
-//        NSInteger statusCode = 0;
-//        NSNumber *errorCode;
-//        NSString *message = nil;
-//        
-//        errorCode = returnedInfo[EMActivityGeneralStatusCodeKey];
-//        message = returnedInfo[EMActivityGeneralMessageKey];
-//        if (errorCode) {
-//            NSInteger code = [errorCode integerValue];
-//            if (code == EMActivityGeneralStatusCodeSuccess) {
-//                statusCode = 0;
-//            } else if (code == EMActivityGeneralStatusCodeUserCancel) {
-//                statusCode = -1;
-//            } else {
-//                statusCode = -2;
-//            }
-//        }
-//        
-//        if (callback.length > 0) {
-//            NSString *script = [NSString stringWithFormat:@"%@(%zd,%zd)", callback, socialType, statusCode];
-//            // FIXME: 在callback指明却不实现的情况直接使用webview会卡死
-//            if (self.jsBridge.javascriptContext) {
-//                [self.jsBridge.javascriptContext evaluateScript:script];
-//            } else {
-//                [_webView x_evaluateJavaScript:script];
-//            }
-//        } else {
-//            if (message.length > 0) {
-//                [BDKNotifyHUD showNotifHUDWithText:message];
-//            }
-//        }
-//    }];
-//}
-
 #pragma mark -
 #pragma mark - URL
 - (NSURL *)_addAdditionInfoToOriginURL:(NSURL *)plainURL {
@@ -1080,4 +1052,3 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 
 @end
-

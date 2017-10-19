@@ -61,7 +61,7 @@ static const BOOL kNavigationBarHidden = YES;
 static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 
-@interface EMWebViewController () <UIWebViewDelegate, WKUIDelegate, WKNavigationDelegate, MSArtPopupViewDelegate>
+@interface EMWebViewController () <WKUIDelegate, WKNavigationDelegate, MSArtPopupViewDelegate>
 {
     NSInteger navigationBarStatus;// 储存navigationBar显示状态
     UILongPressGestureRecognizer *_longPress;

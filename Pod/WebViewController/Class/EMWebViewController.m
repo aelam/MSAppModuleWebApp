@@ -284,7 +284,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         
         // 显示WKWebView
         WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-        [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
+        
+        @try {
+            [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
+        }
+        @catch (NSException * e) {
+            
+        }
+
         wkWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         wkWebView.UIDelegate = self; // 设置WKUIDelegate代理
         wkWebView.navigationDelegate = self; // 设置WKNavigationDelegate代理

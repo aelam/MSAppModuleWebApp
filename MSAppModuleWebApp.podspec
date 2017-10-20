@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.subspec 'WebBridgeCore' do |ss|
     ss.source_files = 'Pod/WebBridgeCore/**/*.{h,c,m,mm,swift}'
     ss.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore', 'WebKit'
-    ss.dependency 'WebViewJavascriptBridge', '~> 5.0'
+    ss.dependency 'WebViewJavascriptBridge', '~> 6.0'
     ss.dependency 'MSAppModuleWebApp/WebView'
   end
 

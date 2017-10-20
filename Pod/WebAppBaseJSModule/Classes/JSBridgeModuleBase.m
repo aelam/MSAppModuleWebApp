@@ -77,6 +77,15 @@ JS_EXPORT_MODULE();
 }
 
 - (void)registerGetAppInfoWithBridge:(JSBridge *)bridge {
+    [self registerHandler:@"getAppInfo" handler:^(id data, WVJBResponseCallback responseCallback) {
+        id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
+        if (settings.webAppAuthInfo) {
+            responseCallback(settings.webAppAuthInfo());
+        } else {
+            responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeFailed)});
+        }
+    }];
+
     [self registerHandler:@"getAppInfo2" handler:^(id data, WVJBResponseCallback responseCallback) {
         id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
         if (settings.webAppAuthInfo) {

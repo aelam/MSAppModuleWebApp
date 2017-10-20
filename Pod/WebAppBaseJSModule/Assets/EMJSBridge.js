@@ -155,10 +155,12 @@
       GoodsBridge.callHandler('canOpenURL2', params, responseCallback)
     },
 
-    // 2.9.0+ 改成回调方式
-     getAppInfo: function (params, responseCallback) {
-         GoodsBridge.callHandler('getAppInfo2', params,
-                         responseCallback);
+    // 改成回调方式
+     getAppInfo: function (params) {
+         if (!params) {
+             return;
+         }
+         GoodsBridge.callHandler('getAppInfo', params);
      },
 
     getAppInfo2: function (params, responseCallback) {

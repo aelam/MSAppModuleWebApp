@@ -29,7 +29,8 @@ PODS:
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/UIColors
   - JLRoutes (2.0.5)
-  - Masonry (1.0.2)
+  - JRSwizzle (1.0)
+  - Masonry (1.1.0)
   - MSAppModuleKit (1.1.3):
     - MSRoutes (~> 1.2)
   - MSAppModuleShare/Core (1.0.0-beta.3):
@@ -50,10 +51,11 @@ PODS:
     - MSAppModuleWebApp/WebViewController
   - MSAppModuleWebApp/WebBridgeCore (0.2.6):
     - MSAppModuleWebApp/WebView
-    - WebViewJavascriptBridge (~> 5.0)
+    - WebViewJavascriptBridge (~> 6.0)
   - MSAppModuleWebApp/WebControllerTheme (0.2.6):
     - MSThemeKit (~> 1.0.0.beta.3)
-  - MSAppModuleWebApp/WebView (0.2.6)
+  - MSAppModuleWebApp/WebView (0.2.6):
+    - JRSwizzle (~> 1.0)
   - MSAppModuleWebApp/WebViewController (0.2.6):
     - AFNetworking (~> 3.1.0)
     - EMSpeed/UIKit/Core
@@ -90,7 +92,7 @@ PODS:
   - UIColor-HexString (1.1.0)
   - UIImage+RTTint (1.0.0)
   - UIImage-Helpers (0.0.3)
-  - WebViewJavascriptBridge (5.2.0)
+  - WebViewJavascriptBridge (6.0.2)
 
 DEPENDENCIES:
   - MSAppModuleShare/JSBridgeModuleShare (from `http://ph.benemind.com/diffusion/MDLSHARE/msappmoduleshare.git`, branch `EmoneyDev`)
@@ -115,10 +117,11 @@ SPEC CHECKSUMS:
   EMSocialKit: d92965e124f7700171425f48f94e1904ea9fe1de
   EMSpeed: 8c603020c15f9bb960d5946548862a4f52438d7c
   JLRoutes: 2a5ee61d739b51a98c9d8112bee5149a19de8854
-  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  JRSwizzle: dd5ead5d913a0f29e7f558200165849f006bb1e3
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MSAppModuleKit: fdaec07926e261eb9e2c8e850d1ddde8b3a680c4
   MSAppModuleShare: ce34b12ba7055a256c04d59a53254aee4f59561a
-  MSAppModuleWebApp: 5cce73b4f06937c4afa655cf8317925c02a7296f
+  MSAppModuleWebApp: ebdb69a8bc654058a625ae4e205857c8e31755af
   MSRoutes: 152fe9dde6ca63ac708cba229c06a5096c6bdfe2
   MSThemeKit: e254f898033c319eebc2aa6c045ec1b36a51e34c
   MSThemeModuleCommon: f04284f0cdd309c96de4cfd03da21b0e31e16fda
@@ -127,7 +130,7 @@ SPEC CHECKSUMS:
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51
   UIImage-Helpers: 06b04a42bdd222844035602e87e936765c80f620
-  WebViewJavascriptBridge: a00b2d61252aec5207e3263d46fd0fd3cfaf7895
+  WebViewJavascriptBridge: 791ee0e26d1bf15efe5fb7fb9666a71a19b89d77
 
 PODFILE CHECKSUM: e6c614a164b8836e0f12bd066a09593fb4383018
 

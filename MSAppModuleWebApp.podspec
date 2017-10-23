@@ -26,6 +26,8 @@ Pod::Spec.new do |s|
   s.subspec 'WebView' do |ss|
     ss.source_files = 'Pod/WebView/**/*.{h,c,m,mm,swift}'
     ss.frameworks = 'UIKit', 'Foundation', 'JavaScriptCore', 'WebKit'
+    ss.dependency  'JRSwizzle', '~> 1.0'
+
   end
 
   s.subspec 'WebBridgeCore' do |ss|

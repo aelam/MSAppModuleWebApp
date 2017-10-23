@@ -891,11 +891,21 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         fromRect.origin.y += 27;
     }
     
+    CGRect rect;
+    for (UIView *view in self.navigationController.navigationBar.subviews) {
+        if ([view isKindOfClass:NSClassFromString(@"_UINavigationBarContentView")]) {
+            UIView *barView = [self.navigationItem.rightBarButtonItem valueForKey:@"view"];
+            CGRect barFrame = barView.frame;
+            rect = [barView convertRect:barFrame toView:view];
+            rect.origin.y += 27;
+        }
+    }
+
     // 设置字体UI
     NSInteger fontSize = [[NSUserDefaults standardUserDefaults] integerForKey:WebFontSizeKey];
     changeViewContentView.selectedIndex = fontSize;
     
-    MSArtPopupView *popupView = [MSArtPopupView showContent:changeViewContentView inView:self.navigationController.view fromRect:fromRect delegate:self];
+    MSArtPopupView *popupView = [MSArtPopupView showContent:changeViewContentView inView:self.navigationController.view fromRect:rect delegate:self];
     
     popupView.fillBackgroundColor =  [MSThemeColor web_fontSizeChangeViewBgColor];
     popupView.borderColor =  [MSThemeColor web_fontSizeChangeViewBorderColor];

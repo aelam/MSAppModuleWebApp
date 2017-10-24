@@ -284,13 +284,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         
         // 显示WKWebView
         WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-        
-        @try {
-            [configuration.preferences setValue:@YES forKey:@"developerExtrasEnabled"];
-        }
-        @catch (NSException * e) {
-            
-        }
 
         wkWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         wkWebView.UIDelegate = self; // 设置WKUIDelegate代理
@@ -522,7 +515,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 #pragma mark -
 #pragma mark - WKWebView Delegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    [self.jsBridge attachToBridge:self.bridge];
     
     BOOL allow = [self _webViewShouldLoadRequest:navigationAction.request];
     if (allow) {
@@ -567,11 +559,17 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (BOOL)_webViewShouldLoadRequest:(NSURLRequest *)request {
     NSURL *url = request.URL;
     NSString *lowercaseScheme = [[url scheme] lowercaseString];
+    UIApplication *app = [UIApplication sharedApplication];
     
     if ([lowercaseScheme isEqualToString:@"tel"] ||
         [lowercaseScheme isEqualToString:@"telprompt"] ||
         [lowercaseScheme isEqualToString:@"sms"]) {
-        return YES;
+        if ([app canOpenURL:url]) {
+            [app openURL:url];
+            // 一定要加上这句,否则会打开新页面
+            //decisionHandler(WKNavigationActionPolicyCancel);
+        }
+        return NO;
     } else if ([[kModuleSettings supportsURLSchemes] containsObject:url.scheme] ||
                [JSURLScheme isEqualToString:url.scheme]) {
         [JLRoutes routeURL:url];

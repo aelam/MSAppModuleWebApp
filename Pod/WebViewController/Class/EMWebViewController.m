@@ -615,6 +615,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [self updateNavigationBarByMeta];
     
     [self setupTouchCallout];
+    [self adjustWebContentWidth];
 }
 
 - (void)_showLoadingViewIfNeeded {
@@ -643,6 +644,18 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
             
         }];
     }
+}
+
+// Webview非整屏宽度需要调整
+- (void)adjustWebContentWidth {
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 9.0)
+    {
+        //修改服务器页面的meta的值
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(self.webView.frame)];
+        [self.webView evaluateJavaScript:meta completionHandler:^(id _Nullable rs, NSError *_Nullable error) {
+        }];
+    }
+
 }
 
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {

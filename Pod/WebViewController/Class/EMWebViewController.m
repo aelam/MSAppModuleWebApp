@@ -563,12 +563,16 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     if ([lowercaseScheme isEqualToString:@"tel"] ||
         [lowercaseScheme isEqualToString:@"telprompt"] ||
-        [lowercaseScheme isEqualToString:@"sms"]) {
+        [lowercaseScheme isEqualToString:@"sms"] ||
+        [lowercaseScheme isEqualToString:@"itms-services"]) {
         if ([app canOpenURL:url]) {
             [app openURL:url];
             // 一定要加上这句,否则会打开新页面
             //decisionHandler(WKNavigationActionPolicyCancel);
         }
+        return NO;
+    } else if ([[url host] isEqualToString:@"itunes.apple.com"]) {
+        [app openURL:url];
         return NO;
     } else if ([[kModuleSettings supportsURLSchemes] containsObject:url.scheme] ||
                [JSURLScheme isEqualToString:url.scheme]) {

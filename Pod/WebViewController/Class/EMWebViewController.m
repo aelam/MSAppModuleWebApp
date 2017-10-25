@@ -994,15 +994,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)beginTrackingEventsWithURL:(NSURL *)url {
     [self endTrackingLastPage];
-    
-    NSString *scheme = url.scheme;
-    NSString *host = url.host;
-    NSString *relativePath = url.relativePath;
-    
-    NSString *urlString = [NSString stringWithFormat:@"%@://%@%@",scheme,host,relativePath];
-    
-    _currentURLString = urlString;
-    
+    _currentURLString = url.absoluteString;
     [self beginLogPageView:@"web"];
 }
 

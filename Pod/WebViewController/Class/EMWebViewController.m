@@ -168,11 +168,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.synchronizeDocumentTitle = YES;
         self.isVideo = NO;
         [self setShowsCloseButton:YES];
-        
-        if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
-            self.edgesForExtendedLayout = UIRectEdgeAll;
-        }
-        
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+
         if (request) {
             [self openRequest:request];
         }

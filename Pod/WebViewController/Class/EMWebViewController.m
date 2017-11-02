@@ -356,6 +356,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     self.webView.backgroundColor = bgColor;
     self.webView.scrollView.backgroundColor = bgColor;
     
+    if (@available(iOS 11.0, *)) {
+        self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+
 }
 
 - (void)setUpLoadingView {

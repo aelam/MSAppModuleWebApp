@@ -62,6 +62,8 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 @property (nonatomic, assign) BOOL supportsTouchCallout; // Default NO
 @property (nonatomic, assign) BOOL ignoresNavigationBarStatus; // Default NO
 
+@property (nonatomic, readonly) UIEdgeInsets webViewSafeAreaInsets;
+
 - (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *))selection;
 
 // JSMenuItems

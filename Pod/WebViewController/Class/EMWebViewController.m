@@ -87,7 +87,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 @property (nonatomic, strong) Class EMClickClass;
 
 @property (nonatomic, assign) BOOL isVideo;
-@property (nonatomic, assign) UIEdgeInsets webViewSafeAreaInsets;
+@property (nonatomic, readwrite) UIEdgeInsets webViewSafeAreaInsets;
 
 @end
 

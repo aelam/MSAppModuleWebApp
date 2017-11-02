@@ -87,6 +87,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 @property (nonatomic, strong) Class EMClickClass;
 
 @property (nonatomic, assign) BOOL isVideo;
+@property (nonatomic, assign) UIEdgeInsets webViewSafeAreaInsets;
 
 @end
 
@@ -169,7 +170,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.isVideo = NO;
         [self setShowsCloseButton:YES];
         self.edgesForExtendedLayout = UIRectEdgeNone;
-
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        
         if (request) {
             [self openRequest:request];
         }
@@ -202,7 +205,15 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    
+    if (![self.view respondsToSelector:@selector(safeAreaInsets)]) {
+        self.webViewSafeAreaInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+    }
+    
+    [self adjustWebScrollViewInsets];
 }
+
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -245,6 +256,13 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     _isPopping = YES;
 }
 
+- (void)viewSafeAreaInsetsDidChange {
+    [super viewSafeAreaInsetsDidChange];
+    self.webViewSafeAreaInsets = self.view.safeAreaInsets;
+    
+    [self adjustWebScrollViewInsets];
+}
+
 #pragma mark - Notification
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -281,7 +299,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         
         // 显示WKWebView
         WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-
+        
         wkWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         wkWebView.UIDelegate = self; // 设置WKUIDelegate代理
         wkWebView.navigationDelegate = self; // 设置WKNavigationDelegate代理
@@ -415,7 +433,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (self.ignoresNavigationBarStatus) {
         return;
     }
-
+    
     if (navigationBarStatus != -1) {
         [self.navigationController setNavigationBarHidden:navigationBarStatus animated:NO];
     }
@@ -464,6 +482,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (navigationBarHidden) {
         self.webView.opaque = YES;
         self.webView.scrollView.bounces = NO;
+        //        UIEdgeInsets insets = self.webView.scrollView.contentInset;
+        //        insets.top = [UIApplication sharedApplication].statusBarFrame.size.height;
+        //        self.webView.scrollView.insetsLayoutMarginsFromSafeArea = NO;
     } else {
         self.webView.opaque = NO;
         self.webView.scrollView.bounces = YES;
@@ -647,6 +668,18 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
+// Webview调整ContentInsets
+- (void)adjustWebScrollViewInsets {
+    
+    self.webView.scrollView.contentInset = self.webViewSafeAreaInsets;
+    self.webView.scrollView.scrollIndicatorInsets = self.webViewSafeAreaInsets;
+    
+    if ([self.webView.scrollView respondsToSelector:@selector(contentInsetAdjustmentBehavior)]) {
+        self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+}
+
+
 // Webview非整屏宽度需要调整
 - (void)adjustWebContentWidth {
     if ([[UIDevice currentDevice].systemVersion floatValue] < 9.0)
@@ -656,7 +689,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [self.webView evaluateJavaScript:meta completionHandler:^(id _Nullable rs, NSError *_Nullable error) {
         }];
     }
-
+    
 }
 
 - (void)coverWebviewAction:(UIGestureRecognizer *)gesture {
@@ -906,9 +939,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 #pragma mark - KeyCommands
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
+//- (BOOL)canBecomeFirstResponder {
+//    return YES;
+//}
 
 - (NSArray *)keyCommands {
     NSMutableArray *keyCommands = [NSMutableArray array];;
@@ -1063,3 +1096,4 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 
 @end
+

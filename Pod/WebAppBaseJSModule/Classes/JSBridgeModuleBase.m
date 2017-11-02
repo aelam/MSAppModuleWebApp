@@ -158,7 +158,6 @@ JS_EXPORT_MODULE();
         NSString *path = parameters[@"path"];
         if (path) {
             [JLRoutes routeURL:[NSURL URLWithString:path] withParameters:parameters];
-            responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeSuccess)});
         } else {
             responseCallback(@{JSResponseErrorCodeKey:@(JSResponseErrorCodeFailed)});
         }

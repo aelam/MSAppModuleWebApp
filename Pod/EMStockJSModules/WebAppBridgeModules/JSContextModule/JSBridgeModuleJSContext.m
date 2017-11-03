@@ -36,7 +36,7 @@ JS_EXPORT_MODULE();
     BOOL (^CanOpenURL)(NSString *, NSString *) = ^BOOL(NSString *urlString, NSString *callback) {
         BOOL rs = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]];
         NSString* string = [NSString stringWithFormat:@"%@(%d);",callback,rs];
-        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用canOpenURL2({appurl:xxx},function(info){})\")"];
+        //[weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用canOpenURL2({appurl:xxx},function(info){})\")"];
         [weakBridge.webView evaluateJavaScript:string completionHandler:^(id result, NSError * _Nullable error) {
             
         }];
@@ -53,7 +53,7 @@ JS_EXPORT_MODULE();
 
     //
     NSString *(^getAppInfo)() = ^NSString * () {
-        [weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用getAppInfo2(null,function(info){})\")"];
+        //[weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用getAppInfo2(null,function(info){})\")"];
         if (settings.webAppAuthInfo) {
             return [settings.webAppAuthInfo() jsonString];
         }

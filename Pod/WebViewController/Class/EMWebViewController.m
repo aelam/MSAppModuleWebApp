@@ -169,6 +169,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.synchronizeDocumentTitle = YES;
         self.isVideo = NO;
         [self setShowsCloseButton:YES];
+        
         self.edgesForExtendedLayout = UIRectEdgeNone;
         self.extendedLayoutIncludesOpaqueBars = NO;
         self.automaticallyAdjustsScrollViewInsets = NO;
@@ -206,7 +207,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    if (![self.view respondsToSelector:@selector(safeAreaInsets)]) {
+    if (@available(iOS 11.0, *)) {
         self.webViewSafeAreaInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
     }
     
@@ -332,6 +333,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     self.webView.backgroundColor = bgColor;
     self.webView.scrollView.backgroundColor = bgColor;
     
+    // 
+    if (@available(iOS 11.0, *)) {
+        self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
 }
 
 - (void)setUpLoadingView {

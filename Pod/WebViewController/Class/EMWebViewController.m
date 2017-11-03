@@ -174,6 +174,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.extendedLayoutIncludesOpaqueBars = NO;
         self.automaticallyAdjustsScrollViewInsets = NO;
         
+        self.WKWebViewEnabled = NO;
+        if ([kModuleSettings respondsToSelector:@selector(WKWebViewEnabled)]) {
+            self.WKWebViewEnabled = [kModuleSettings WKWebViewEnabled];
+        }
+        
         if (request) {
             [self openRequest:request];
         }
@@ -208,6 +213,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [super viewDidLayoutSubviews];
     
     if (@available(iOS 11.0, *)) {
+        // 会根据
+    } else {
         self.webViewSafeAreaInsets = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
     }
     
@@ -288,8 +295,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     // UIWebView在获取JSContext的时候注入脚本
     
     if (NSClassFromString(@"WKWebView") &&
-        [kModuleSettings respondsToSelector:@selector(WKWebViewEnabled)] &&
-        [kModuleSettings WKWebViewEnabled]) {
+        self.WKWebViewEnabled) {
         [WKWebViewJavascriptBridge enableLogging];
         
         WKUserContentController *userContentController = [[WKUserContentController alloc] init];
@@ -333,7 +339,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     self.webView.backgroundColor = bgColor;
     self.webView.scrollView.backgroundColor = bgColor;
     
-    // 
+    // 不要自动调整
     if (@available(iOS 11.0, *)) {
         self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
@@ -487,9 +493,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     if (navigationBarHidden) {
         self.webView.opaque = YES;
         self.webView.scrollView.bounces = NO;
-        //        UIEdgeInsets insets = self.webView.scrollView.contentInset;
-        //        insets.top = [UIApplication sharedApplication].statusBarFrame.size.height;
-        //        self.webView.scrollView.insetsLayoutMarginsFromSafeArea = NO;
     } else {
         self.webView.opaque = NO;
         self.webView.scrollView.bounces = YES;
@@ -675,13 +678,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 // Webview调整ContentInsets
 - (void)adjustWebScrollViewInsets {
-    
     self.webView.scrollView.contentInset = self.webViewSafeAreaInsets;
     self.webView.scrollView.scrollIndicatorInsets = self.webViewSafeAreaInsets;
-    
-    if ([self.webView.scrollView respondsToSelector:@selector(contentInsetAdjustmentBehavior)]) {
-        self.webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
 }
 
 

@@ -64,6 +64,9 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 
 @property (nonatomic, readonly) UIEdgeInsets webViewSafeAreaInsets;
 
+@property (nonatomic, assign) BOOL WKWebViewEnabled; // 默认从Settings里面初始化, 可在外面指定
+
+
 - (void)showChangeFontSizeViewWithSelection:(void (^)(NSString *))selection;
 
 // JSMenuItems

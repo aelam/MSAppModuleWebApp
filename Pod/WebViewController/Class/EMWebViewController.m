@@ -153,8 +153,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (instancetype)initWithURL:(NSURL *)URL {
     [self _initFontSize];
-    NSURL *url = [self _addAdditionInfoToOriginURL:URL];
-    return [self initWithRequest:[NSURLRequest requestWithURL:url]];
+    return [self initWithRequest:[NSURLRequest requestWithURL:URL]];
 }
 
 - (instancetype)init {
@@ -758,11 +757,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 }
 
 - (void)openRequest:(NSURLRequest *)request {
-    self.loadRequest = request;
+    NSMutableURLRequest *modifiedRequest = [request mutableCopy];
+    modifiedRequest.URL =  [self _addAdditionInfoToOriginURL:request.URL];
+    
+    self.loadRequest = modifiedRequest;
     
     if ([self isViewLoaded]) {
         if (nil != request) {
-            [self.webView x_loadRequest:request];
+            [self.webView x_loadRequest:modifiedRequest];
         } else {
             [self.webView stopLoading];
         }

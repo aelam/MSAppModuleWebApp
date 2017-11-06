@@ -1216,7 +1216,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
     
     NSDictionary *tempDic = @{
-                              @"goodsId":goodsId
+                              @"goodsId": [NSNumber numberWithInteger:goodsId.integerValue]
                               };
     [self event:@"WebPage:OpenGoods" attributes:tempDic];
 }

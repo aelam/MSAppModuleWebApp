@@ -193,6 +193,10 @@
                          responseCallback);
     },
 
+     showDatePicker: function (params, responseCallback) {
+        GoodsBridge.callHandler('showDatePicker', params,
+                             responseCallback);
+     },
     // EMMPStock 新增
     showChangeFontSizeView: function (params, responseCallback) {
       GoodsBridge.callHandler('showChangeFontSizeView', params,

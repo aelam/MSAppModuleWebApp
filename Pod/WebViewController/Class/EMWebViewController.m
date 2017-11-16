@@ -896,13 +896,17 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
     
     CGRect rect;
-    for (UIView *view in self.navigationController.navigationBar.subviews) {
-        if ([view isKindOfClass:NSClassFromString(@"_UINavigationBarContentView")]) {
-            UIView *barView = [self.navigationItem.rightBarButtonItem valueForKey:@"view"];
-            CGRect barFrame = barView.frame;
-            rect = [barView convertRect:barFrame toView:view];
-            rect.origin.y += 27;
+    if (@available(iOS 11.0, *)) {
+        for (UIView *view in self.navigationController.navigationBar.subviews) {
+            if ([view isKindOfClass:NSClassFromString(@"_UINavigationBarContentView")]) {
+                UIView *barView = [self.navigationItem.rightBarButtonItem valueForKey:@"view"];
+                CGRect barFrame = barView.frame;
+                rect = [barView convertRect:barFrame toView:view];
+                rect.origin.y += 27;
+            }
         }
+    } else {
+        rect = fromRect;
     }
 
     // 设置字体UI

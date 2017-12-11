@@ -31,12 +31,28 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 
 @class MSMenuItemData;
 @class EMWebBackView;
+@class EMWebViewController;
 
 @protocol UIViewControllerRoutable;
 @protocol XWebView;
 @protocol MSAppSettingsWebApp;
 
+@protocol EMWebViewControllerDelegate <NSObject>
+
+@optional
+- (void)webController:(EMWebViewController *)controller shouldLoadRequest:(NSURLRequest *)request;
+
+- (void)webController:(EMWebViewController *)controller didStartLoad:(UIView<XWebView> *)webView;
+
+- (void)webController:(EMWebViewController *)controller didFinishLoad:(UIView<XWebView> *)webView;
+
+- (void)webController:(EMWebViewController *)controller didFailLoadWithError:(NSString *)message;
+
+@end
+
 @interface EMWebViewController : UIViewController <XWebViewController, UIViewControllerRoutable, WebFontSizeChangeSupport, WebShareSupport, WebSearchSupport, UIWebViewDelegate, WKNavigationDelegate>
+
+@property (nonatomic, weak) id<EMWebViewControllerDelegate> delegate;
 
 @property (nonatomic, assign) BOOL synchronizeDocumentTitle; // navbar同步页面document的title，default is `YES`
 

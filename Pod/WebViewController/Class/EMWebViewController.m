@@ -515,6 +515,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     } else {
         [self showErrorView];
     }
+    if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
+        [self.delegate webController:self didFailLoadWithError:error.localizedDescription];
+    }
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -571,6 +574,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
                                                           completionHandler();
                                                       }]];
     [self presentViewController:alertController animated:YES completion:^{}];
+    
+    if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
+        [self.delegate webController:self didFailLoadWithError:message];
+    }
 }
 
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
@@ -609,6 +616,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.loadRequest = request;
     }
     
+    if ([self.delegate respondsToSelector:@selector(webController:shouldLoadRequest:)]) {
+        [self.delegate webController:self shouldLoadRequest:request];
+    }
+    
     return YES;
 }
 
@@ -620,6 +631,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         ) {
         [self showNetworkActivityIndicator:YES];
         [self beginTrackingEventsWithURL:url];
+    }
+    if ([self.delegate respondsToSelector:@selector(webController:didStartLoad:)]) {
+        [self.delegate webController:self didStartLoad:self.webView];
     }
 }
 
@@ -645,6 +659,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     [self setupTouchCallout];
     [self adjustWebContentWidth];
+    
+    if ([self.delegate respondsToSelector:@selector(webController:didFinishLoad:)]) {
+        [self.delegate webController:self didFinishLoad:self.webView];
+    }
 }
 
 - (void)_showLoadingViewIfNeeded {
@@ -655,6 +673,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         ) {
         [self showNetworkActivityIndicator:YES];
         [self beginTrackingEventsWithURL:url];
+    }
+    if ([self.delegate respondsToSelector:@selector(webController:didStartLoad:)]) {
+        [self.delegate webController:self didStartLoad:self.webView];
     }
 }
 

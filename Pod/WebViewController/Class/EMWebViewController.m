@@ -277,6 +277,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)removeObservers {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    if (self.WKWebViewEnabled && NSClassFromString(@"WKWebView")) {
+        if (self.synchronizeDocumentTitle) {
+            [self.webView removeObserver:self forKeyPath:@"title"];
+        }
+    }
 }
 
 - (void)didBecomeActive{
@@ -316,6 +321,10 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [self bridgeWithWebView];
         
         [self.jsBridge attachToBridge:self.bridge];
+        
+        if (self.synchronizeDocumentTitle) {
+            [_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        }
         
     } else {
         [WebViewJavascriptBridge enableLogging];

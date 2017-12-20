@@ -7,12 +7,8 @@
 //
 
 #import "EMWebBackView.h"
-#import <MSThemeKit/MSThemeKit.h>
-#import <EMSpeed/FontAwesome.h>
 
 @interface EMWebBackView ()
-
-//@property (nonatomic, strong) UIImage *backImage;
 
 @end
 

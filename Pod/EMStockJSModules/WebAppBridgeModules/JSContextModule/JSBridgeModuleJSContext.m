@@ -52,7 +52,7 @@ JS_EXPORT_MODULE();
     id<MSAppSettingsWebApp> settings = (id<MSAppSettingsWebApp>)[MSAppSettings appSettings];
 
     //
-    NSString *(^getAppInfo)() = ^NSString * () {
+    NSString *(^getAppInfo)(void) = ^NSString * (void) {
         //[weakBridge.webView x_evaluateJavaScript:@"console.log(\"WARN:2.9.0以上使用getAppInfo2(null,function(info){})\")"];
         if (settings.webAppAuthInfo) {
             return [settings.webAppAuthInfo() jsonString];

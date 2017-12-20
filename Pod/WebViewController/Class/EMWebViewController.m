@@ -518,26 +518,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 #pragma mark -
 #pragma mark UIWebView delegate
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [self showNetworkActivityIndicator:NO];
-    NSLog(@"%zd %@", error.code,[error localizedDescription]);
-    
-    if([error code] == NSURLErrorCancelled /* -999 */) {
-    } else if (error.code == NSURLErrorServerCertificateUntrusted /* -1202 */) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                        message:@"请确认网页的证书"
-                                                       delegate:nil
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:@"确定", nil];
-        [alert show];
-    } else {
-        [self showErrorView];
-    }
-    if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
-        [self.delegate webController:self didFailLoadWithError:error.localizedDescription];
-    }
-}
-
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     return [self _webViewShouldLoadRequest:request];
 }
@@ -558,6 +538,11 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [self _webViewDidFinishLoad];
 }
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [self _webViewDidFailLoadWithError:error];
+}
+
+
 #pragma mark -
 #pragma mark - WKWebView Delegate
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
@@ -570,9 +555,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
-{
-    [self _showLoadingViewIfNeeded];
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
+    [self _webViewDidStartLoad];
 }
 
 - (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified WKNavigation *)navigation {
@@ -593,13 +577,14 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
                                                       }]];
     [self presentViewController:alertController animated:YES completion:^{}];
     
-    if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
-        [self.delegate webController:self didFailLoadWithError:message];
-    }
 }
 
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
     completionHandler(YES);
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+    [self _webViewDidFailLoadWithError:error];
 }
 
 
@@ -683,18 +668,26 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
-- (void)_showLoadingViewIfNeeded {
-    NSURL *url = [self.loadRequest URL];
+- (void)_webViewDidFailLoadWithError:(NSError *)error {
+    [self showNetworkActivityIndicator:NO];
+    NSLog(@"%zd %@", error.code,[error localizedDescription]);
     
-    if ([[[url scheme] lowercaseString] hasPrefix:@"http"] ||
-        [[[url scheme] lowercaseString] hasPrefix:@"file"]
-        ) {
-        [self showNetworkActivityIndicator:YES];
-        [self beginTrackingEventsWithURL:url];
+    if([error code] == NSURLErrorCancelled /* -999 */) {
+    } else if (error.code == NSURLErrorServerCertificateUntrusted /* -1202 */) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                        message:@"请确认网页的证书"
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"确定", nil];
+        [alert show];
+    } else {
+        [self showErrorView];
     }
-    if ([self.delegate respondsToSelector:@selector(webController:didStartLoad:)]) {
-        [self.delegate webController:self didStartLoad:self.webView];
+    
+    if ([self.delegate respondsToSelector:@selector(webController:didFailLoadWithError:)]) {
+        [self.delegate webController:self didFailLoadWithError:error];
     }
+
 }
 
 - (void)setupTouchCallout {

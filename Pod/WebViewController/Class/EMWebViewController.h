@@ -41,12 +41,9 @@ typedef NS_ENUM (NSInteger, EMFontSizeType) {
 
 @optional
 - (void)webController:(EMWebViewController *)controller shouldLoadRequest:(NSURLRequest *)request;
-
 - (void)webController:(EMWebViewController *)controller didStartLoad:(UIView<XWebView> *)webView;
-
 - (void)webController:(EMWebViewController *)controller didFinishLoad:(UIView<XWebView> *)webView;
-
-- (void)webController:(EMWebViewController *)controller didFailLoadWithError:(NSString *)message;
+- (void)webController:(EMWebViewController *)controller didFailLoadWithError:(NSError *)error;
 
 @end
 

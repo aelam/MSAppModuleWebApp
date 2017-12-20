@@ -478,6 +478,15 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"title"]) {
+        NSString *title = change[@"new"];
+        if (title) {
+            self.title = title;
+        }
+    }
+}
+
 // 显示高度为20的view盖住webview
 - (void)showTopStatusBarViewWithNavigationBarHidden:(BOOL)navigationBarHidden {
     if (navigationBarHidden && CGRectGetMinY(self.view.frame) ==0) {

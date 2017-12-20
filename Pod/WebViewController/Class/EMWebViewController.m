@@ -480,7 +480,7 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"title"]) {
-        NSString *title = change[@"new"];
+        NSString *title = change[NSKeyValueChangeNewKey];
         if (title) {
             self.title = title;
         }

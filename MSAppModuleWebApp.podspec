@@ -50,7 +50,7 @@ Pod::Spec.new do |s|
 
     ss.dependency 'UIColor-HexString', '~> 1.1.0'
     ss.dependency 'MSAppModuleShare', '~> 1.0-beta.1'
-    ss.dependency 'MSAppModuleKit', '~> 1.0'
+    ss.dependency 'MSAppModuleKit', '~> 1.1.3'
     ss.dependency 'EMSpeed/UIKit/Core', '~> 0.4.0'
     ss.dependency 'EMSpeed/UIKit/FontAwesome+iOS'
     ss.dependency 'EMSpeed/UIKit/UIKitCollections'

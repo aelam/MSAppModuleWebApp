@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "MSAppModuleWebApp"
-  s.version          = "1.0.0-beta.3"
+  s.version          = "1.1.0"
   s.summary          = "MSAppModuleWebApp"
 
   s.description      = <<-DESC
@@ -60,7 +60,6 @@ Pod::Spec.new do |s|
     ss.dependency 'Masonry'
     ss.dependency 'AFNetworking', '~> 3.1.0'
     ss.dependency 'LGAlertView', '~> 2.4.0'
-    ss.dependency 'MSThemeModuleCommon', '~> 1.0.0-beta.13'
 
     ss.dependency 'MSAppModuleWebApp/WebBridgeCore'
     ss.dependency 'MSAppModuleWebApp/WebView'

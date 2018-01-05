@@ -57,7 +57,6 @@
 #import "EMFontChangeView.h"
 @import AFNetworking;
 @import LGAlertView;
-@import MSThemeModuleCommon;
 
 static id <MSAppSettingsWebApp> kModuleSettings = nil;
 static NSString *const JSURLScheme = @"jsbridge";
@@ -211,9 +210,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.isVideo = [dic[@"isVideo"] boolValue];
         if (self.isVideo && [AFNetworkReachabilityManager sharedManager].isReachableViaWWAN) {
             LGAlertView *alertView = [[LGAlertView alloc]initWithTitle:@"提示" message:@"正在使用非wifi网络，播放将产生流量费用" style:LGAlertViewStyleAlert buttonTitles:nil cancelButtonTitle:nil destructiveButtonTitle:@"确定"];
-            alertView.destructiveButtonTitleColor = [MSThemeColor C4Color];
-            alertView.destructiveButtonTitleColorHighlighted = [MSThemeColor C4Color];
-            alertView.destructiveButtonBackgroundColorHighlighted = [MSThemeColor B2Color];
+            alertView.destructiveButtonTitleColor = [MSThemeColor web_alertViewButtonTitleColor];
+            alertView.destructiveButtonTitleColorHighlighted = [MSThemeColor web_alertViewButtonTitleColor];
+            alertView.destructiveButtonBackgroundColorHighlighted = [MSThemeColor web_alertViewButtonBackgroundColor];
             [alertView show];
         }
         

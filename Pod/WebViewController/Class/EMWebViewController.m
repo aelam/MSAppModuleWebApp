@@ -224,7 +224,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self didBecomeActive];
     [self changeTabbarStatus];
     [self changeNavigationBarStatusAnimated:animated];
     [self changeNavigaiotnBarColor];
@@ -237,6 +236,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [self trackBackFromViewDidAppear];
         _isPopping = NO;
     }
+    
+    [self onWebViewResume];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -248,10 +249,12 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"unsupportFullScreen" object:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
     if (self.isVideo) {
         [self.webView x_loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];
     }
-    [self.webView x_evaluateJavaScript:@"onPause()"];
+    
+    [self onWebViewPause];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -270,13 +273,24 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     [self adjustWebScrollViewInsets];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
 #pragma mark - Notification
 - (void)addObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onWebViewResume) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    if (self.WKWebViewEnabled && NSClassFromString(@"WKWebView")) {
+        if (self.synchronizeDocumentTitle) {
+            [_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+        }
+    }
 }
 
 - (void)removeObservers {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    
     if (self.WKWebViewEnabled && NSClassFromString(@"WKWebView")) {
         if (self.synchronizeDocumentTitle) {
             [self.webView removeObserver:self forKeyPath:@"title"];
@@ -284,13 +298,15 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     }
 }
 
-- (void)didBecomeActive{
+// MARK: - - 通知Web事件
+- (void)onWebViewResume {
     [self.webView x_evaluateJavaScript:@"onResume()"];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)onWebViewPause {
+    [self.webView x_evaluateJavaScript:@"onPause()"];
 }
+
 
 #pragma mark - WebView Setup
 - (void)setUpWebView {
@@ -321,10 +337,6 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [self bridgeWithWebView];
         
         [self.jsBridge attachToBridge:self.bridge];
-        
-        if (self.synchronizeDocumentTitle) {
-            [_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-        }
         
     } else {
         [WebViewJavascriptBridge enableLogging];

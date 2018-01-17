@@ -15,51 +15,47 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - Aspects (1.4.1)
-  - DXYWeChatSDK (1.5.1)
-  - EMClick (0.2.5):
-    - EMClick/Basic (= 0.2.5)
-  - EMClick/Basic (0.2.5):
+  - EMClick (0.2.8):
+    - EMClick/Basic (= 0.2.8)
+  - EMClick/Basic (0.2.8):
     - AFNetworking
     - Aspects (~> 1.4.1)
     - EMSpeed/Network
     - EMSpeed/UIKit/Core
     - YRJSONAdapter (~> 1.0.1)
-  - EMSocialKit (0.1.9):
-    - DXYWeChatSDK (~> 1.5.1)
-    - TencentOpenApiSDK (~> 2.9.5)
-    - UIImage-ResizeMagick@NoWarnings (~> 0.0.2)
-    - WeiboSDK (~> 3.0)
-  - EMSpeed/Core (0.3.4)
-  - EMSpeed/MSContext (0.3.4)
-  - EMSpeed/Network (0.3.4):
+  - EMSocialKit (1.0.1)
+  - EMSpeed/Core (0.4.7)
+  - EMSpeed/MSContext (0.4.7)
+  - EMSpeed/Network (0.4.7):
     - AFNetworking
     - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/Core (0.3.4):
+  - EMSpeed/UIKit/Core (0.4.7):
     - EMSpeed/Core
-  - EMSpeed/UIKit/FontAwesome+iOS (0.3.4)
-  - EMSpeed/UIKit/UIColors (0.3.4):
+    - Masonry
+  - EMSpeed/UIKit/FontAwesome+iOS (0.4.7):
+    - EMSpeed/Core
+  - EMSpeed/UIKit/UIColors (0.4.7):
     - EMSpeed/UIKit/Core
-  - EMSpeed/UIKit/UIKitCollections (0.3.4):
+  - EMSpeed/UIKit/UIKitCollections (0.4.7):
     - EMSpeed/MSContext
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/UIColors
-    - Masonry
-  - Expecta (1.0.5)
+  - Expecta (1.0.6)
   - JLRoutes (2.0)
   - Masonry (1.0.2)
-  - MSAppModuleKit (1.0.0):
-    - MSRoutes (~> 1.1.0)
+  - MSAppModuleKit (1.1.3):
+    - MSRoutes (~> 1.2)
   - MSAppModuleShare (0.1.4):
     - EMSocialKit
     - EMSpeed/Core
     - MSAppModuleKit
     - SDWebImage
-  - MSAppModuleWebApp (0.2.4):
-    - MSAppModuleWebApp/WebBridgeCore (= 0.2.4)
-    - MSAppModuleWebApp/WebViewController (= 0.2.4)
-  - MSAppModuleWebApp/WebBridgeCore (0.2.4):
+  - MSAppModuleWebApp (0.2.6):
+    - MSAppModuleWebApp/WebBridgeCore (= 0.2.6)
+    - MSAppModuleWebApp/WebViewController (= 0.2.6)
+  - MSAppModuleWebApp/WebBridgeCore (0.2.6):
     - WebViewJavascriptBridge
-  - MSAppModuleWebApp/WebViewController (0.2.4):
+  - MSAppModuleWebApp/WebViewController (0.2.6):
     - EMClick
     - EMSpeed/UIKit/Core
     - EMSpeed/UIKit/FontAwesome+iOS
@@ -73,23 +69,27 @@ PODS:
     - SDWebImage
     - UIColor-HexString (~> 1.1.0)
     - UIImage+RTTint (~> 1.0.0)
-  - MSRoutes (1.1.0):
+  - MSRoutes (1.2.2):
+    - MSRoutes/RouteFinder (= 1.2.2)
+    - MSRoutes/Routes (= 1.2.2)
+  - MSRoutes/RouteFinder (1.2.2):
     - JLRoutes
-  - MSThemeKit (0.1.4):
-    - UIColor-HexString (~> 1.1.0)
+  - MSRoutes/Routes (1.2.2):
+    - MSRoutes/RouteFinder
+  - MSThemeKit (1.0.1):
+    - MSThemeKit/Core (= 1.0.1)
+    - MSThemeKit/UIKit (= 1.0.1)
+  - MSThemeKit/Core (1.0.1)
+  - MSThemeKit/UIKit (1.0.1):
+    - MSThemeKit/Core
   - RDVTabBarController (1.1.9)
-  - SDWebImage (3.8.2):
-    - SDWebImage/Core (= 3.8.2)
-  - SDWebImage/Core (3.8.2)
-  - Specta (1.0.5)
-  - TencentOpenApiSDK (2.9.5):
-    - TencentOpenApiSDK/Basic (= 2.9.5)
-  - TencentOpenApiSDK/Basic (2.9.5)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
+  - Specta (1.0.6)
   - UIColor-HexString (1.1.0)
   - UIImage+RTTint (1.0.0)
-  - UIImage-ResizeMagick@NoWarnings (0.0.3)
-  - WebViewJavascriptBridge (5.0.5)
-  - WeiboSDK (3.1.3)
+  - WebViewJavascriptBridge (6.0.2)
   - YRJSONAdapter (1.0.1)
 
 DEPENDENCIES:
@@ -104,29 +104,25 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  DXYWeChatSDK: 6a23dbf67a4545bfc80e3e18f9b5cf0c98699576
-  EMClick: ebacd436e2a69069438d340af3323e3c2b0e737d
-  EMSocialKit: 346b5322f8b3c3a73305e6bbf7a7c3a8d51bde6e
-  EMSpeed: a09678543e10fc135a26e8cadaa3754579e1b4d6
-  Expecta: e1c022fcd33910b6be89c291d2775b3fe27a89fe
+  EMClick: 57809fd9fe6f32985c4bc8f9e336dac89e30ec73
+  EMSocialKit: a55a9db502ce93972ab11cdf7a3d380f3bdc137d
+  EMSpeed: 8c603020c15f9bb960d5946548862a4f52438d7c
+  Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   JLRoutes: 0bead23690bafa726e1528aa6459a56c9b81cb5e
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  MSAppModuleKit: 16d6966564e0ca29748b762ba334319df811f1ac
+  MSAppModuleKit: fdaec07926e261eb9e2c8e850d1ddde8b3a680c4
   MSAppModuleShare: 24f48f18e6684d01e39e7235b9f9857775a384bf
-  MSAppModuleWebApp: 1160d954c7ae35cb71c5fa8f9ce0469771adaa20
-  MSRoutes: b0b7654bf2e1b61145da7c7eaea5cd4def86286a
-  MSThemeKit: 4c23a62794faace8be56c2dc53fa16d2daece39b
+  MSAppModuleWebApp: fac876e72e6acd34be58d6e67d3097964d5eb934
+  MSRoutes: 152fe9dde6ca63ac708cba229c06a5096c6bdfe2
+  MSThemeKit: e254f898033c319eebc2aa6c045ec1b36a51e34c
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
-  Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
-  TencentOpenApiSDK: a0d7716edd6eb438d65828168e8e5137301b436d
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  Specta: f506f3a8361de16bc0dcf3b17b75e269072ba465
   UIColor-HexString: f8a5612bd6772fed8db58ee594b42a0b2831750e
   UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51
-  UIImage-ResizeMagick@NoWarnings: 7d1a61c23404ac1daef0d5397b1a1d7182addd60
-  WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
-  WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
+  WebViewJavascriptBridge: 791ee0e26d1bf15efe5fb7fb9666a71a19b89d77
   YRJSONAdapter: 55956d3e6f6b6eadf05e734914b8d29afa0fc06b
 
 PODFILE CHECKSUM: b9947d21f0c888eb918fd22a6e74733b0c52c6cb
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0

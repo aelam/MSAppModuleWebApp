@@ -20,6 +20,8 @@
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         self.imageEdgeInsets = UIEdgeInsetsMake(0, -6, 0, 0);
         [self setImage:[self backImage] forState:UIControlStateNormal];
+        [self setImage:[self backImageHighlighted] forState:UIControlStateHighlighted];
+
         [self setSupportClose:supportClose];
     }
     return self;
@@ -48,11 +50,15 @@
             [self addSubview:_closeButton];
         }
         [self setImage:[self backImage] forState:UIControlStateNormal];
+        [self setImage:[self backImageHighlighted] forState:UIControlStateHighlighted];
+
     }
     else
     {
         self.enabled = NO;
         [self setImage:nil forState:UIControlStateNormal];
+        [self setImage:nil forState:UIControlStateHighlighted];
+
         _closeButton.hidden = YES;
     }
 }
@@ -95,11 +101,15 @@
     if (_supportClose || _showGoBack)
     {
         [self setImage:[self backImage] forState:UIControlStateNormal];
+        [self setImage:[self backImageHighlighted] forState:UIControlStateHighlighted];
+
         self.enabled = YES;
     }
     else
     {
         [self setImage:nil forState:UIControlStateNormal];
+        [self setImage:nil forState:UIControlStateHighlighted];
+
         self.enabled = NO;
     }
 }
@@ -117,6 +127,23 @@
                                     andSize:CGSizeMake(23, 23)];
     return image;
 }
+
+//高亮的图片——[titleColor colorWithAlphaComponent:0.25]
+- (UIImage *)backImageHighlighted
+{
+    UIColor *titleColor = [UIColor colorForKey:@"common_navbarItemTextColor"];
+    if (!titleColor) {
+        titleColor = [UIColor lightGrayColor];
+    }
+
+    UIImage *image = [UIImage imageWithIcon:@"em-icon-back"
+                            backgroundColor:[UIColor clearColor]
+                                  iconColor:[titleColor colorWithAlphaComponent:0.25]
+                                  iconScale:1//NIScreenScale()
+                                    andSize:CGSizeMake(23, 23)];
+    return image;
+}
+
 
 - (void)goBack
 {

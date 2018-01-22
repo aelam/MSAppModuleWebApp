@@ -56,7 +56,6 @@
 // Font Change Views
 #import "EMFontChangeView.h"
 @import AFNetworking;
-@import LGAlertView;
 
 static id <MSAppSettingsWebApp> kModuleSettings = nil;
 static NSString *const JSURLScheme = @"jsbridge";
@@ -209,11 +208,9 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         self.title = dic[@"title"];
         self.isVideo = [dic[@"isVideo"] boolValue];
         if (self.isVideo && [AFNetworkReachabilityManager sharedManager].isReachableViaWWAN) {
-            LGAlertView *alertView = [[LGAlertView alloc]initWithTitle:@"提示" message:@"正在使用非wifi网络，播放将产生流量费用" style:LGAlertViewStyleAlert buttonTitles:nil cancelButtonTitle:nil destructiveButtonTitle:@"确定"];
-            alertView.destructiveButtonTitleColor = [MSThemeColor web_alertViewButtonTitleColor];
-            alertView.destructiveButtonTitleColorHighlighted = [MSThemeColor web_alertViewButtonTitleColor];
-            alertView.destructiveButtonBackgroundColorHighlighted = [MSThemeColor web_alertViewButtonBackgroundColor];
-            [alertView show];
+            if ([[self EMClickClass] respondsToSelector:@selector(showNoWifiAlerView)]) {
+                [[self EMClickClass] showNoWifiAlerView];
+            }
         }
         
         self.synchronizeDocumentTitle = NO;
@@ -412,8 +409,8 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
     self.backView = [[EMWebBackView alloc] initWithParamSupportClose:YES];
     self.backView.titleColor = [MSThemeColor web_navbarItemTextColor];
     self.backView.backImage = [[UIImage webAppResourceImageNamed:@"web_back"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    self.backView.tintColor = [MSThemeColor web_navbarItemTextColor];
-    
+//    self.backView.tintColor = [MSThemeColor web_navbarItemTextColor];
+
     [self.backView addTarget:self backAction:@selector(doBack) closeAction:@selector(doClose) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.backView];
     self.navigationItem.leftBarButtonItem = leftItem;

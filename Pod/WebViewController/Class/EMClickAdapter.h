@@ -16,4 +16,6 @@
 + (id)beginLogPageView:(NSString *)pageId;
 + (void)endLogPageView:(NSString *)pageId attributes:(NSDictionary *)attributes;
 
++ (void)showNoWifiAlerView;
+
 @end

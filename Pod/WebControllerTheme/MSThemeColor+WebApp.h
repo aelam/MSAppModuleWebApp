@@ -20,9 +20,6 @@
 + (UIColor *)web_fontSizeChangeViewBorderColor;
 + (UIColor *)web_fontSizeChangeViewTextColor;
 
-+ (UIColor *)web_alertViewButtonTitleColor;
-+ (UIColor *)web_alertViewButtonBackgroundColor;
-
 @end
 
 @interface MSThemeColor (WebApp)<MSThemeColorWebApp>

@@ -17,5 +17,6 @@
 + (void)endLogPageView:(NSString *)pageId attributes:(NSDictionary *)attributes;
 
 + (void)showNoWifiAlerView;
++ (void)showDatePickerView:(WKWebView *)webView data:(id)data;
 
 @end

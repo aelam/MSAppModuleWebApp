@@ -330,6 +330,12 @@ static NSString *const WebFontSizeKey = @"WebFontSizeKey";
         [self bridgeWithWebView];
         
         [self.jsBridge attachToBridge:self.bridge];
+
+        [self.bridge registerHandler:@"showDatePicker" handler:^(id data, WVJBResponseCallback responseCallback) {
+            if ([[self EMClickClass] respondsToSelector:@selector(showDatePickerView:data:)]) {
+                [[self EMClickClass] showDatePickerView:(WKWebView *)self.webView data:data];
+            }
+        }];
         
     } else {
         [WebViewJavascriptBridge enableLogging];

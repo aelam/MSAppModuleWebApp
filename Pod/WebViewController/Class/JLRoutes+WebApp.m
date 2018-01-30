@@ -11,6 +11,7 @@
 #import <MSRoutes/MSRoutes.h>
 #import "EMWebViewController.h"
 #import "WebView.h"
+#import <MSThemeKit/MSThemeKit.h>
 
 @implementation JLRoutes (WebApp)
 
@@ -29,6 +30,22 @@
         } else if ([lowerScheme isEqualToString:@"http"] ||
                    [lowerScheme isEqualToString:@"https"] ||
                    [lowerScheme hasPrefix:@"file"]) {
+
+            // url adapte theme
+            NSMutableDictionary *tempDic = [NSMutableDictionary dictionaryWithDictionary:parameters];
+            if ([[MSThemeManager currentTheme] isEqualToString:@"black"]) {
+                NSString *urlString = parameters[@"url"];
+                if (![urlString containsString:@"css=night"]) {
+                    if ([urlString containsString:@"?"]) {
+                        urlString = [urlString stringByAppendingString:@"&"];
+                    } else {
+                        urlString = [urlString stringByAppendingString:@"?"];
+                    }
+                    urlString = [urlString stringByAppendingString:@"css=night"];
+                }
+                [tempDic setObject:urlString forKey:@"url"];
+            }
+
             [MSActiveControllerFinder sharedFinder].resetStatus();
             UINavigationController *navigator = [MSActiveControllerFinder sharedFinder].activeNavigationController();
             [navigator pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:parameters];

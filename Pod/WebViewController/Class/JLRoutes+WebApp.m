@@ -48,7 +48,7 @@
 
             [MSActiveControllerFinder sharedFinder].resetStatus();
             UINavigationController *navigator = [MSActiveControllerFinder sharedFinder].activeNavigationController();
-            [navigator pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:parameters];
+            [navigator pushViewControllerClass:NSClassFromString(@"EMWebViewController") params:tempDic];
             return true;
         } else {
             return false;

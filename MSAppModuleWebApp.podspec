@@ -1,14 +1,12 @@
 Pod::Spec.new do |s|
   s.name             = "MSAppModuleWebApp"
-  s.version          = "1.1.0"
+  s.version          = "1.2.0"
   s.summary          = "MSAppModuleWebApp"
 
   s.description      = <<-DESC
     MSAppModuleWebApp
 * [x]JS
 * [x]MenuConfig
-** [x]Share
-** [x]Search
 * [x]ZXG
 * [x]Theme
 * [x]Routes
